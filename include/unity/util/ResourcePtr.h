@@ -37,7 +37,7 @@ ResourcePtr is a generalized resource pointer that guarantees deallocation.
 It is intended for arbitrary pairs of allocate/deallocate functions, such
 as <code>XCreateDisplay</code>/<code>XDestroyDisplay</code>.
 
-The resource managed by this class must be default-constructible and assignable.
+The resource managed by this class must be default-constructible, copy-constructible, and assignable.
 
 ResourcePtr essentially does what <code>std::unique_ptr</code> does, but it works with opaque types
 and resource allocation functions that do not return a pointer type, such as <code>open()</code>
@@ -95,7 +95,7 @@ and supplies the display parameter.
 Use <code>std::unique_ptr</code> instead, which is better suited to the task.
 */
 
-template<typename ResourceType, typename DeleterType>
+template<typename R, typename D>
 class ResourcePtr : private NonCopyable
 {
 public:
@@ -103,195 +103,67 @@ public:
     \typedef element_type
     The type of resource managed by this ResourcePtr.
     */
-    typedef ResourceType element_type;
+    typedef R element_type;
 
     /**
     \typedef deleter_type
     A function object or lvalue reference to a function or function object, which is called by this ResourcePtr
     to deallocate the resource
     */
-    typedef DeleterType deleter_type;
+    typedef D deleter_type;
 
-    /**
-    Constructs a ResourcePtr with the specified deleter. No resource is held, so a call to has_resource()
-    after constructing a ResourcePtr this way returns <code>false</code>.
-    */
-    explicit ResourcePtr(DeleterType d);
-
-    /**
-    Constructs a ResourcePtr with the specified resource and deleter. has_resource() returns <code>true</code> after
-    calling this constructor.
-
-    \note It is legal to pass a resource resource that represents the "not allocated" state. For example, the
-          following code can pass the value <code>-1</code> as the resource if the call to <code>open()</code> fails:
-
-    ~~~
-    ResourcePtr<int, decltype(&::close)> fd(open("/somefile", O_RDONLY), ::close);
-    ~~~
-          When the ResourcePtr goes out of scope, this results in a call to <code>close(-1)</code>. In this case,
-          the call with an invalid file descriptor is harmless (but causes noise from diagnostic tools, such as
-          <code>valgrind</code>). Depending on the specific deleter, passing an invalid value to the deleter may
-          have more serious consequences.
-
-          To avoid the problem, you can either delay initialization of the ResourcePtr until you know that the
-          resource was successfully allocated, or you can use a deleter function that tests the resource value
-          for validity and avoids calling the deleter with an invalid value:
-
-    ~~~
-    util::ResourcePtr<int, std::function<void(int)>> fd(::open(filename.c_str(), O_RDONLY),
-                                                        [](int fd) { if (fd != -1) ::close(fd); });
-    ~~~
-    */
-    // TODO: document exception safety behavior
-    ResourcePtr(ResourceType r, DeleterType d);
-
-    /**
-    Constructs a ResourcePtr by transferring ownership from <code>r</code> to <code>this</code>.
-    */
-    // TODO: document exception safety behavior
+    explicit ResourcePtr(D d);
+    ResourcePtr(R r, D d);
     ResourcePtr(ResourcePtr&& r);
-
-    /**
-    Assigns the resource held by <code>r</code>, transferring ownership. After the transfer,
-    <code>r.has_resource()</code> returns <code>false</code>, and <code>this.has_resource()</code> returns
-    the value of <code>r.has_resource()</code> prior to the assignment.
-    */
-    // TODO: document exception safety behavior
     ResourcePtr& operator=(ResourcePtr&& r);
-
-    /**
-    Destroys the ResourcePtr. If a resource is held, it calls the deleter for the current resource (if any).
-    */
-    // TODO: document exception safety behavior
     ~ResourcePtr() noexcept;
 
-    /**
-    Returns the current resource. If no resource is currently held, get() throws <code>std::logic_error</code>.
-    \return The current resource (if any).
-    \throw std::logic_error if has_resource() is false.
-    */
-    // TODO: document exception safety behavior
-    ResourceType get() const;
-
-    /**
-    Assigns a new resource to <code>this</code>, first deallocating the current resource (if any).
-
-    If the deleter for the current resource throws an exception, the exception is propagated to the caller. In this
-    case, the transfer of <code>r</code> to <code>this</code> is still carried out so, after the call to reset(),
-    <code>this</code> manages <code>r</code>, whether the deleter throws or not. (If the deleter <i>does</i> throw,
-    no attempt is made to call the deleter again for the same resource.
-
-    \throw Any exception thrown by the deleter.
-    */
-    void reset(ResourceType r);
-
-    /**
-    Releases ownership of the current resource without calling the deleter.
-    \return The current resource.
-    \throw std::logic_error if has_resource() is false.
-    */
-    ResourceType release();
-
-    /**
-    Calls the deleter for the current resource.
-    \throw Any exception thrown by the deleter.
-           If the deleter throws, the resource is considered in the "not allocated" state,
-           that is, no attempt is made to call the deleter again for this resource.
-    */
-    void dealloc();
-
-    /**
-    \return <code>true</code> if <code>this</code> currently manages a resource; <code>false</code>, otherwise.
-    */
-    bool has_resource() const noexcept;
-
-    /**
-    Synonym for has_resource().
-    */
-    explicit operator bool() const noexcept;
-
-    /**
-    \return The deleter for the resource.
-    */
-    DeleterType& get_deleter() noexcept;
-
-    /**
-    \return The deleter for the resource.
-    */
-    DeleterType const& get_deleter() const noexcept;
-
-    /**
-    Compares two instances for equality by calling the corresponding operator on the resource.
-    \throw Any exception thrown by the corresponding operator on the resource.
-    \note This operator is available only if the underlying resource provides <code>operator==</code>.
-    */
-    typename std::enable_if<boost::has_equal_to<ResourceType>::value, bool>::type
-    operator==(ResourcePtr const& rhs) const;
-
-    /**
-    Compares two instances for inequality by calling the corresponding operator on the resource.
-    \throw Any exception thrown by the corresponding operator on the resource.
-    \note This operator is available only if the underlying resource provides <code>operator!=</code>.
-    */
-    typename std::enable_if<boost::has_equal_to<ResourceType>::value, bool>::type
-    operator!=(ResourcePtr const& rhs) const;
-
-    /**
-    Returns <code>true</code> if <code>this</code> is less than <code>rhs</code> by calling the
-    corresponding operator on the resource.
-    \throw Any exception thrown by the corresponding operator on the resource.
-    \note This operator is available only if the underlying resource provides <code>operator\<</code>.
-    */
-    typename std::enable_if<boost::has_less<ResourceType>::value, bool>::type
-    operator<(ResourcePtr const& rhs) const;
-
-    /**
-    Returns <code>true</code> if <code>this</code> is less than or equal to <code>rhs</code> by calling the
-    corresponding operator on the resource.
-    \throw Any exception thrown by the corresponding operator on the resource.
-    \note This operator is available only if the underlying resource provides <code>operator\<=</code>.
-    */
-    typename std::enable_if<boost::has_less<ResourceType>::value &&
-                            boost::has_equal_to<ResourceType>::value, bool>::type
-    operator<=(ResourcePtr const& rhs) const;
-
-    /**
-    Returns <code>true</code> if <code>this</code> is greater than <code>rhs</code> by calling the
-    corresponding operator on the resource.
-    \throw Any exception thrown by the corresponding operator on the resource.
-    \note This operator is available only if the underlying resource provides <code>operator\></code>.
-    */
-    typename std::enable_if<boost::has_less<ResourceType>::value &&
-                            boost::has_equal_to<ResourceType>::value, bool>::type
-    operator>(ResourcePtr const& rhs) const;
-
-    /**
-    Returns <code>true</code> if <code>this</code> is greater than or equal to <code>rhs</code> by calling the
-    corresponding operator on the resource.
-    \throw Any exception thrown by the corresponding operator on the resource.
-    \note This operator is available only if the underlying resource provides <code>operator\>=</code>.
-    */
-    typename std::enable_if<boost::has_less<ResourceType>::value, bool>::type
-    operator>=(ResourcePtr const& rhs) const;
-
-    /**
-    Swaps the resource held by <code>this</code> with the resource held by <code>other</code> using argument
-    dependent lookup (ADL).
-    \throw Any exception thrown by the underlying <code>swap()</code>.
-    */
-    // TODO document exception safety.
-    // TODO Split this into throw and no-throw versions depending on the underlying swap?
     void swap(ResourcePtr& other);
 
+    void reset(R r);
+    R release();
+    void dealloc();
+
+    R get() const;
+    bool has_resource() const noexcept;
+    explicit operator bool() const noexcept;
+    D& get_deleter() noexcept;
+    D const& get_deleter() const noexcept;
+
+    typename std::enable_if<boost::has_equal_to<R>::value, bool>::type
+    operator==(ResourcePtr const& rhs) const;
+
+    typename std::enable_if<boost::has_equal_to<R>::value, bool>::type
+    operator!=(ResourcePtr const& rhs) const;
+
+    typename std::enable_if<boost::has_less<R>::value, bool>::type
+    operator<(ResourcePtr const& rhs) const;
+
+    typename std::enable_if<boost::has_less<R>::value &&
+                            boost::has_equal_to<R>::value, bool>::type
+    operator<=(ResourcePtr const& rhs) const;
+
+    typename std::enable_if<boost::has_less<R>::value &&
+                            boost::has_equal_to<R>::value, bool>::type
+    operator>(ResourcePtr const& rhs) const;
+
+    typename std::enable_if<boost::has_less<R>::value, bool>::type
+    operator>=(ResourcePtr const& rhs) const;
+
 private:
-    ResourceType resource_;                   // The managed resource.
-    DeleterType delete_;                      // The deleter to call.
+    R resource_;                   // The managed resource.
+    D delete_;                      // The deleter to call.
     bool initialized_;                        // True while we have a resource assigned.
     mutable boost::mutex m_;                  // Protects this instance.
 
     typedef boost::lock_guard<decltype(m_)>  AutoLock;
     typedef boost::unique_lock<decltype(m_)> UniqueLock;
 };
+
+/**
+Constructs a ResourcePtr with the specified deleter. No resource is held, so a call to has_resource()
+after constructing a ResourcePtr this way returns <code>false</code>.
+*/
 
 template<typename R, typename D>
 ResourcePtr<R, D>::
@@ -300,12 +172,45 @@ ResourcePtr(D d)
 {
 }
 
+/**
+Constructs a ResourcePtr with the specified resource and deleter. has_resource() returns <code>true</code> after
+calling this constructor.
+
+\note It is legal to pass a resource resource that represents the "not allocated" state. For example, the
+      following code can pass the value <code>-1</code> as the resource if the call to <code>open()</code> fails:
+
+~~~
+ResourcePtr<int, decltype(&::close)> fd(open("/somefile", O_RDONLY), ::close);
+~~~
+      When the ResourcePtr goes out of scope, this results in a call to <code>close(-1)</code>. In this case,
+      the call with an invalid file descriptor is harmless (but causes noise from diagnostic tools, such as
+      <code>valgrind</code>). Depending on the specific deleter, passing an invalid value to the deleter may
+      have more serious consequences.
+
+      To avoid the problem, you can either delay initialization of the ResourcePtr until you know that the
+      resource was successfully allocated, or you can use a deleter function that tests the resource value
+      for validity and avoids calling the deleter with an invalid value:
+
+~~~
+      util::ResourcePtr<int, std::function<void(int)>> fd(
+          ::open(filename.c_str(), O_RDONLY),
+          [](int fd) { if (fd != -1) ::close(fd); }
+      );
+~~~
+*/
+// TODO: document exception safety behavior
+
 template<typename R, typename D>
 ResourcePtr<R, D>::
 ResourcePtr(R r, D d)
     : resource_(r), delete_(d), initialized_(true)
 {
 }
+
+/**
+Constructs a ResourcePtr by transferring ownership from <code>r</code> to <code>this</code>.
+*/
+// TODO: document exception safety behavior
 
 template<typename R, typename D>
 ResourcePtr<R, D>::
@@ -314,6 +219,13 @@ ResourcePtr(ResourcePtr<R, D>&& r)
 {
     r.initialized_ = false; // Stop r from deleting its resource, if it held any. No need to lock: r is a temporary.
 }
+
+/**
+Assigns the resource held by <code>r</code>, transferring ownership. After the transfer,
+<code>r.has_resource()</code> returns <code>false</code>, and <code>this.has_resource()</code> returns
+the value of <code>r.has_resource()</code> prior to the assignment.
+*/
+// TODO: document exception safety behavior
 
 template<typename R, typename D>
 ResourcePtr<R, D>&
@@ -338,6 +250,11 @@ operator=(ResourcePtr&& r)
     return *this;
 }
 
+/**
+Destroys the ResourcePtr. If a resource is held, it calls the deleter for the current resource (if any).
+*/
+// TODO: document exception safety behavior
+
 template<typename R, typename D>
 ResourcePtr<R, D>::
 ~ResourcePtr() noexcept
@@ -351,217 +268,13 @@ ResourcePtr<R, D>::
     }
 }
 
-template<typename R, typename D>
-inline
-R
-ResourcePtr<R, D>::
-get() const
-{
-    AutoLock lock(m_);
-
-    if (!initialized_)
-    {
-        throw std::logic_error("get() called on ResourcePtr without resource");
-    }
-    return resource_;
-}
-
-template<typename R, typename D>
-void
-ResourcePtr<R, D>::
-reset(R r)
-{
-    AutoLock lock(m_);
-
-    bool has_old = initialized_;
-    R old_resource;
-
-    if (has_old)
-    {
-        old_resource = resource_;
-    }
-    resource_ = r;
-    initialized_ = true;    // If the deleter throws, we still satisfy the postcondition: resource_ == r.
-    if (has_old)
-    {
-        delete_(old_resource);
-    }
-}
-
-template<typename R, typename D>
-inline
-R
-ResourcePtr<R, D>::
-release()
-{
-    AutoLock lock(m_);
-
-    if (!initialized_)
-    {
-        throw std::logic_error("release() called on ResourcePtr without resource");
-    }
-    initialized_ = false;
-    return resource_;
-}
-
-template<typename R, typename D>
-void
-ResourcePtr<R, D>::
-dealloc()
-{
-    AutoLock lock(m_);
-
-    if (!initialized_)
-    {
-        return;
-    }
-    initialized_ = false;   // If the deleter throws, we will not try it again for the same resource.
-    delete_(resource_);
-}
-
-template<typename R, typename D>
-inline
-bool
-ResourcePtr<R, D>::
-has_resource() const noexcept
-{
-    AutoLock lock(m_);
-
-    return initialized_;
-}
-
-template<typename R, typename D>
-inline
-ResourcePtr<R, D>::
-operator bool() const noexcept
-{
-    return has_resource();
-}
-
-template<typename R, typename D>
-inline
-D&
-ResourcePtr<R, D>::
-get_deleter() noexcept
-{
-    return delete_; // No lock needed, delete_ is immutable
-}
-
-template<typename R, typename D>
-inline
-D const&
-ResourcePtr<R, D>::
-get_deleter() const noexcept
-{
-    return delete_; // No lock needed, delete_ is immutable
-}
-
-template<typename R, typename D>
-typename std::enable_if<boost::has_equal_to<R>::value, bool>::type
-ResourcePtr<R, D>::
-operator==(ResourcePtr<R, D> const& rhs) const
-{
-    if (this == &rhs)   // This is necessary to avoid deadlock for self-comparison
-    {
-        return true;
-    }
-
-    boost::lock(m_, rhs.m_);
-    UniqueLock left(m_, boost::adopt_lock);
-    UniqueLock right(rhs.m_, boost::adopt_lock);
-
-    if (!initialized_)
-    {
-        return !rhs.initialized_;   // Equal if both are not initialized
-    }
-    else if (!rhs.initialized_)
-    {
-        return false;               // Not equal if lhs initialized, but rhs not initialized
-    }
-    else
-    {
-        return resource_ == rhs.resource_;
-    }
-}
-
-template<typename R, typename D>
-inline
-typename std::enable_if<boost::has_equal_to<R>::value, bool>::type
-ResourcePtr<R, D>::
-operator!=(ResourcePtr<R, D> const& rhs) const
-{
-    return !(*this == rhs);
-}
-
-template<typename R, typename D>
-typename std::enable_if<boost::has_less<R>::value, bool>::type
-ResourcePtr<R, D>::
-operator<(ResourcePtr<R, D> const& rhs) const
-{
-    if (this == &rhs)   // This is necessary to avoid deadlock for self-comparison
-    {
-        return false;
-    }
-
-    boost::lock(m_, rhs.m_);
-    UniqueLock left(m_, boost::adopt_lock);
-    UniqueLock right(rhs.m_, boost::adopt_lock);
-
-    if (!initialized_)
-    {
-        return rhs.initialized_;    // Not initialized is less than initialized
-    }
-    else if (!rhs.initialized_)     // Initialized is not less than not initialized
-    {
-        return false;
-    }
-    else
-    {
-        return resource_ < rhs.resource_;
-    }
-}
-
-template<typename R, typename D>
-typename std::enable_if<boost::has_less<R>::value && boost::has_equal_to<R>::value, bool>::type
-ResourcePtr<R, D>::
-operator<=(ResourcePtr<R, D> const& rhs) const
-{
-    if (this == &rhs)   // This is necessary to avoid deadlock for self-comparison
-    {
-        return true;
-    }
-
-    // We can't just write:
-    //
-    // return *this < rhs || *this == rhs;
-    //
-    // because that creates a race condition: the locks would be released and
-    // re-aquired in between the two comparisons.
-
-    boost::lock(m_, rhs.m_);
-    UniqueLock left(m_, boost::adopt_lock);
-    UniqueLock right(rhs.m_, boost::adopt_lock);
-
-    return resource_ < rhs.resource_ || resource_ == rhs.resource_;
-}
-
-template<typename R, typename D>
-inline
-typename std::enable_if<boost::has_less<R>::value && boost::has_equal_to<R>::value, bool>::type
-ResourcePtr<R, D>::
-operator>(ResourcePtr<R, D> const& rhs) const
-{
-    return !(*this <= rhs);
-}
-
-template<typename R, typename D>
-inline
-typename std::enable_if<boost::has_less<R>::value, bool>::type
-ResourcePtr<R, D>::
-operator>=(ResourcePtr<R, D> const& rhs) const
-{
-    return !(*this < rhs);
-}
+/**
+Swaps the resource held by <code>this</code> with the resource held by <code>other</code> using argument
+dependent lookup (ADL).
+\throw Any exception thrown by the underlying <code>swap()</code>.
+*/
+// TODO document exception safety.
+// TODO Split this into throw and no-throw versions depending on the underlying swap?
 
 template<typename R, typename D>
 void
@@ -591,6 +304,305 @@ void
 swap(unity::util::ResourcePtr<R, D>& lhs, unity::util::ResourcePtr<R, D>& rhs)
 {
     lhs.swap(rhs);
+}
+
+/**
+Assigns a new resource to <code>this</code>, first deallocating the current resource (if any).
+
+If the deleter for the current resource throws an exception, the exception is propagated to the caller. In this
+case, the transfer of <code>r</code> to <code>this</code> is still carried out so, after the call to reset(),
+<code>this</code> manages <code>r</code>, whether the deleter throws or not. (If the deleter <i>does</i> throw,
+no attempt is made to call the deleter again for the same resource.
+
+\throw Any exception thrown by the deleter.
+*/
+
+template<typename R, typename D>
+void
+ResourcePtr<R, D>::
+reset(R r)
+{
+    AutoLock lock(m_);
+
+    bool has_old = initialized_;
+    R old_resource;
+
+    if (has_old)
+    {
+        old_resource = resource_;
+    }
+    resource_ = r;
+    initialized_ = true;    // If the deleter throws, we still satisfy the postcondition: resource_ == r.
+    if (has_old)
+    {
+        delete_(old_resource);
+    }
+}
+
+/**
+Releases ownership of the current resource without calling the deleter.
+\return The current resource.
+\throw std::logic_error if has_resource() is false.
+*/
+
+template<typename R, typename D>
+inline
+R
+ResourcePtr<R, D>::
+release()
+{
+    AutoLock lock(m_);
+
+    if (!initialized_)
+    {
+        throw std::logic_error("release() called on ResourcePtr without resource");
+    }
+    initialized_ = false;
+    return resource_;
+}
+
+/**
+Calls the deleter for the current resource.
+\throw Any exception thrown by the deleter.
+       If the deleter throws, the resource is considered in the "not allocated" state,
+       that is, no attempt is made to call the deleter again for this resource.
+*/
+
+template<typename R, typename D>
+void
+ResourcePtr<R, D>::
+dealloc()
+{
+    AutoLock lock(m_);
+
+    if (!initialized_)
+    {
+        return;
+    }
+    initialized_ = false;   // If the deleter throws, we will not try it again for the same resource.
+    delete_(resource_);
+}
+
+/**
+Returns the current resource. If no resource is currently held, get() throws <code>std::logic_error</code>.
+\return The current resource (if any).
+\throw std::logic_error if has_resource() is false.
+*/
+// TODO: document exception safety behavior
+
+template<typename R, typename D>
+inline
+R
+ResourcePtr<R, D>::
+get() const
+{
+    AutoLock lock(m_);
+
+    if (!initialized_)
+    {
+        throw std::logic_error("get() called on ResourcePtr without resource");
+    }
+    return resource_;
+}
+
+/**
+\return <code>true</code> if <code>this</code> currently manages a resource; <code>false</code>, otherwise.
+*/
+
+template<typename R, typename D>
+inline
+bool
+ResourcePtr<R, D>::
+has_resource() const noexcept
+{
+    AutoLock lock(m_);
+
+    return initialized_;
+}
+
+/**
+Synonym for has_resource().
+*/
+
+template<typename R, typename D>
+inline
+ResourcePtr<R, D>::
+operator bool() const noexcept
+{
+    return has_resource();
+}
+
+/**
+\return The deleter for the resource.
+*/
+
+template<typename R, typename D>
+inline
+D&
+ResourcePtr<R, D>::
+get_deleter() noexcept
+{
+    return delete_; // No lock needed, delete_ is immutable
+}
+
+/**
+\return The deleter for the resource.
+*/
+
+template<typename R, typename D>
+inline
+D const&
+ResourcePtr<R, D>::
+get_deleter() const noexcept
+{
+    return delete_; // No lock needed, delete_ is immutable
+}
+
+/**
+Compares two instances for equality by calling the corresponding operator on the resource.
+\throw Any exception thrown by the corresponding operator on the resource.
+\note This operator is available only if the underlying resource provides <code>operator==</code>.
+*/
+
+template<typename R, typename D>
+typename std::enable_if<boost::has_equal_to<R>::value, bool>::type
+ResourcePtr<R, D>::
+operator==(ResourcePtr<R, D> const& rhs) const
+{
+    if (this == &rhs)   // This is necessary to avoid deadlock for self-comparison
+    {
+        return true;
+    }
+
+    boost::lock(m_, rhs.m_);
+    UniqueLock left(m_, boost::adopt_lock);
+    UniqueLock right(rhs.m_, boost::adopt_lock);
+
+    if (!initialized_)
+    {
+        return !rhs.initialized_;   // Equal if both are not initialized
+    }
+    else if (!rhs.initialized_)
+    {
+        return false;               // Not equal if lhs initialized, but rhs not initialized
+    }
+    else
+    {
+        return resource_ == rhs.resource_;
+    }
+}
+
+/**
+Compares two instances for inequality by calling the corresponding operator on the resource.
+\throw Any exception thrown by the corresponding operator on the resource.
+\note This operator is available only if the underlying resource provides <code>operator!=</code>.
+*/
+
+template<typename R, typename D>
+inline
+typename std::enable_if<boost::has_equal_to<R>::value, bool>::type
+ResourcePtr<R, D>::
+operator!=(ResourcePtr<R, D> const& rhs) const
+{
+    return !(*this == rhs);
+}
+
+/**
+Returns <code>true</code> if <code>this</code> is less than <code>rhs</code> by calling the
+corresponding operator on the resource.
+\throw Any exception thrown by the corresponding operator on the resource.
+\note This operator is available only if the underlying resource provides <code>operator\<</code>.
+*/
+
+template<typename R, typename D>
+typename std::enable_if<boost::has_less<R>::value, bool>::type
+ResourcePtr<R, D>::
+operator<(ResourcePtr<R, D> const& rhs) const
+{
+    if (this == &rhs)   // This is necessary to avoid deadlock for self-comparison
+    {
+        return false;
+    }
+
+    boost::lock(m_, rhs.m_);
+    UniqueLock left(m_, boost::adopt_lock);
+    UniqueLock right(rhs.m_, boost::adopt_lock);
+
+    if (!initialized_)
+    {
+        return rhs.initialized_;    // Not initialized is less than initialized
+    }
+    else if (!rhs.initialized_)     // Initialized is not less than not initialized
+    {
+        return false;
+    }
+    else
+    {
+        return resource_ < rhs.resource_;
+    }
+}
+
+/**
+Returns <code>true</code> if <code>this</code> is less than or equal to <code>rhs</code> by calling the
+corresponding operator on the resource.
+\throw Any exception thrown by the corresponding operator on the resource.
+\note This operator is available only if the underlying resource provides <code>operator\<=</code>.
+*/
+
+template<typename R, typename D>
+typename std::enable_if<boost::has_less<R>::value && boost::has_equal_to<R>::value, bool>::type
+ResourcePtr<R, D>::
+operator<=(ResourcePtr<R, D> const& rhs) const
+{
+    if (this == &rhs)   // This is necessary to avoid deadlock for self-comparison
+    {
+        return true;
+    }
+
+    // We can't just write:
+    //
+    // return *this < rhs || *this == rhs;
+    //
+    // because that creates a race condition: the locks would be released and
+    // re-aquired in between the two comparisons.
+
+    boost::lock(m_, rhs.m_);
+    UniqueLock left(m_, boost::adopt_lock);
+    UniqueLock right(rhs.m_, boost::adopt_lock);
+
+    return resource_ < rhs.resource_ || resource_ == rhs.resource_;
+}
+
+/**
+Returns <code>true</code> if <code>this</code> is greater than <code>rhs</code> by calling the
+corresponding operator on the resource.
+\throw Any exception thrown by the corresponding operator on the resource.
+\note This operator is available only if the underlying resource provides <code>operator\></code>.
+*/
+
+template<typename R, typename D>
+inline
+typename std::enable_if<boost::has_less<R>::value && boost::has_equal_to<R>::value, bool>::type
+ResourcePtr<R, D>::
+operator>(ResourcePtr<R, D> const& rhs) const
+{
+    return !(*this <= rhs);
+}
+
+/**
+Returns <code>true</code> if <code>this</code> is greater than or equal to <code>rhs</code> by calling the
+corresponding operator on the resource.
+\throw Any exception thrown by the corresponding operator on the resource.
+\note This operator is available only if the underlying resource provides <code>operator\>=</code>.
+*/
+
+template<typename R, typename D>
+inline
+typename std::enable_if<boost::has_less<R>::value, bool>::type
+ResourcePtr<R, D>::
+operator>=(ResourcePtr<R, D> const& rhs) const
+{
+    return !(*this < rhs);
 }
 
 } // namespace util
