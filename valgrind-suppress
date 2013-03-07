@@ -1,0 +1,20 @@
+{
+   get_cwd-bogus-potential-leak
+   Memcheck:Leak
+   fun:_Znwm
+   fun:_ZNSs4_Rep9_S_createEmmRKSaIcE
+   fun:_ZNSs12_S_constructIPKcEEPcT_S3_RKSaIcESt20forward_iterator_tag
+   fun:_ZNSsC1EPKcRKSaIcE
+   fun:_Z7get_cwdv
+   fun:_ZN15Daemon_dir_Test8TestBodyEv
+}
+
+{
+   string-constructor-bogus-potential-leak
+   Memcheck:Leak
+   fun:_Znwm
+   fun:_ZNSs4_Rep9_S_createEmmRKSaIcE
+   fun:_ZNSs12_S_constructIPKcEEPcT_S3_RKSaIcESt20forward_iterator_tag
+   fun:_ZNSsC1EPKcRKSaIcE
+   fun:_ZN15Daemon_dir_Test8TestBodyEv
+}

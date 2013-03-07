@@ -1,0 +1,153 @@
+#
+# Copyright (C) 2013 Canonical Ltd
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License version 3 as
+# published by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Authored by: Michi Henning <michi.henning@canonical.com>
+#
+
+-------------------------------------------------------------------------------------
+NOTE: Before making changes to the code, please read the README file in its entirety!
+-------------------------------------------------------------------------------------
+
+
+Build dependencies
+------------------
+
+List of packages required to build and test the code:
+
+- cmake (cmake, 2.8.10 with patch (see below) or later)
+- gcovr (gcovr, 2.4-0ubuntu1 or later)
+- lcov (lcov, 1.9-3 with patch (see below) or later)
+- gtest (libgtest-dev, 1.6.0 or later)
+- cppcheck (cppcheck, 1.55-1 or later)
+- doxygen (doxygen, 1.8.1.2-1 or later)
+- graphviz (graphviz, 2.26.3-12ubuntu1 or later)
+- libboost (libboost1.49-dev or later)
+
+
+Building the code
+-----------------
+
+The simplest case is:
+
+    $ mkdir build
+    $ cd build
+    $ cmake ..
+
+By default, the code is built in release mode. To build a debug version, use
+
+    $ mkdir build
+    $ cd build
+    $ cmake -DCMAKE_BUILD_TYPE=Debug ..
+    $ make
+
+or simply
+
+    $ make debug               # or make release
+    $ make
+
+For a release version, use -DCMAKE_BUILD_TYPE=Release (or "make release; make").
+
+
+Running the tests
+-----------------
+
+    $ make
+    $ make test
+
+Note that "make test" alone is dangerous because it does not rebuild
+any tests if either the library or the test files themselves need
+rebuilding. It's not possible to fix this with cmake because cmake cannot
+add build dependencies to built-in targets. To make sure that everything
+is up-to-date, run "make" before running "make test"!
+
+To run the tests with valgrind:
+
+    $ make valgrind
+
+To run the coverage tests:
+
+    $ make coverage
+
+Note that, with gcc 4.7.2 and cmake 2.8.10, you get a bunch of
+warnings. Until cmake fixes this problem, the second step of coverage
+testing (which lists all files that have unexpected uncovered source
+lines) does not happen.
+
+As a work around, run the following command from the build directory
+after running make coverage:
+
+    $ ../test/gcov/gcov.py Testing/CoverageInfo/ ../test/gcov/expected
+
+Alternatively, you can build cmake 2.8.10 with the following patch:
+
+http://cmake.org/gitweb?p=cmake.git;a=commitdiff;h=61ace1df2616e472d056b302e4269cbf112fb020#patch1
+
+Unfortunately, it is not possibly to get 100% coverage for some files,
+mainly due to gcc's generation of two destructors for dynamic and non-
+dynamic instances. For abstract base classes and for classes that
+prevent stack and static allocation, this causes one of the destructors
+to be reported as uncovered.
+
+There are also issues with some functions in header files that are
+incorrectly reported as uncovered due to inlining, as well as
+the impossibility of covering defensive assert(false) statements,
+such as an assert in the default branch of a switch, where the
+switch is meant to handle all possible cases explicitly.
+
+If you run a binary and get lots of warnings about a "merge mismatch for summaries",
+this is caused by having made changes to the source that add or remove code
+that was previously run, so the new coverage output cannot sensibly be merged
+into the old coverage output. You can get rid of this problem by running
+
+    $ make clean-coverage
+
+This deletes all the .gcda files, allowing the merge to succeed again.
+
+The file test/gcov/expected contains the expected number of uncovered
+source lines for each source and header file. Files with a number
+of uncovered lines that differ (or that are not mentioned and have
+non-zero uncovered lines) are reported. After checking that a file
+only contains uncovered lines that cannot be reached by the tests,
+you can add a suppression line the file, so "make coverage" only
+alerts you if the number of uncovered lines changes.
+
+To get a nicely formatted HTML report of the coverage, run
+
+    $ make lcov
+
+This creates a coverage report in build/lcov/index.html. Note that the report
+contains the bogus uncovered lines that are produced by gcov.
+
+If lcov complains about unrecognized lines lines, apply this patch
+to /usr/bin/geninfo:
+
+https://bugzilla.redhat.com/attachment.cgi?id=590034
+
+To run the static C++ checks:
+
+    $ make cppcheck
+
+
+Installation
+------------
+
+To get files that form part of an installation, run a "make install"
+in the build directory. By default, this installs them in the "install"
+subdirectory of the build directory. If you want to install into a
+different directory, use
+
+$ cmake -DCMAKE_INSTALL_PREFIX=/usr/local # Or wherever...
+$ make release
+$ make install

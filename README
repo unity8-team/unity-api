@@ -1,0 +1,237 @@
+#
+# Copyright (C) 2013 Canonical Ltd
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License version 3 as
+# published by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Authored by: Michi Henning <michi.henning@canonical.com>
+#
+
+This is an explanation of the layout of the source tree, and the
+conventions used by this library. Please read this before making changes
+to the source!
+
+For instructions on how to build the code, see the INSTALL file.
+
+
+Build targets
+-------------
+
+The build produces the scopes library.
+
+TODO: Flesh this out
+
+
+Source tree layout
+------------------
+
+At the top level, we have src, include, and test, which contain what
+they suggest.
+
+Underneath src and include, we have subdirectories that correspond to
+namespaces, that is, if we have src/internal, that automatically means
+that there is a namespace unity::scopes::internal. This one-to-one correspondence
+makes it easier to work out what is defined where.
+
+
+Namespaces
+----------
+
+The library maintains a compilation firewall, strictly separating
+external API and internal implementation.  This reduces the chance of
+breaking the API, and it makes it clear what parts of the API are for
+public consumption.
+
+Anything that is not public is implemented in a namespace called "internal".
+
+TODO: More explanation of the namespaces used and for what.
+
+
+Header file conventions
+-----------------------
+
+TODO: Is include/unity/scopes the correct place?
+
+All header files are underneath include/unity/scopes. Source code always includes
+headers using the full pathname, for example:
+
+  #include <unity/internal/ExceptionImpl.h>
+
+All source code uses angle brackets (<...>) for #include
+directives. Double quotes ("...") are never used because the lookup
+semantics can be surprising if there are any headers with the same name
+in the tree. (Not that this should happen, but it's better to be safe. If
+there are no duplicate names, inclusion with angle brackets behaves the
+same way as inclusion with double quotes.)
+
+All headers that are for public consumption appear in unity/scopes.
+
+Public header directories contain a private header directory called
+"internal". This directory contains all the headers that are private
+and specific to the implementation.
+
+No public header file is allowed to include any header from one of the
+internal directories. (Doing so would break the compilation firewall
+and also prevent API clients from compiling because the internal headers
+are not installed when unity is deployed. (This is enforced by the tests.)
+
+All header files, whether public or internal, compile stand-alone, that
+is, no header relies on another header being included first in order to
+compile. (This is enforced by the tests.)
+
+
+Compilation firewall
+--------------------
+
+Public classes use the pimpl (pointer-to-implemtation) idiom, also
+known as "envelope-letter idiom", "Cheshire Cat", or "Compiler firewall
+idiom". This makes it less likely that an update to the code will break
+the ABI.
+
+Many classes that are part of the public API contain only one private data
+member, namely the pimpl. No other data members (public, protected,
+or private) are permitted.
+
+For public classes with shallow-copy semantics (classes that are
+immutable after instantiation), the code uses std::shared_ptr as the
+pimpl type because std::shared_ptr provides the correct semantics. (See
+unity::Exception and its derived classes for an example.)
+
+For classes that are non-copyable, std::unique_ptr is used as the
+pimpl type.
+
+If classes form derivation hierarchies, by convention, the pimpl is a
+private data member of the root base class. Derived classes can access the
+pimpl by calling the protected pimpl() method of the root base class. This
+avoids redundantly storing a separated pimpl to the derived type in each
+derived class. Instead, polymorphic dispatch to virtual methods in the
+derived classes is achieved by using a dynamic_cast to the derived
+type to forward an invocation to the corresponding virtual method in
+the derived implementation class.
+
+
+Error handling
+--------------
+
+No error codes, period. All errors are reported via exceptions. All
+exceptions thrown by the library are derived from unity::Exception (which
+is abstract). unity::Exception provides a to_string() method. This method
+returns the exception history and prints all exceptions that were raised
+along a particular throw path, even if a low-level exception was caught
+and translated into a higher level exception. This works for exceptions
+derived from std::nested_exception. (The exception chaining ends when it
+encounters an exception that does not derive from std::nested_exception.)
+
+If API clients intercept unity exceptions and rethrow their own exceptions,
+it is recommended that API clients derive their exceptions from
+unity::Exception or, alternatively, derive them from std::nested_exception
+and implement a similar to_string() operation that, if it encounters a
+unity::Exception while following a chain, calls the to_string() method on
+unity::Exception. That way, the entire exception history will be returned
+from to_string().
+
+Functions that throw exceptions should, if at all possible, provide
+the strong exception guarantee. Otherwise, they must provide the basic
+(weak) exception guarantee. If it is impossible to maintain even the basic
+guarantee, the code must call abort() instead of throwing an exception.
+
+
+Resource management
+-------------------
+
+The code uses the RAII (resource acquisition is initialization)
+idiom extensively. If you find yourself writing free, delete, Xfree,
+XCloseResource, or any other kind of clean-up function, your code has a
+problem. Instead of explictly cleaning up in destructors, *immediately*
+assign the resource to a unique_ptr or shared_ptr with a custom deleter.
+
+This guarantees that the resource will be released without having to
+remember anything.  In particular, it guarantees that the resource
+will be released even if allocated in a constructor near the beginning
+and something called by the constructor throws before the constructor
+completes.
+
+For resources that cannot be managed by unique_ptr or shared_ptr
+(because the allocator does not return a pointer or returns a
+pointer to an opaque type), use the RAII helper class in ResourcePtr.h.
+It does much the same thing as unique_ptr, but is more permissive
+in the types it can manage.
+
+Note the naming convention established by util/DefinesPtrs.h. All
+classes that return or accept smart pointers derive from DefinesPtrs,
+which is a code injection template that creates typedefs for Ptr and
+UPtr (shared_ptr and unique_ptr, respectively) as well as CPtr and UCPtr
+(shared_ptr and unique_ptr to constant instances).
+
+Ideally, classes are fully initialized by their constructor so it is
+impossible for a class to exist but not being in a usable state.
+
+For some classes, it is unavoidable to provide a default constructor (for
+example, if we want to put instances into an array). It is also sometimes
+impossible to fully construct an instance immediately, for example if
+the instance is member variable and the necessary initialization data
+is not available until some time afterwards.
+
+In this case, the default constructor must initialize the class to
+a fail-safe state, that is, it must behave sanely in the face of
+methods being invoked on it. This means that calling a method on a
+default-constructed instance should throw a logic exception to
+indicate to the caller that the instance is not fully initialized yet.
+
+Note that turning method calls on not-yet-initialized instances into
+no-ops is usually a bad idea: the caller thinks that everything worked
+fine when, in fact, it did nothing. If such no-op methods do something
+sensible (that is, they can do their job even on an incompletely
+initialized instance), this begs the question of why the instance wasn't
+default-constructible in the first place...
+
+To sum it up: try to enforce complete initialization from the
+constructor wherever possible. If it is impossible to do that, follow
+the principle of least surprise for the caller if a method is called on
+a not-yet-initialized instance.
+
+
+Loose ends
+----------
+
+Things that need fixing or checking are marked with a TODO comment in
+the code.
+
+Things that are work-arounds for bugs in the compiler or libraries are
+marked with a BUGFIX comment.
+
+Things that are dubious in some way with no better solution available
+are marked with a HACK comment.
+
+
+Test suite
+----------
+
+The test suite lives underneath the test directory.
+
+test/headers contains tests relating to header file integrity.
+
+test/gtest contains the C++ tests (which use Google test).
+
+The Google gtest authors are adamant that it is a bad idea to just
+link with a pre-installed version of libgtest.a. Therefore, libgtest.a
+(and libgtest_main.a) are created as part of the build and can be found
+in test/gtest/libgtest.
+
+See the INSTALL file for how to run the tests, particularly the caveat
+about "make test" not rebuilding the tests!
+
+
+Building and installing the code
+--------------------------------
+
+See the INSTALL file.
