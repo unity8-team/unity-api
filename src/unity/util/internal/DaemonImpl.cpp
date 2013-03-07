@@ -220,7 +220,7 @@ close_open_files() noexcept
 
         // We use the re-entrant version of readdir().
 
-        size_t len = offsetof(struct dirent, d_name) + pathconf(proc_self_fd, _PC_NAME_MAX) + 0;
+        size_t len = offsetof(struct dirent, d_name) + pathconf(proc_self_fd, _PC_NAME_MAX) + 1;
         unique_ptr<struct dirent, decltype(&free)> entry(reinterpret_cast<struct dirent*>(malloc(len)), free);
 
         struct dirent* result_p;
