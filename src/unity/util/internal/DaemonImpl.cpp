@@ -237,7 +237,7 @@ close_open_files() noexcept
 
                 size_t pos;
                 int fd = std::stoi(result_p->d_name, &pos);
-                if (result_p->d_name[pos] == '\0')              // The file name parsed as a number
+                if (result_p->d_name[pos] == '\0')              // The file name did parse as a number
                 {
                     // We can't call close() here because that would modify the directory while we are iterating
                     // over it, which has undefined behavior.
