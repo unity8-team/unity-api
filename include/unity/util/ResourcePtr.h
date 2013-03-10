@@ -157,7 +157,7 @@ private:
     mutable boost::mutex m_;                  // Protects this instance.
 
     typedef boost::lock_guard<decltype(m_)>  AutoLock;
-    typedef boost::unique_lock<decltype(m_)> UniqueLock;
+    typedef boost::unique_lock<decltype(m_)> AdoptLock;
 };
 
 /**
@@ -287,11 +287,12 @@ swap(ResourcePtr& other)
     }
 
     boost::lock(m_, other.m_);
-    UniqueLock left(m_, boost::adopt_lock);
-    UniqueLock right(other.m_, boost::adopt_lock);
+    AdoptLock left(m_, boost::adopt_lock);
+    AdoptLock right(other.m_, boost::adopt_lock);
 
     using std::swap; // Enable ADL
     swap(resource_, other.resource_);
+    swap(delete_, other.delete_);
     swap(initialized_, other.initialized_);
 }
 
@@ -442,7 +443,8 @@ D&
 ResourcePtr<R, D>::
 get_deleter() noexcept
 {
-    return delete_; // No lock needed, delete_ is immutable
+    AutoLock lock(m_);
+    return delete_;
 }
 
 /**
@@ -455,7 +457,8 @@ D const&
 ResourcePtr<R, D>::
 get_deleter() const noexcept
 {
-    return delete_; // No lock needed, delete_ is immutable
+    AutoLock lock(m_);
+    return delete_;
 }
 
 /**
@@ -475,8 +478,8 @@ operator==(ResourcePtr<R, D> const& rhs) const
     }
 
     boost::lock(m_, rhs.m_);
-    UniqueLock left(m_, boost::adopt_lock);
-    UniqueLock right(rhs.m_, boost::adopt_lock);
+    AdoptLock left(m_, boost::adopt_lock);
+    AdoptLock right(rhs.m_, boost::adopt_lock);
 
     if (!initialized_)
     {
@@ -525,8 +528,8 @@ operator<(ResourcePtr<R, D> const& rhs) const
     }
 
     boost::lock(m_, rhs.m_);
-    UniqueLock left(m_, boost::adopt_lock);
-    UniqueLock right(rhs.m_, boost::adopt_lock);
+    AdoptLock left(m_, boost::adopt_lock);
+    AdoptLock right(rhs.m_, boost::adopt_lock);
 
     if (!initialized_)
     {
@@ -567,8 +570,8 @@ operator<=(ResourcePtr<R, D> const& rhs) const
     // re-aquired in between the two comparisons.
 
     boost::lock(m_, rhs.m_);
-    UniqueLock left(m_, boost::adopt_lock);
-    UniqueLock right(rhs.m_, boost::adopt_lock);
+    AdoptLock left(m_, boost::adopt_lock);
+    AdoptLock right(rhs.m_, boost::adopt_lock);
 
     return resource_ < rhs.resource_ || resource_ == rhs.resource_;
 }
