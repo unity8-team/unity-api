@@ -12,5 +12,5 @@ CTestTestfile.cmake
 #
 # Ignore generated files
 #
-build
-build/*
+build*
+build*/*
