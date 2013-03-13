@@ -48,9 +48,8 @@ set(UNITY_SCOPES_VERSION "${UNITY_SCOPES_MAJOR}.${UNITY_SCOPES_MINOR}.${UNITY_SC
 #
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -fno-permissive -pedantic -Wall -Wextra")
-#set(CMAKE_CXX_FLAGS_RELEASE "-O2 -g3 -s -Werror")
-
-set(LINK_FLAGS_DEBUG --coverage -fprofile-arcs -ftest-coverage)
+set(CMAKE_CXX_FLAGS_DEBUG ${CMAKE_CXX_DEBUG} "-g3")
+set(CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_RELEASE} "-g3 -Werror")
 
 #
 # Select debug or release mode.
@@ -119,11 +118,18 @@ if(COVERAGE_COMMAND)
     set(COVERAGE_COMMAND_OPTIONS "")
 endif()
 
-add_custom_target(coverage
-    COMMAND ${CMAKE_SOURCE_DIR}/test/gcov/gcov.py -i ${CMAKE_SOURCE_DIR}/include
-                ${CMAKE_BINARY_DIR}/Testing/CoverageInfo ${CMAKE_SOURCE_DIR}/test/gcov/expected
-    DEPENDS NightlyCoverage
-)
+if("${CMAKE_BUILD_TYPE}" STREQUAL "coverage")
+    add_custom_target(coverage
+        COMMAND ${CMAKE_SOURCE_DIR}/test/gcov/gcov.py -i ${CMAKE_SOURCE_DIR}/include
+                    ${CMAKE_BINARY_DIR}/Testing/CoverageInfo ${CMAKE_SOURCE_DIR}/test/gcov/expected
+        DEPENDS NightlyCoverage
+    )
+else()
+    add_custom_target(coverage
+        COMMAND echo "Coverage testing is available only for coverage builds" >&2
+        COMMAND false
+    )
+endif()
 
 # This gets rid of any stale .gcda files. Run this if a running a binary causes lots of messages about
 # about a "merge mismatch for summaries".
@@ -136,7 +142,7 @@ set(lcov_dir ${CMAKE_BINARY_DIR}/lcov)
 
 file(MAKE_DIRECTORY ${lcov_dir})
 
-if("${CMAKE_BUILD_TYPE}" STREQUAL "debug")
+if("${CMAKE_BUILD_TYPE}" STREQUAL "coverage")
     add_custom_target(lcov
         COMMAND lcov --quiet --no-compat-libtool --capture --directory ${CMAKE_BINARY_DIR} --output-file ${lcov_dir}/coverage.info
         COMMAND lcov --quiet --remove ${lcov_dir}/coverage.info 'test/*' -o ${lcov_dir}/coverage.info
@@ -145,7 +151,7 @@ if("${CMAKE_BUILD_TYPE}" STREQUAL "debug")
         COMMAND genhtml ${lcov_dir}/coverage.info --output-directory ${lcov_dir} --demangle-cpp)
 else()
     add_custom_target(lcov
-        COMMAND echo "Coverage testing is available only for debug builds" >&2
+        COMMAND echo "Coverage testing is available only for coverage builds" >&2
         COMMAND false
     )
 endif()
@@ -187,3 +193,9 @@ add_subdirectory(include)
 add_subdirectory(src)
 add_subdirectory(test)
 add_subdirectory(examples)
+
+#
+# Used by some of the test scripts to filter out files that are generated as part of a build. Build directories (for
+# in-tree builds) are expected to include this string in their name, for example, "build-debug" or "debug-build".
+#
+set(BUILD_DIR_NAME build)

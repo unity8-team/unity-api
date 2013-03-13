@@ -17,6 +17,7 @@
 #
 
 add_executable(Daemon_test Daemon_test.cpp)
+add_dependencies(Daemon_test ${TESTLIBS})
 target_link_libraries(Daemon_test ${LIBS} ${TESTLIBS})
 
 add_test(Daemon ${CMAKE_CURRENT_SOURCE_DIR}/daemon-tester.py ${CMAKE_CURRENT_BINARY_DIR}/Daemon_test)
