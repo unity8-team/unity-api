@@ -32,6 +32,8 @@ endif()
 project(scopes)
 set(PROJECT_NAME "scopes")
 
+include(cmake/coverage.cmake)
+
 #
 # Version
 #
@@ -45,9 +47,8 @@ set(UNITY_SCOPES_VERSION "${UNITY_SCOPES_MAJOR}.${UNITY_SCOPES_MINOR}.${UNITY_SC
 # Compiler flags
 #
 
-set(CMAKE_CXX_FLAGS "-std=c++0x -fno-permissive -pedantic -Wall -Wextra")
-set(CMAKE_CXX_FLAGS_DEBUG "-g3 --coverage -fprofile-arcs -ftest-coverage")
-set(CMAKE_CXX_FLAGS_RELEASE "-O2 -g3 -s -Werror")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -fno-permissive -pedantic -Wall -Wextra")
+#set(CMAKE_CXX_FLAGS_RELEASE "-O2 -g3 -s -Werror")
 
 set(LINK_FLAGS_DEBUG --coverage -fprofile-arcs -ftest-coverage)
 
@@ -55,12 +56,16 @@ set(LINK_FLAGS_DEBUG --coverage -fprofile-arcs -ftest-coverage)
 # Select debug or release mode.
 #
 
-add_custom_target(debug
-    COMMAND ${CMAKE_COMMAND} -DCMAKE_BUILD_TYPE:STRING=Debug ${PROJECT_SOURCE_DIR}
+add_custom_target(debug-build
+    COMMAND ${CMAKE_COMMAND} -DCMAKE_BUILD_TYPE:STRING=debug ${PROJECT_SOURCE_DIR}
 )
 
-add_custom_target(release
-    ${CMAKE_COMMAND} -DCMAKE_BUILD_TYPE:STRING=Release ${PROJECT_SOURCE_DIR}
+add_custom_target(release-build
+    ${CMAKE_COMMAND} -DCMAKE_BUILD_TYPE:STRING=release ${PROJECT_SOURCE_DIR}
+)
+
+add_custom_target(coverage-build
+    ${CMAKE_COMMAND} -DCMAKE_BUILD_TYPE:STRING=coverage ${PROJECT_SOURCE_DIR}
 )
 
 #
@@ -114,18 +119,11 @@ if(COVERAGE_COMMAND)
     set(COVERAGE_COMMAND_OPTIONS "")
 endif()
 
-if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-    add_custom_target(coverage
-        COMMAND make NightlyCoverage
-        COMMAND ${CMAKE_SOURCE_DIR}/test/gcov/gcov.py -i ${CMAKE_SOURCE_DIR}/include
-                    ${CMAKE_BINARY_DIR}/Testing/CoverageInfo ${CMAKE_SOURCE_DIR}/test/gcov/expected
-    )
-else()
-    add_custom_target(coverage
-        COMMAND echo "Coverage testing is available only for debug builds" >&2
-        COMMAND false
-    )
-endif()
+add_custom_target(coverage
+    COMMAND ${CMAKE_SOURCE_DIR}/test/gcov/gcov.py -i ${CMAKE_SOURCE_DIR}/include
+                ${CMAKE_BINARY_DIR}/Testing/CoverageInfo ${CMAKE_SOURCE_DIR}/test/gcov/expected
+    DEPENDS NightlyCoverage
+)
 
 # This gets rid of any stale .gcda files. Run this if a running a binary causes lots of messages about
 # about a "merge mismatch for summaries".
@@ -138,7 +136,7 @@ set(lcov_dir ${CMAKE_BINARY_DIR}/lcov)
 
 file(MAKE_DIRECTORY ${lcov_dir})
 
-if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+if("${CMAKE_BUILD_TYPE}" STREQUAL "debug")
     add_custom_target(lcov
         COMMAND lcov --quiet --no-compat-libtool --capture --directory ${CMAKE_BINARY_DIR} --output-file ${lcov_dir}/coverage.info
         COMMAND lcov --quiet --remove ${lcov_dir}/coverage.info 'test/*' -o ${lcov_dir}/coverage.info

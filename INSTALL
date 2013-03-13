@@ -34,6 +34,8 @@ List of packages required to build and test the code:
 - doxygen (doxygen, 1.8.1.2-1 or later)
 - graphviz (graphviz, 2.26.3-12ubuntu1 or later)
 - libboost (libboost1.49-dev or later)
+- libboost-thread (libbost-thread1.49-dev or later)
+- libboost-regex-dev (libbost-regex1.49-dev or later)
 
 
 Building the code
@@ -47,17 +49,29 @@ The simplest case is:
 
 By default, the code is built in release mode. To build a debug version, use
 
-    $ mkdir build
-    $ cd build
-    $ cmake -DCMAKE_BUILD_TYPE=Debug ..
+    $ mkdir builddebug
+    $ cd builddebug
+    $ cmake -DCMAKE_BUILD_TYPE=debug ..
     $ make
 
 or simply
 
-    $ make debug               # or make release
+    $ make debug-build
     $ make
 
-For a release version, use -DCMAKE_BUILD_TYPE=Release (or "make release; make").
+For a release version, use -DCMAKE_BUILD_TYPE=release (or "make release-build; make").
+
+To build with the flags for coverage testing enabled:
+
+    $ mkdir buildcoverage
+    $ cd makecoverage
+    $ cmake -DCMAKE_BUILD_TYPE=coverage
+    $ make
+
+or simply
+
+    $ make coverage_build
+    $ make
 
 
 Running the tests
@@ -78,7 +92,11 @@ To run the tests with valgrind:
 
 To run the coverage tests:
 
+    $ make test
     $ make coverage
+
+(The coverage target is available only if the code was build with -DCMAKE_BUILD_TYPE=coverage.)
+
 
 Note that, with gcc 4.7.2 and cmake 2.8.10, you get a bunch of
 warnings. Until cmake fixes this problem, the second step of coverage

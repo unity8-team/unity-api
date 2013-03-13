@@ -29,7 +29,6 @@ set(TEST_SRC
 foreach(src ${TEST_SRC})
     get_filename_component(name ${src} NAME_WE)
     add_executable(${name} ${src})
-    add_dependencies(${name} gtest ${GLINT_LIBS})
     target_link_libraries(${name} ${LIBS} ${TESTLIBS})
     string(REPLACE "_test" "" test_name ${name})
     add_test(${test_name} ${name})
