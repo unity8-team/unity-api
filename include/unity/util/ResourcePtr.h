@@ -152,9 +152,9 @@ public:
 
 private:
     R resource_;                   // The managed resource.
-    D delete_;                      // The deleter to call.
-    bool initialized_;                        // True while we have a resource assigned.
-    mutable boost::mutex m_;                  // Protects this instance.
+    D delete_;                     // The deleter to call.
+    bool initialized_;             // True while we have a resource assigned.
+    mutable boost::mutex m_;       // Protects this instance.
 
     typedef boost::lock_guard<decltype(m_)>  AutoLock;
     typedef boost::unique_lock<decltype(m_)> AdoptLock;
@@ -187,16 +187,26 @@ ResourcePtr<int, decltype(&::close)> fd(open("/somefile", O_RDONLY), ::close);
       <code>valgrind</code>). Depending on the specific deleter, passing an invalid value to the deleter may
       have more serious consequences.
 
-      To avoid the problem, you can either delay initialization of the ResourcePtr until you know that the
-      resource was successfully allocated, or you can use a deleter function that tests the resource value
+      To avoid the problem, you can delay initialization of the ResourcePtr until you know that the
+      resource was successfully allocated, for example:
+~~~
+      int tmp_fd = open(filename.c_str(), O_RDONLY);
+      if (tmp_fd == -1)
+      {
+          throw FileException(filename.c_str());
+      }
+      util::ResourcePtr<int, decltype(&::close)> fd(tmp_fd, ::close(fd));
+~~~
+      Alternatively, you can use a deleter function that tests the resource value
       for validity and avoids calling the deleter with an invalid value:
-
 ~~~
       util::ResourcePtr<int, std::function<void(int)>> fd(
           ::open(filename.c_str(), O_RDONLY),
           [](int fd) { if (fd != -1) ::close(fd); }
       );
 ~~~
+      Note that, with the second approach, a call to get() will succeed and return -1 rather than throwing an
+      exception.
 */
 // TODO: document exception safety behavior
 
@@ -269,8 +279,8 @@ ResourcePtr<R, D>::
 }
 
 /**
-Swaps the resource held by <code>this</code> with the resource held by <code>other</code> using argument
-dependent lookup (ADL).
+Swaps the resource and deleter of <code>this</code> with the resource and deleter of <code>other</code>
+using argument dependent lookup (ADL).
 \throw Any exception thrown by the underlying <code>swap()</code>.
 */
 // TODO document exception safety.
@@ -462,7 +472,10 @@ get_deleter() const noexcept
 }
 
 /**
-Compares two instances for equality by calling the corresponding operator on the resource.
+\brief Compares two instances for equality by calling the corresponding operator on the resource.
+
+Two instances that do not hold a resource are equal. An instance that does not hold a resource is not equal
+to any instance that holds a resource.
 \throw Any exception thrown by the corresponding operator on the resource.
 \note This operator is available only if the underlying resource provides <code>operator==</code>.
 */
@@ -496,7 +509,7 @@ operator==(ResourcePtr<R, D> const& rhs) const
 }
 
 /**
-Compares two instances for inequality by calling the corresponding operator on the resource.
+\brief Compares two instances for inequality by calling the corresponding operator on the resource.
 \throw Any exception thrown by the corresponding operator on the resource.
 \note This operator is available only if the underlying resource provides <code>operator!=</code>.
 */
@@ -511,8 +524,10 @@ operator!=(ResourcePtr<R, D> const& rhs) const
 }
 
 /**
-Returns <code>true</code> if <code>this</code> is less than <code>rhs</code> by calling the
+\brief Returns <code>true</code> if <code>this</code> is less than <code>rhs</code> by calling the
 corresponding operator on the resource.
+
+An instance that does not hold a resource is less than any instance that holds a resource.
 \throw Any exception thrown by the corresponding operator on the resource.
 \note This operator is available only if the underlying resource provides <code>operator\<</code>.
 */
@@ -546,8 +561,11 @@ operator<(ResourcePtr<R, D> const& rhs) const
 }
 
 /**
-Returns <code>true</code> if <code>this</code> is less than or equal to <code>rhs</code> by calling the
+\brief Returns <code>true</code> if <code>this</code> is less than or equal to <code>rhs</code> by calling the
 corresponding operator on the resource.
+
+An instance that does not hold a resource is less than any instance that holds a resource.
+Two instances that do not hold a resource are equal.
 \throw Any exception thrown by the corresponding operator on the resource.
 \note This operator is available only if the underlying resource provides <code>operator\<=</code>.
 */
@@ -577,8 +595,10 @@ operator<=(ResourcePtr<R, D> const& rhs) const
 }
 
 /**
-Returns <code>true</code> if <code>this</code> is greater than <code>rhs</code> by calling the
+\brief Returns <code>true</code> if <code>this</code> is greater than <code>rhs</code> by calling the
 corresponding operator on the resource.
+
+An instance that holds a resource is greater than any instance that does not hold a resource.
 \throw Any exception thrown by the corresponding operator on the resource.
 \note This operator is available only if the underlying resource provides <code>operator\></code>.
 */
@@ -593,8 +613,11 @@ operator>(ResourcePtr<R, D> const& rhs) const
 }
 
 /**
-Returns <code>true</code> if <code>this</code> is greater than or equal to <code>rhs</code> by calling the
+\brief Returns <code>true</code> if <code>this</code> is greater than or equal to <code>rhs</code> by calling the
 corresponding operator on the resource.
+
+An instance that holds a resource is greater than any instance that does not hold a resource.
+Two instances that do not hold a resource are equal.
 \throw Any exception thrown by the corresponding operator on the resource.
 \note This operator is available only if the underlying resource provides <code>operator\>=</code>.
 */

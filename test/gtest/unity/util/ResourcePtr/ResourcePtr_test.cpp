@@ -454,3 +454,58 @@ TEST(ResourcePtr, swap)
         EXPECT_EQ(zero.get(), 1);
     }
 }
+
+TEST(ResourcePtr, std_specializations)
+{
+    ResourcePtr<Comparable, decltype(&no_op)> nr1(no_op);
+    ResourcePtr<Comparable, decltype(&no_op)> nr2(no_op);
+    ResourcePtr<Comparable, decltype(&no_op)> zero(Comparable(0), no_op);
+    ResourcePtr<Comparable, decltype(&no_op)> one(Comparable(1), no_op);
+
+    std::equal_to<ResourcePtr<Comparable, decltype(&no_op)>> equal;
+    std::not_equal_to<ResourcePtr<Comparable, decltype(&no_op)>> not_equal;
+    std::less<ResourcePtr<Comparable, decltype(&no_op)>> less;
+    std::less_equal<ResourcePtr<Comparable, decltype(&no_op)>> less_equal;
+    std::greater<ResourcePtr<Comparable, decltype(&no_op)>> greater;
+    std::greater_equal<ResourcePtr<Comparable, decltype(&no_op)>> greater_equal;
+
+    EXPECT_TRUE(equal.operator()(nr1, nr2));
+    EXPECT_FALSE(equal.operator()(nr1, one));
+    EXPECT_FALSE(equal.operator()(one, nr1));
+    EXPECT_TRUE(equal.operator()(one, one));
+    EXPECT_FALSE(equal.operator()(zero, one));
+
+    EXPECT_FALSE(not_equal.operator()(nr1, nr2));
+    EXPECT_TRUE(not_equal.operator()(nr1, one));
+    EXPECT_TRUE(not_equal.operator()(one, nr1));
+    EXPECT_FALSE(not_equal.operator()(one, one));
+    EXPECT_TRUE(not_equal.operator()(zero, one));
+
+    EXPECT_FALSE(less.operator()(nr1, nr2));
+    EXPECT_TRUE(less.operator()(nr1, one));
+    EXPECT_FALSE(less.operator()(one, nr1));
+    EXPECT_FALSE(less.operator()(one, one));
+    EXPECT_TRUE(less.operator()(zero, one));
+    EXPECT_FALSE(less.operator()(one, zero));
+
+    EXPECT_TRUE(less_equal.operator()(nr1, nr2));
+    EXPECT_TRUE(less_equal.operator()(nr1, one));
+    EXPECT_FALSE(less_equal.operator()(one, nr1));
+    EXPECT_TRUE(less_equal.operator()(one, one));
+    EXPECT_TRUE(less_equal.operator()(zero, one));
+    EXPECT_FALSE(less_equal.operator()(one, zero));
+
+    EXPECT_FALSE(greater.operator()(nr1, nr2));
+    EXPECT_FALSE(greater.operator()(nr1, one));
+    EXPECT_TRUE(greater.operator()(one, nr1));
+    EXPECT_FALSE(greater.operator()(one, one));
+    EXPECT_FALSE(greater.operator()(zero, one));
+    EXPECT_TRUE(greater.operator()(one, zero));
+
+    EXPECT_TRUE(greater_equal.operator()(nr1, nr2));
+    EXPECT_FALSE(greater_equal.operator()(nr1, one));
+    EXPECT_TRUE(greater_equal.operator()(one, nr1));
+    EXPECT_TRUE(greater_equal.operator()(one, one));
+    EXPECT_FALSE(greater_equal.operator()(zero, one));
+    EXPECT_TRUE(greater_equal.operator()(one, zero));
+}
