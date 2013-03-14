@@ -65,9 +65,6 @@ To use the class, use private inheritance:
 
 */
 
-#if 0
-#endif
-
 class NonCopyable
 {
 protected:
