@@ -124,61 +124,12 @@ public:
     */
     virtual char const* what() const noexcept = 0;
 
-    /**
-    \brief Returns the reason set by the derived class's constructor (empty string if none).
-
-    Derived classes should include any other state information, such as the value of data members or
-    other relevant detail in the <code>reason</code> string they pass to the protected constructor.
-    */
     virtual std::string reason() const;
 
-    /**
-    Returns a string describing the exception, including any exceptions that were nested or chained.
-
-    Nested exceptions are indented according to their nesting level. If the exception contains chained
-    exceptions, these are shown in oldest-to-newest order.
-
-    \param indent This controls the amount of indenting per level. The default indent is four spaces.
-    \return The string describing the exception.
-
-    \note The default implementation of this member function calls <code>to_string(0, indent)</code>.
-    */
     virtual std::string to_string(std::string const& indent = "    ") const;
-
-    /**
-    Returns a string describing the exception, including any exceptions that were nested or chained.
-
-    Nested exceptions are indented according to their nesting level. If the exception contains chained
-    exceptions, these are shown in oldest-to-newest order.
-
-    \param indent_level This controls the outermost indent level. The value <code>0</code> indicates
-           the outermost level (no indent).
-    \param indent This controls the amount of indenting per level. The pass string is prependended
-           <i><code>indent_level</code></i> times to each line.
-    \return The string describing the exception.
-
-    \note This member function has a default implementation, so derived classes do not need to override it
-          unless they want to change the formatting of the returned string.
-    */
     virtual std::string to_string(int indent_level, std::string const& indent) const;
 
-    /**
-    Adds an exception to the exception history chain.
-
-    \param earlier_exception The parameter must be a <code>nullptr</code> or a <code>std::exception_ptr</code>
-    to an exception that was remembered earlier. This allows a sequence of exceptions to be remembered without
-    having to throw them and is useful for example, in shutdown scenarios where any one of a sequence of steps
-    can fail, but we want to continue and try all the following steps and only throw after all of them have been
-    tried. In this case, each step that fails can add itself to the sequence of remembered exceptions, and finally
-    throw something like <code>ShutdownException</code>.
-    \return A <code>std::exception_ptr</code> to <code>this</code>.
-    */
     std::exception_ptr remember(std::exception_ptr earlier_exception);
-
-    /**
-    Returns the previous exception.
-    \return Returns the next-older remembered exception, or <code>nullptr</code>, if none.
-    */
     std::exception_ptr get_earlier() const noexcept;
 
     /**
