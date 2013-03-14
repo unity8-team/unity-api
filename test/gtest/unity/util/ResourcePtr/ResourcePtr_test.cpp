@@ -445,7 +445,7 @@ TEST(ResourcePtr, swap)
         EXPECT_EQ(one.get(), 0);
 
         // Non-member swap
-        std::swap(one, no_init);
+        unity::util::swap(one, no_init);
         EXPECT_TRUE(no_init.has_resource());
         EXPECT_FALSE(one.has_resource());
 
