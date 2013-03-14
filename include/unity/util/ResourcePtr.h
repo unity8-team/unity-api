@@ -644,7 +644,6 @@ namespace std
 \brief Function object for equality comparison.
 */
 
-template<>
 template<typename R, typename D>
 struct equal_to<unity::util::ResourcePtr<R, D>>
 {
@@ -661,7 +660,6 @@ struct equal_to<unity::util::ResourcePtr<R, D>>
 \brief Function object for inequality comparison.
 */
 
-template<>
 template<typename R, typename D>
 struct not_equal_to<unity::util::ResourcePtr<R, D>>
 {
@@ -678,7 +676,6 @@ struct not_equal_to<unity::util::ResourcePtr<R, D>>
 \brief Function object for less than comparison.
 */
 
-template<>
 template<typename R, typename D>
 struct less<unity::util::ResourcePtr<R, D>>
 {
@@ -695,7 +692,6 @@ struct less<unity::util::ResourcePtr<R, D>>
 \brief Function object for less than or equal comparison.
 */
 
-template<>
 template<typename R, typename D>
 struct less_equal<unity::util::ResourcePtr<R, D>>
 {
@@ -712,7 +708,6 @@ struct less_equal<unity::util::ResourcePtr<R, D>>
 \brief Function object for greater than comparison.
 */
 
-template<>
 template<typename R, typename D>
 struct greater<unity::util::ResourcePtr<R, D>>
 {
@@ -729,7 +724,6 @@ struct greater<unity::util::ResourcePtr<R, D>>
 \brief Function object for less than or equal comparison.
 */
 
-template<>
 template<typename R, typename D>
 struct greater_equal<unity::util::ResourcePtr<R, D>>
 {
