@@ -79,7 +79,7 @@ public:
 
 protected:                                  // Not meant to be instantiated stand-alone
     DefinesPtrs() = default;
-    virtual ~DefinesPtrs() noexcept {}      // BUGFIX: gcc 4.6 cannot handle virtual destructor with = default
+    virtual ~DefinesPtrs() = default;
 };
 
 } // namespace util
