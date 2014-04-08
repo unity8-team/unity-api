@@ -37,11 +37,25 @@ public:
     SurfaceManagerInterface(QObject *parent = 0);
     ~SurfaceManagerInterface();
 
-    SurfaceItemInterface *get(int index) const;
+    virtual QHash<int, QByteArray> roleNames() const
+    {
+        return m_roleNames;
+    }
+
+    int count() const {
+        return rowCount();
+    }
+
+    Q_INVOKABLE virtual unity::shell::application::SurfaceItemInterface *get(int index) const = 0;
 
 Q_SIGNALS:
     void surfaceCreated(SurfaceItemInterface* surface);
     void surfaceDestroyed(SurfaceItemInterface* surface);
+
+protected:
+    /// @cond
+    QHash<int, QByteArray> m_roleNames;
+    /// @endcond
 };
 
 } // namespace application

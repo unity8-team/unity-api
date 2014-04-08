@@ -78,51 +78,6 @@ Q_SIGNALS:
 
 public Q_SLOTS:
     void release(); // For QML to destroy this surface
-
-protected:
-    void mousePressEvent(QMouseEvent *event) override;
-    void mouseMoveEvent(QMouseEvent *event) override;
-    void mouseReleaseEvent(QMouseEvent *event) override;
-    void wheelEvent(QWheelEvent *event) override;
-
-    void keyPressEvent(QKeyEvent *event) override;
-    void keyReleaseEvent(QKeyEvent *event) override;
-
-    void touchEvent(QTouchEvent *event) override;
-
-    QSGNode *updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *);
-
-private Q_SLOTS:
-    void surfaceDamaged();
-
-private:
-    bool updateTexture();
-    void ensureProvider();
-
-    void setType(const Type&);
-    void setState(const State&);
-
-    // called by MirSurfaceManager
-    void setAttribute(const MirSurfaceAttrib, const int);
-    void setSurfaceValid(const bool);
-
-    void dispatchTouchEventToMirInputChannel(QTouchEvent *event);
-    bool hasTouchInsideUbuntuKeyboard(QTouchEvent *event);
-
-    QMutex m_mutex;
-
-    std::shared_ptr<mir::scene::Surface> m_surface;
-    Application* m_application;
-    int m_pendingClientBuffersCount;
-    bool m_firstFrameDrawn;
-
-    QMirSurfaceTextureProvider *m_textureProvider;
-
-    static UbuntuKeyboardInfo *m_ubuntuKeyboardInfo;
-
-    std::shared_ptr<MirSurfaceObserver> m_surfaceObserver;
-
-    friend class MirSurfaceManager;
 };
 
 Q_DECLARE_METATYPE(MirSurfaceItem*)
