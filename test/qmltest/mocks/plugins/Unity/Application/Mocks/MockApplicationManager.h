@@ -34,30 +34,23 @@ public:
     MockApplicationManager(QObject* parent = 0);
     ~MockApplicationManager();
 
-    int rowCount(const QModelIndex& parent) const;
+    int rowCount(const QModelIndex& parent) const override;
 
-    QVariant data(const QModelIndex& index, int role) const;
+    QVariant data(const QModelIndex& index, int role) const override;
 
-    QString focusedApplicationId() const;
+    QString focusedApplicationId() const override;
 
-    bool suspended() const;
-    void setSuspended(bool suspended);
+    bool suspended() const override;
+    void setSuspended(bool suspended) override;
 
-    Q_INVOKABLE unity::shell::application::ApplicationInfoInterface *get(const int index) const;
+    Q_INVOKABLE unity::shell::application::ApplicationInfoInterface *get(const int index) const override;
 
-    Q_INVOKABLE unity::shell::application::ApplicationInfoInterface *findApplication(const QString &appId) const;
+    Q_INVOKABLE unity::shell::application::ApplicationInfoInterface *findApplication(const QString &appId) const override;
 
-    Q_INVOKABLE bool requestFocusApplication(const QString &appId);
+    Q_INVOKABLE unity::shell::application::ApplicationInfoInterface
+                    *startApplication(const QString &appId, const QStringList &arguments) override;
 
-    Q_INVOKABLE bool focusApplication(const QString &appId);
-
-    Q_INVOKABLE void unfocusCurrentApplication();
-
-    Q_INVOKABLE unity::shell::application::ApplicationInfoInterface *startApplication(const QString &appId, const QStringList &arguments);
-
-    Q_INVOKABLE bool stopApplication(const QString &appId);
-
-    Q_INVOKABLE bool updateScreenshot(const QString &appId);
+    Q_INVOKABLE bool stopApplication(const QString &appId) override;
 
 private:
     QList<MockApplicationInfo*> m_list;

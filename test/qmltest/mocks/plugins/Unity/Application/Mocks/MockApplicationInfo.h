@@ -32,27 +32,28 @@ class UNITY_API MockApplicationInfo: public ApplicationInfoInterface
 public:
     MockApplicationInfo(const QString &appId, const QString& name, const QString& comment, const QUrl& icon, QObject* parent = 0);
 
-    QString appId() const;
-    QString name() const;
-    QString comment() const;
-    QUrl icon() const;
-    QUrl screenshot() const;
+    QString appId() const override;
+    QString name() const override;
+    QString comment() const override;
+    QUrl icon() const override;
 
-    ApplicationInfoInterface::Stage stage() const;
+    ApplicationInfoInterface::Stage stage() const override;
     void setStage(ApplicationInfoInterface::Stage stage);
 
-    ApplicationInfoInterface::State state() const;
+    ApplicationInfoInterface::State state() const override;
     void setState(ApplicationInfoInterface::State state);
 
-    bool focused() const;
+    bool focused() const override;
     void setFocused(bool focused);
+
+    bool suspend() override;
+    bool resume() override;
 
 private:
     QString m_appId;
     QString m_name;
     QString m_comment;
     QUrl m_icon;
-    QUrl m_screenshot;
     ApplicationInfoInterface::Stage m_stage;
     ApplicationInfoInterface::State m_state;
     bool m_focused;

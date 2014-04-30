@@ -54,11 +54,6 @@ QUrl MockApplicationInfo::icon() const
     return m_icon;
 }
 
-QUrl MockApplicationInfo::screenshot() const
-{
-    return m_screenshot;
-}
-
 ApplicationInfoInterface::Stage MockApplicationInfo::stage() const
 {
     return m_stage;
@@ -99,4 +94,16 @@ void MockApplicationInfo::setFocused(bool focused)
         m_focused = focused;
         Q_EMIT focusedChanged(focused);
     }
+}
+
+bool MockApplicationInfo::suspend()
+{
+    setState(ApplicationInfoInterface::Suspended);
+    return true;
+}
+
+bool MockApplicationInfo::resume()
+{
+    setState(ApplicationInfoInterface::Running);
+    return true;
 }

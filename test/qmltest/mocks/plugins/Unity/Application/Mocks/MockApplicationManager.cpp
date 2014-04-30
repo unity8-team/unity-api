@@ -66,8 +66,6 @@ QVariant MockApplicationManager::data(const QModelIndex& index, int role) const
         return item->state();
     case RoleFocused:
         return item->focused();
-    case RoleScreenshot:
-        return item->screenshot();
     }
 
     return QVariant();
@@ -110,22 +108,6 @@ void MockApplicationManager::setSuspended(bool suspended)
     Q_UNUSED(suspended)
 }
 
-bool MockApplicationManager::requestFocusApplication(const QString &appId)
-{
-    Q_UNUSED(appId)
-    return true;
-}
-
-bool MockApplicationManager::focusApplication(const QString &appId)
-{
-    Q_UNUSED(appId)
-    return true;
-}
-
-void MockApplicationManager::unfocusCurrentApplication()
-{
-}
-
 unity::shell::application::ApplicationInfoInterface *MockApplicationManager::startApplication(const QString &appId, const QStringList &arguments)
 {
     Q_UNUSED(arguments)
@@ -134,12 +116,6 @@ unity::shell::application::ApplicationInfoInterface *MockApplicationManager::sta
 }
 
 bool MockApplicationManager::stopApplication(const QString &appId)
-{
-    Q_UNUSED(appId)
-    return true;
-}
-
-bool MockApplicationManager::updateScreenshot(const QString &appId)
 {
     Q_UNUSED(appId)
     return true;
