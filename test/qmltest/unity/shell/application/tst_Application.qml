@@ -138,6 +138,7 @@ Item {
                 { tag: "ApplicationInfo.properties[comment]", property: "comment", type: "string" },
                 { tag: "ApplicationInfo.properties[icon]", property: "icon", type: "object" },
                 { tag: "ApplicationInfo.properties[stage]", property: "stage", type: "number" },
+                { tag: "ApplicationInfo.properties[supportedStages]", property: "supportedStages", type: "number" },
                 { tag: "ApplicationInfo.properties[state]", property: "state", type: "number" },
                 { tag: "ApplicationInfo.properties[focused]", property: "focused", type: "boolean" },
             ];
@@ -157,6 +158,7 @@ Item {
 
         function test_item_methods_data() {
             return [
+                { tag: "ApplicationInfo.methods[setStage]", method: "setStage" },
                 { tag: "ApplicationInfo.methods[suspend]", method: "suspend" },
                 { tag: "ApplicationInfo.methods[resume]", method: "resume" },
             ];

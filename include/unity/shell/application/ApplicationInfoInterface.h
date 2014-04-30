@@ -45,6 +45,7 @@ class UNITY_API ApplicationInfoInterface: public QObject
 
     Q_ENUMS(Stage)
     Q_ENUMS(State)
+    Q_FLAGS(Stages)
 
     /**
      * @brief The appId of the application.
@@ -84,6 +85,13 @@ class UNITY_API ApplicationInfoInterface: public QObject
     Q_PROPERTY(Stage stage READ stage NOTIFY stageChanged)
 
     /**
+     * @brief The stages the application supports.
+     *
+     * OR-combination of Stage enum values denoting the stages this application supports.
+     */
+    Q_PROPERTY(Stages supportedStages READ supportedStages NOTIFY supportedStagesChanged)
+
+    /**
      * @brief The application's state.
      *
      * Holds the current application state.
@@ -116,6 +124,7 @@ public:
         MainStage,
         SideStage
     };
+    Q_DECLARE_FLAGS(Stages, Stage)
 
     /**
      * @brief An application's state.
@@ -144,9 +153,18 @@ public:
     virtual QString comment() const = 0;
     virtual QUrl icon() const = 0;
     virtual Stage stage() const = 0;
+    virtual Stages supportedStages() const = 0;
     virtual State state() const = 0;
     virtual bool focused() const = 0;
     /// @endcond
+
+    /**
+     * @brief Set stage
+     *
+     * Applications may not support all stages, so this method only returns true if the stage is supported.
+     * @returns true if stage supported so value set, false if not supported.
+     */
+    Q_INVOKABLE virtual bool setStage(const Stage) = 0;
 
     /**
      * @brief Request the application suspends
@@ -175,14 +193,17 @@ Q_SIGNALS:
     void nameChanged(const QString &name);
     void commentChanged(const QString &comment);
     void iconChanged(const QUrl &icon);
-    void stageChanged(Stage stage);
-    void stateChanged(State state);
-    void focusedChanged(bool focused);
+    void stageChanged(const Stage stage);
+    void supportedStagesChanged(const Stages stages);
+    void stateChanged(const State state);
+    void focusedChanged(const bool focused);
     /// @endcond
 };
 
 } // namespace application
 } // namespace shell
 } // namespace unity
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(unity::shell::application::ApplicationInfoInterface::Stages)
 
 #endif // UNITY_SHELL_APPLICATIONMANAGER_APPLICATIONINFOINTERFACE_H

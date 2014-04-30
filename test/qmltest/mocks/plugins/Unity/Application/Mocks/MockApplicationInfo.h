@@ -38,10 +38,12 @@ public:
     QUrl icon() const override;
 
     ApplicationInfoInterface::Stage stage() const override;
-    void setStage(ApplicationInfoInterface::Stage stage);
+    bool setStage(const ApplicationInfoInterface::Stage stage) override;
+
+    ApplicationInfoInterface::Stages supportedStages() const override;
 
     ApplicationInfoInterface::State state() const override;
-    void setState(ApplicationInfoInterface::State state);
+    void setState(const ApplicationInfoInterface::State state);
 
     bool focused() const override;
     void setFocused(bool focused);

@@ -59,13 +59,19 @@ ApplicationInfoInterface::Stage MockApplicationInfo::stage() const
     return m_stage;
 }
 
-void MockApplicationInfo::setStage(ApplicationInfoInterface::Stage stage)
+bool MockApplicationInfo::setStage(ApplicationInfoInterface::Stage stage)
 {
     if (m_stage != stage)
     {
         m_stage = stage;
         Q_EMIT stageChanged(m_stage);
     }
+    return true;
+}
+
+ApplicationInfoInterface::Stages MockApplicationInfo::supportedStages() const
+{
+    return ApplicationInfoInterface::MainStage | ApplicationInfoInterface::SideStage;
 }
 
 ApplicationInfoInterface::State MockApplicationInfo::state() const
