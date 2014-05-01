@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3, as published by
@@ -17,7 +17,7 @@
 #ifndef UNITY_SHELL_APPLICATION_SURFACEMANGERINTERFACE_H
 #define UNITY_SHELL_APPLICATION_SURFACEMANGERINTERFACE_H
 
-#include "SurfaceItemInterface.h"
+#include <unity/SymbolExport.h>
 
 #include <QAbstractListModel>
 
@@ -28,34 +28,35 @@ namespace shell
 namespace application
 {
 
-class SurfaceManagerInterface : public QAbstractListModel
+class SurfaceItemInterface;
+
+
+class UNITY_API SurfaceManagerInterface : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ count NOTIFY countChanged)
 
 public:
-    SurfaceManagerInterface(QObject *parent = 0);
-    ~SurfaceManagerInterface();
+    SurfaceManagerInterface(QObject *parent = 0) {}
+    virtual ~SurfaceManagerInterface() {}
 
     virtual QHash<int, QByteArray> roleNames() const
     {
-        return m_roleNames;
+        QHash<int, QByteArray> roles;
+        // TODO: what roles do we need?
+        return roles;
     }
 
     int count() const {
         return rowCount();
     }
 
-    Q_INVOKABLE virtual unity::shell::application::SurfaceItemInterface *get(int index) const = 0;
-
 Q_SIGNALS:
+    void countChanged();
+
     void surfaceCreated(SurfaceItemInterface* surface);
     void surfaceDestroyed(SurfaceItemInterface* surface);
 
-protected:
-    /// @cond
-    QHash<int, QByteArray> m_roleNames;
-    /// @endcond
 };
 
 } // namespace application

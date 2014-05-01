@@ -24,6 +24,9 @@
 #include <ApplicationManagerInterface.h>
 #include <ApplicationInfoInterface.h>
 
+#include <SurfaceManagerInterface.h>
+#include <SurfaceItemInterface.h>
+
 #include <QtQml/qqml.h>
 
 using namespace unity::shell::application;
@@ -38,8 +41,13 @@ void TestApplicationPlugin::registerTypes(const char* uri)
 {
     // @uri Unity.Application
     qmlRegisterUncreatableType<ApplicationManagerInterface>(uri, 0, 1, "ApplicationManagerInterface", "Interface for the ApplicationManager");
-    qmlRegisterUncreatableType<ApplicationInfoInterface>(uri, 0, 1, "ApplicationInfoInterface", "Interface for the ApplicationInfo");
+    qmlRegisterUncreatableType<ApplicationInfoInterface>(uri, 0, 1, "ApplicationInfoInterface", "Interface for ApplicationInfo");
 
     qmlRegisterSingletonType<MockApplicationManager>(uri, 0, 1, "ApplicationManager", modelProvider);
     qmlRegisterUncreatableType<MockApplicationInfo>(uri, 0, 1, "ApplicationInfo", "Can't create ApplicationInfos in QML. Get them from the ApplicationManager");
+
+    qmlRegisterUncreatableType<SurfaceManagerInterface>(uri, 0, 1, "SurfaceManagerInterface", "Interface for the SurfaceManager");
+    qmlRegisterUncreatableType<SurfaceItemInterface>(uri, 0, 1, "SurfaceItemInterface", "Interface for SurfaceItem");
+
+//    qmlRegisterSingletonType<MockSurface
 }

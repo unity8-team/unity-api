@@ -17,69 +17,69 @@
 #ifndef SURFACEITEMINTERFACE_H
 #define SURFACEITEMINTERFACE_H
 
-#include <QSet>
+#include <unity/SymbolExport.h>
+
 #include <QQuickItem>
+
+namespace unity
+{
+namespace shell
+{
+namespace application
+{
 
 class SurfaceManagerInterface;
 class Application;
 
-class SurfaceItemInterface: public QQuickItem
+class UNITY_API SurfaceItemInterface: public QQuickItem
 {
     Q_OBJECT
     Q_ENUMS(Type)
     Q_ENUMS(State)
 
     Q_PROPERTY(Type type READ type NOTIFY typeChanged)
-    Q_PROPERTY(State state READ state NOTIFY stateChanged)
+    Q_PROPERTY(SurfaceState surfaceState READ surfaceState NOTIFY surfaceStateChanged)
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
     Q_PROPERTY(Application* application READ application CONSTANT)
 
 public:
     enum Type {
-        Normal = mir_surface_type_normal,
-        Utility = mir_surface_type_utility,
-        Dialog = mir_surface_type_dialog,
-        Overlay = mir_surface_type_overlay,
-        Freestyle = mir_surface_type_freestyle,
-        Popover = mir_surface_type_popover,
-        InputMethod = mir_surface_type_inputmethod,
-        };
-
-    enum State {
-        Unknown = mir_surface_state_unknown,
-        Restored = mir_surface_state_restored,
-        Minimized = mir_surface_state_minimized,
-        Maximized = mir_surface_state_maximized,
-        VertMaximized = mir_surface_state_vertmaximized,
-        /* SemiMaximized = mir_surface_state_semimaximized, // see mircommon/mir_toolbox/common.h*/
-        Fullscreen = mir_surface_state_fullscreen,
+        TypeNormal,
+        TypeUtility,
+        TypeDialog,
+        TypeOverlay,
+        TypeFreestyle,
+        TypePopover,
+        TypeInputMethod,
     };
 
-    explicit SurfaceItemInterface(std::shared_ptr<mir::scene::Surface> surface, Application* application,
-                            QQuickItem *parent = 0);
-    ~SurfaceItemInterface();
+    enum SurfaceState {
+        SurfaceStateUnknown,
+        SurfaceStateRestored,
+        SurfaceStateMinimized,
+        SurfaceStateMaximized,
+        SurfaceStateVertMaximized,
+        /* SurfaceStateSemiMaximized, // see mircommon/mir_toolbox/common.h*/
+        SurfaceStateFullscreen,
+    };
 
-    //getters
-    Application* application() const;
-    Type type() const;
-    State state() const;
-    QString name() const;
+    explicit SurfaceItemInterface(QQuickItem *parent = 0): QQuickItem(parent) {}
+    virtual ~SurfaceItemInterface() {}
 
-    // Item surface/texture management
-    bool isTextureProvider() const { return true; }
-    QSGTextureProvider *textureProvider() const;
+    virtual Application* application() const = 0;
+    virtual Type type() const = 0;
+    virtual SurfaceState surfaceState() const = 0;
+    virtual QString name() const = 0;
 
 Q_SIGNALS:
     void typeChanged();
-    void stateChanged();
+    void surfaceStateChanged();
     void nameChanged();
     void surfaceDestroyed();
-    void surfaceFirstFrameDrawn(MirSurfaceItem *); // so MirSurfaceManager can notify QML
-
-public Q_SLOTS:
-    void release(); // For QML to destroy this surface
 };
 
-Q_DECLARE_METATYPE(MirSurfaceItem*)
+} // namespace application
+} // namespace shell
+} // namespace unity
 
-#endif // MIRSURFACEITEM_H
+#endif // SURFACEITEMINTERFACE_H

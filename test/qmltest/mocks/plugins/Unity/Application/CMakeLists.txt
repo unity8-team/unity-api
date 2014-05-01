@@ -13,13 +13,17 @@ find_package(Qt5Qml REQUIRED)
 set(ApplicationMocks_SOURCES
     ${CMAKE_SOURCE_DIR}/include/unity/shell/application/ApplicationManagerInterface.h
     ${CMAKE_SOURCE_DIR}/include/unity/shell/application/ApplicationInfoInterface.h
+    ${CMAKE_SOURCE_DIR}/include/unity/shell/application/SurfaceManagerInterface.h
+    ${CMAKE_SOURCE_DIR}/include/unity/shell/application/SurfaceItemInterface.h
     Mocks/MockApplicationManager.cpp
     Mocks/MockApplicationInfo.cpp
+    Mocks/MockSurfaceManager.cpp
+    Mocks/MockSurfaceItem.cpp
 )
 
 add_library(ApplicationMocks SHARED ${ApplicationMocks_SOURCES})
 
-qt5_use_modules(ApplicationMocks Core)
+qt5_use_modules(ApplicationMocks Core Quick)
 
 set(TestApplicationPlugin_SOURCES
     TestApplicationPlugin.cpp
