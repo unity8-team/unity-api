@@ -42,7 +42,7 @@ class UNITY_API SurfaceInterface: public QObject
 {
     Q_OBJECT
     Q_ENUMS(Type)
-    Q_ENUMS(State)
+    Q_ENUMS(SurfaceState)
 
     /**
      * @brief The type of this surface.
@@ -71,7 +71,7 @@ class UNITY_API SurfaceInterface: public QObject
      * A 1:n connection between surfaces and applications. A surface always refers to one
      * application, while an application might have many surfaces.
      */
-    Q_PROPERTY(ApplicationInfoInterface* application READ application CONSTANT)
+    Q_PROPERTY(QString appId READ appId CONSTANT)
 
 public:
     /**
@@ -113,7 +113,7 @@ public:
     virtual ~SurfaceInterface() {}
 
     /// @cond
-    virtual ApplicationInfoInterface* application() const = 0;
+    virtual QString appId() const = 0;
     virtual Type type() const = 0;
     virtual SurfaceState surfaceState() const = 0;
     virtual QString name() const = 0;
@@ -124,6 +124,7 @@ Q_SIGNALS:
     void typeChanged();
     void surfaceStateChanged();
     void nameChanged();
+    void appIdChanged();
     void surfaceDestroyed();
     /// @endcond
 };

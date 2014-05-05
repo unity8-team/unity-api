@@ -24,7 +24,7 @@
 
 using namespace unity::shell::application;
 
-class MockSurfaceItem;
+class MockSurface;
 
 class UNITY_API MockSurfaceManager: public SurfaceManagerInterface
 {
@@ -34,12 +34,14 @@ public:
     MockSurfaceManager(QObject* parent = 0);
     ~MockSurfaceManager();
 
-    int rowCount(const QModelIndex& parent) const;
+    int rowCount(const QModelIndex& parent) const override;
 
-    QVariant data(const QModelIndex& index, int role) const;
+    QVariant data(const QModelIndex& index, int role) const override;
+
+    Q_INVOKABLE unity::shell::application::SurfaceInterface* get(int index) const override;
 
 private:
-    QList<MockSurfaceItem*> m_list;
+    QList<MockSurface*> m_list;
 };
 
 #endif // MOCKSURFACEMANAGER_H

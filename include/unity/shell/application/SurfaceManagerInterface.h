@@ -28,7 +28,7 @@ namespace shell
 namespace application
 {
 
-class SurfaceItemInterface;
+class SurfaceInterface;
 
 /**
  * @brief The SurfaceManager is a model which holds all the available surfaces.
@@ -39,6 +39,7 @@ class SurfaceItemInterface;
 class UNITY_API SurfaceManagerInterface : public QAbstractListModel
 {
     Q_OBJECT
+    Q_ENUMS(Roles)
 
     /**
      * @brief The count of the surfaces known to the manager.
@@ -48,13 +49,28 @@ class UNITY_API SurfaceManagerInterface : public QAbstractListModel
     Q_PROPERTY(int count READ count NOTIFY countChanged)
 
 public:
+    /**
+     * @brief The Roles supported by the model
+     *
+     * See SurfaceInterface properties for details.
+     */
+    enum Roles {
+        RoleType,
+        RoleSurfaceState,
+        RoleName,
+        RoleApplicationId
+    };
+
     virtual ~SurfaceManagerInterface() {}
 
     /// @cond
     virtual QHash<int, QByteArray> roleNames() const
     {
         QHash<int, QByteArray> roles;
-        // TODO: what roles do we need?
+        roles.insert(RoleType, "type");
+        roles.insert(RoleSurfaceState, "surfaceState");
+        roles.insert(RoleName, "name");
+        roles.insert(RoleApplicationId, "appId");
         return roles;
     }
 
@@ -62,6 +78,16 @@ public:
         return rowCount();
     }
     /// @endcond
+
+    /**
+     * @brief Get a Surface item (using stack index).
+     *
+     * Note: QML requires the full namespace in the return value.
+     *
+     * @param index the index of the item to get
+     * @returns The item, or null if not found.
+     */
+    Q_INVOKABLE virtual unity::shell::application::SurfaceInterface *get(int index) const = 0;
 
 protected:
     /// @cond
@@ -85,7 +111,7 @@ Q_SIGNALS:
      * This will be emitted when a new surface has been created and added
      * to the model. It is the same as the rowsInserted() but more QML friendly.
      */
-    void surfaceCreated(SurfaceItemInterface* surface);
+    void surfaceCreated(SurfaceInterface* surface);
 
     /**
      * @brief Indicates that a surface has been destroyed.
@@ -93,7 +119,7 @@ Q_SIGNALS:
      * This will be emitted when a surface has been destroyed and removed
      * from the model. It is the same as the rowsRemoved() but more QML friendly.
      */
-    void surfaceDestroyed(SurfaceItemInterface* surface);
+    void surfaceDestroyed(SurfaceInterface* surface);
 
 };
 

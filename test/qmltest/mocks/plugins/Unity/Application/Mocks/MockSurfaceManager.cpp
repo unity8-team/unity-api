@@ -18,18 +18,14 @@
  */
 
 #include <Mocks/MockSurfaceManager.h>
-#include <Mocks/MockSurfaceItem.h>
+#include <Mocks/MockSurface.h>
 
 using namespace unity::shell::application;
 
 MockSurfaceManager::MockSurfaceManager(QObject* parent): SurfaceManagerInterface(parent)
 {
-//    MockApplicationInfo *item = new MockApplicationInfo("phone-app", "Phone App", "Telephony application", QUrl("/usr/share/pixmaps/some/icon.png"));
-//    m_list.append(item);
-//    item = new MockApplicationInfo("camera-app", "Camera App", "Lets you take pictures with the camera.", QUrl("/usr/share/pixmaps/some/icon.png"));
-//    m_list.append(item);
-//    item = new MockApplicationInfo("calendar-app", "Calendar App", "5 missed reminders", QUrl("/usr/share/pixmaps/some/icon.png"));
-//    m_list.append(item);
+    MockSurface *item = new MockSurface("dialer-app", "surface1");
+    m_list.append(item);
 }
 
 MockSurfaceManager::~MockSurfaceManager()
@@ -49,7 +45,24 @@ int MockSurfaceManager::rowCount(const QModelIndex& parent) const
 
 QVariant MockSurfaceManager::data(const QModelIndex& index, int role) const
 {
-    Q_UNUSED(index)
-    Q_UNUSED(role)
+    switch (role) {
+    case RoleApplicationId:
+        return m_list.at(index.row())->appId();
+    case RoleName:
+        return m_list.at(index.row())->name();
+    case RoleType:
+        return m_list.at(index.row())->type();
+    case RoleSurfaceState:
+        return m_list.at(index.row())->surfaceState();
+    }
+
     return QVariant();
+}
+
+SurfaceInterface *MockSurfaceManager::get(int index) const
+{
+    if (m_list.count() > index) {
+        return m_list.at(index);
+    }
+    return nullptr;
 }

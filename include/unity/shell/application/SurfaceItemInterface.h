@@ -51,7 +51,7 @@ class UNITY_API SurfaceItemInterface: public QQuickItem
      *
      * Set this to the Surface you want to have painted by this SurfaceItem.
      */
-    Q_PROPERTY(SurfaceInterface* surface MEMBER m_surface NOTIFY surfaceChanged)
+    Q_PROPERTY(unity::shell::application::SurfaceInterface* surface MEMBER m_surface NOTIFY surfaceChanged)
 
 public:
 

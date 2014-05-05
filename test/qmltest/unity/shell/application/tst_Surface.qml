@@ -59,17 +59,18 @@ Item {
             }
         }
 
+        SurfaceItem {
+            id: surfaceItem
+//            surface: SurfaceManager.get(0)
+        }
+
         /* make sure all the required roles are exposed on SurfaceManager */
         function test_model_roles_enum_data() {
             return [
-                        { enum: "RoleAppId" },
+                        { enum: "RoleType" },
+                        { enum: "RoleSurfaceState" },
                         { enum: "RoleName" },
-                        { enum: "RoleComment" },
-                        { enum: "RoleIcon" },
-                        { enum: "RoleStage" },
-                        { enum: "RoleState" },
-                        { enum: "RoleFocused" },
-                        { enum: "RoleScreenshot" },
+                        { enum: "RoleApplicationId" },
                     ];
         }
 
@@ -84,12 +85,8 @@ Item {
             return [
                         { tag: "SurfaceManager.roles[appId]", role: "appId", type: "string" },
                         { tag: "SurfaceManager.roles[name]", role: "name", type: "string" },
-                        { tag: "SurfaceManager.roles[comment]", role: "comment", type: "string" },
-                        { tag: "SurfaceManager.roles[icon]", role: "icon", type: "object" },
-                        { tag: "SurfaceManager.roles[stage]", role: "stage", type: "number" },
-                        { tag: "SurfaceManager.roles[state]", role: "state", type: "number" },
-                        { tag: "SurfaceManager.roles[focused]", role: "focused", type: "boolean" },
-                        { tag: "SurfaceManager.roles[screenshot]", role: "screenshot", type: "object" },
+                        { tag: "SurfaceManager.roles[type]", role: "type", type: "number" },
+                        { tag: "SurfaceManager.roles[surfaceState]", role: "surfaceState", type: "number" },
                     ];
         }
 
@@ -106,14 +103,8 @@ Item {
 
         function test_model_methods_data() {
             return [
-                { tag: "SurfaceManager.methods[get]", method: "get" },
-                { tag: "SurfaceManager.methods[findApplication]", method: "findApplication" },
-                { tag: "SurfaceManager.methods[requestFocusApplication]", method: "requestFocusApplication" },
-                { tag: "SurfaceManager.methods[focusApplication]", method: "focusApplication" },
-                { tag: "SurfaceManager.methods[unfocusCurrentApplication]", method: "unfocusCurrentApplication" },
-                { tag: "SurfaceManager.methods[startApplication]", method: "startApplication" },
-                { tag: "SurfaceManager.methods[stopApplication]", method: "stopApplication" },
-                { tag: "SurfaceManager.methods[updateScreenshot]", method: "updateScreenshot" },
+                { tag: "SurfaceManager.methods[surfaceCreated]", method: "surfaceCreated" },
+                { tag: "SurfaceManager.methods[surfaceDestroyed]", method: "surfaceDestroyed" },
             ];
         }
 
@@ -126,8 +117,6 @@ Item {
         function test_model_properties_data() {
             return [
                 { tag: "SurfaceManager.count", property: "count", type: "number" },
-                { tag: "SurfaceManager.focusedApplicationId", property: "focusedApplicationId", type: "string" },
-                { tag: "SurfaceManager.suspended", property: "suspended", type: "boolean" },
             ];
         }
 
@@ -137,23 +126,37 @@ Item {
             verifyData(data);
         }
 
-        function test_item_properties_data() {
+        function test_surface_properties_data() {
             return [
-                { tag: "ApplicationInfo.properties[appId]", constant: "appId", type: "string" },
-                { tag: "ApplicationInfo.properties[name]", property: "name", type: "string" },
-                { tag: "ApplicationInfo.properties[comment]", property: "comment", type: "string" },
-                { tag: "ApplicationInfo.properties[icon]", property: "icon", type: "object" },
-                { tag: "ApplicationInfo.properties[stage]", property: "stage", type: "number" },
-                { tag: "ApplicationInfo.properties[state]", property: "state", type: "number" },
-                { tag: "ApplicationInfo.properties[focused]", property: "focused", type: "boolean" },
-                { tag: "ApplicationInfo.properties[screenshot]", property: "screenshot", type: "object" },
+                { tag: "Surface.properties[type]", constant: "type", type: "number" },
+                { tag: "Surface.properties[surfaceState]", property: "surfaceState", type: "number" },
+                { tag: "Surface.properties[name]", property: "name", type: "string" },
+                { tag: "Surface.properties[appId]", property: "appId", type: "string" },
             ];
         }
 
-        function test_item_properties(data) {
-            name = "ApplicationInfo"
+        function test_surface_properties(data) {
+            name = "Surface"
             try {
                 object = SurfaceManager.get(0)
+            } catch(err) {
+                object = undefined;
+                print(err)
+            }
+
+            verifyData(data)
+        }
+
+        function test_surfaceitem_properties_data() {
+            return [
+                { tag: "SurfaceItem.properties[surface]", property: "surface", type: "object" },
+            ];
+        }
+
+        function test_surfaceitem_properties(data) {
+            name = "SurfaceItem"
+            try {
+                object = surfaceItem;
             } catch(err) {
                 object = undefined;
                 print(err)

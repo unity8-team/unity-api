@@ -30,9 +30,16 @@ class UNITY_API MockSurface: public SurfaceInterface
 {
     Q_OBJECT
 public:
-    MockSurface(QObject* parent = 0);
+    MockSurface(const QString &appId, const QString &name, QObject* parent = 0);
+
+    QString appId() const override;
+    SurfaceInterface::Type type() const override;
+    SurfaceInterface::SurfaceState surfaceState() const override;
+    QString name() const override;
 
 private:
+    QString m_appId;
+    QString m_name;
 };
 
 #endif // MOCKSURFACE_H

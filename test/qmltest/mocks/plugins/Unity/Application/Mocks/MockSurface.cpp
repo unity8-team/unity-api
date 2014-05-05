@@ -21,8 +21,30 @@
 
 using namespace unity::shell::application;
 
-MockSurface::MockSurface(QObject *parent):
-    SurfaceInterface(parent)
+MockSurface::MockSurface(const QString &appId, const QString &name, QObject *parent):
+    SurfaceInterface(parent),
+    m_appId(appId),
+    m_name(name)
 {
 
+}
+
+QString MockSurface::appId() const
+{
+    return m_appId;
+}
+
+SurfaceInterface::Type MockSurface::type() const
+{
+    return SurfaceInterface::TypeNormal;
+}
+
+SurfaceInterface::SurfaceState MockSurface::surfaceState() const
+{
+    return SurfaceInterface::SurfaceStateRestored;
+}
+
+QString MockSurface::name() const
+{
+    return m_name;
 }
