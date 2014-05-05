@@ -17,22 +17,22 @@
  *      Michael Zanetti <michael.zanetti@canonical.com>
  */
 
-#ifndef MOCKSURFACEITEM_H
-#define MOCKSURFACEITEM_H
+#ifndef MOCKSURFACE_H
+#define MOCKSURFACE_H
 
-#include <SurfaceItemInterface.h>
+#include <SurfaceInterface.h>
 
 #include <QUrl>
 
 using namespace unity::shell::application;
 
-class UNITY_API MockSurfaceItem: public SurfaceItemInterface
+class UNITY_API MockSurface: public SurfaceInterface
 {
     Q_OBJECT
 public:
-    MockSurfaceItem(QQuickItem* parent = 0);
+    MockSurface(QObject* parent = 0);
 
 private:
 };
 
-#endif // MOCKSURFACEITEM_H
+#endif // MOCKSURFACE_H

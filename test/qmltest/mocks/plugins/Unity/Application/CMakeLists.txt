@@ -15,10 +15,12 @@ set(ApplicationMocks_SOURCES
     ${CMAKE_SOURCE_DIR}/include/unity/shell/application/ApplicationInfoInterface.h
     ${CMAKE_SOURCE_DIR}/include/unity/shell/application/SurfaceManagerInterface.h
     ${CMAKE_SOURCE_DIR}/include/unity/shell/application/SurfaceItemInterface.h
+    ${CMAKE_SOURCE_DIR}/include/unity/shell/application/SurfaceInterface.h
     Mocks/MockApplicationManager.cpp
     Mocks/MockApplicationInfo.cpp
     Mocks/MockSurfaceManager.cpp
     Mocks/MockSurfaceItem.cpp
+    Mocks/MockSurface.cpp
 )
 
 add_library(ApplicationMocks SHARED ${ApplicationMocks_SOURCES})

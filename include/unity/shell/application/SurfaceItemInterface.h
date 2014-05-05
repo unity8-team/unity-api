@@ -19,6 +19,8 @@
 
 #include <unity/SymbolExport.h>
 
+#include "SurfaceInterface.h"
+
 #include <QQuickItem>
 
 namespace unity
@@ -34,48 +36,17 @@ class Application;
 class UNITY_API SurfaceItemInterface: public QQuickItem
 {
     Q_OBJECT
-    Q_ENUMS(Type)
-    Q_ENUMS(State)
-
-    Q_PROPERTY(Type type READ type NOTIFY typeChanged)
-    Q_PROPERTY(SurfaceState surfaceState READ surfaceState NOTIFY surfaceStateChanged)
-    Q_PROPERTY(QString name READ name NOTIFY nameChanged)
-    Q_PROPERTY(Application* application READ application CONSTANT)
+    Q_PROPERTY(SurfaceInterface* surface MEMBER m_surface NOTIFY surfaceChanged)
 
 public:
-    enum Type {
-        TypeNormal,
-        TypeUtility,
-        TypeDialog,
-        TypeOverlay,
-        TypeFreestyle,
-        TypePopover,
-        TypeInputMethod,
-    };
-
-    enum SurfaceState {
-        SurfaceStateUnknown,
-        SurfaceStateRestored,
-        SurfaceStateMinimized,
-        SurfaceStateMaximized,
-        SurfaceStateVertMaximized,
-        /* SurfaceStateSemiMaximized, // see mircommon/mir_toolbox/common.h*/
-        SurfaceStateFullscreen,
-    };
-
     explicit SurfaceItemInterface(QQuickItem *parent = 0): QQuickItem(parent) {}
     virtual ~SurfaceItemInterface() {}
 
-    virtual Application* application() const = 0;
-    virtual Type type() const = 0;
-    virtual SurfaceState surfaceState() const = 0;
-    virtual QString name() const = 0;
-
 Q_SIGNALS:
-    void typeChanged();
-    void surfaceStateChanged();
-    void nameChanged();
-    void surfaceDestroyed();
+    void surfaceChanged();
+
+private:
+    SurfaceInterface *m_surface;
 };
 
 } // namespace application
