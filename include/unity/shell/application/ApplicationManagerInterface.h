@@ -82,7 +82,6 @@ protected:
         connect(this, SIGNAL(rowsInserted(QModelIndex, int, int)), SIGNAL(countChanged()));
         connect(this, SIGNAL(rowsRemoved(QModelIndex, int, int)), SIGNAL(countChanged()));
         connect(this, SIGNAL(modelReset()), SIGNAL(countChanged()));
-        connect(this, SIGNAL(layoutChanged()), SIGNAL(countChanged()));
     }
     /// @endcond
 

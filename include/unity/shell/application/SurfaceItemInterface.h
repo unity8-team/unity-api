@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SURFACEITEMINTERFACE_H
-#define SURFACEITEMINTERFACE_H
+#ifndef UNITY_SHELL_APPLICATION_SURFACEITEMINTERFACE_H
+#define UNITY_SHELL_APPLICATION_SURFACEITEMINTERFACE_H
 
 #include <unity/SymbolExport.h>
 
@@ -33,17 +33,40 @@ namespace application
 class SurfaceManagerInterface;
 class Application;
 
+/**
+ * @brief A class that paints a SurfaceInterface in QML.
+ *
+ * This class doesn't hold any data on its own but is used to paint a SurfaceInterface
+ * in QML. SurfaceItems can be created and destroyed by the QML context as if they
+ * were plain Rectangles. By assigning a SurfaceInterface to it, application
+ * surfaces can be painted in the shell.
+ */
+
 class UNITY_API SurfaceItemInterface: public QQuickItem
 {
     Q_OBJECT
+
+    /**
+     * @brief The surface that should be painted.
+     *
+     * Set this to the Surface you want to have painted by this SurfaceItem.
+     */
     Q_PROPERTY(SurfaceInterface* surface MEMBER m_surface NOTIFY surfaceChanged)
 
 public:
+
+    /**
+     * @brief Constructs a SurfaceItem.
+     *
+     * Usually SurfaceItems are created within QML.
+     */
     explicit SurfaceItemInterface(QQuickItem *parent = 0): QQuickItem(parent) {}
     virtual ~SurfaceItemInterface() {}
 
 Q_SIGNALS:
+    /// @cond
     void surfaceChanged();
+    /// @endcond
 
 private:
     SurfaceInterface *m_surface;
@@ -53,4 +76,4 @@ private:
 } // namespace shell
 } // namespace unity
 
-#endif // SURFACEITEMINTERFACE_H
+#endif // UNITY_SHELL_APPLICATION_SURFACEITEMINTERFACE_H

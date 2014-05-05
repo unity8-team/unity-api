@@ -30,16 +30,27 @@ namespace application
 
 class SurfaceItemInterface;
 
+/**
+ * @brief The SurfaceManager is a model which holds all the available surfaces.
+ *
+ * This is the main class to interact with surfaces.
+ */
 
 class UNITY_API SurfaceManagerInterface : public QAbstractListModel
 {
     Q_OBJECT
+
+    /**
+     * @brief The count of the surfaces known to the manager.
+     *
+     * This is the same as rowCount, added in order to keep compatibility with QML ListModels.
+     */
     Q_PROPERTY(int count READ count NOTIFY countChanged)
 
 public:
-    SurfaceManagerInterface(QObject *parent = 0) {}
     virtual ~SurfaceManagerInterface() {}
 
+    /// @cond
     virtual QHash<int, QByteArray> roleNames() const
     {
         QHash<int, QByteArray> roles;
@@ -50,11 +61,38 @@ public:
     int count() const {
         return rowCount();
     }
+    /// @endcond
+
+protected:
+    /// @cond
+    SurfaceManagerInterface(QObject *parent = 0):
+        QAbstractListModel(parent)
+    {
+        connect(this, &QAbstractListModel::rowsInserted, this, &SurfaceManagerInterface::countChanged);
+        connect(this, &QAbstractListModel::rowsRemoved, this, &SurfaceManagerInterface::countChanged);
+        connect(this, &QAbstractListModel::modelReset, this, &SurfaceManagerInterface::countChanged);
+    }
+    /// @endcond
 
 Q_SIGNALS:
+    /// @cond
     void countChanged();
+    /// @endcond
 
+    /**
+     * @brief Indicates that a new surface has been created.
+     *
+     * This will be emitted when a new surface has been created and added
+     * to the model. It is the same as the rowsInserted() but more QML friendly.
+     */
     void surfaceCreated(SurfaceItemInterface* surface);
+
+    /**
+     * @brief Indicates that a surface has been destroyed.
+     *
+     * This will be emitted when a surface has been destroyed and removed
+     * from the model. It is the same as the rowsRemoved() but more QML friendly.
+     */
     void surfaceDestroyed(SurfaceItemInterface* surface);
 
 };

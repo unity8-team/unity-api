@@ -19,7 +19,7 @@
 
 #include <unity/SymbolExport.h>
 
-#include <QQuickItem>
+#include <QObject>
 
 namespace unity
 {
@@ -29,7 +29,14 @@ namespace application
 {
 
 class SurfaceManagerInterface;
-class Application;
+class ApplicationInfoInterface;
+
+/**
+ * @brief A class that holds information about an application's surface
+ *
+ * The items hold all the information required for the visual representation
+ * of a surface.
+ */
 
 class UNITY_API SurfaceInterface: public QObject
 {
@@ -37,12 +44,41 @@ class UNITY_API SurfaceInterface: public QObject
     Q_ENUMS(Type)
     Q_ENUMS(State)
 
+    /**
+     * @brief The type of this surface.
+     *
+     * Gives information about the type of this surface. E.g. it is a normal window or a modal popup.
+     */
     Q_PROPERTY(Type type READ type NOTIFY typeChanged)
+
+    /**
+     * @brief The state of this surface.
+     *
+     * Holds information about the state of this surface. E.g. it is shown normally or minimized.
+     */
     Q_PROPERTY(SurfaceState surfaceState READ surfaceState NOTIFY surfaceStateChanged)
+
+    /**
+     * @brief The name of this surface.
+     *
+     * Holds the name of this surface. Can be used e.g. for the window title.
+     */
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
-    Q_PROPERTY(Application* application READ application CONSTANT)
+
+    /**
+     * @brief The application this surface belongs to.
+     *
+     * A 1:n connection between surfaces and applications. A surface always refers to one
+     * application, while an application might have many surfaces.
+     */
+    Q_PROPERTY(ApplicationInfoInterface* application READ application CONSTANT)
 
 public:
+    /**
+     * @brief The type of a surface.
+     *
+     * This enum defines all possible values for Surface types.
+     */
     enum Type {
         TypeNormal,
         TypeUtility,
@@ -53,6 +89,11 @@ public:
         TypeInputMethod,
     };
 
+    /**
+     * @brief The state of a surface.
+     *
+     * This enum defines all possible values for Surface states.
+     */
     enum SurfaceState {
         SurfaceStateUnknown,
         SurfaceStateRestored,
@@ -63,19 +104,28 @@ public:
         SurfaceStateFullscreen,
     };
 
+    /**
+     * @brief Constructs a new Surface.
+     *
+     * Usually Surfaces are only created by the ApplicationManager and/or SurfaceManager.
+     */
     explicit SurfaceInterface(QObject *parent = 0): QObject(parent) {}
     virtual ~SurfaceInterface() {}
 
-    virtual Application* application() const = 0;
+    /// @cond
+    virtual ApplicationInfoInterface* application() const = 0;
     virtual Type type() const = 0;
     virtual SurfaceState surfaceState() const = 0;
     virtual QString name() const = 0;
+    /// @endcond
 
 Q_SIGNALS:
+    /// @cond
     void typeChanged();
     void surfaceStateChanged();
     void nameChanged();
     void surfaceDestroyed();
+    /// @endcond
 };
 
 } // namespace application
