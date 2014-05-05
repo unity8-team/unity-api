@@ -24,7 +24,7 @@ using namespace unity::shell::application;
 
 MockSurfaceManager::MockSurfaceManager(QObject* parent): SurfaceManagerInterface(parent)
 {
-    MockSurface *item = new MockSurface("dialer-app", "surface1");
+    MockSurface *item = new MockSurface("dialer-app", "surface1", this);
     m_list.append(item);
 }
 
