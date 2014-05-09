@@ -156,7 +156,6 @@ public:
       */
     Q_INVOKABLE virtual bool stopApplication(const QString &appId) = 0;
 
-
     /**
      * @brief Request the application suspends
      *
