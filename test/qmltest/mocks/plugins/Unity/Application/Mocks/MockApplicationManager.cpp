@@ -120,3 +120,15 @@ bool MockApplicationManager::stopApplication(const QString &appId)
     Q_UNUSED(appId)
     return true;
 }
+
+bool MockApplicationManager::suspendApplication(const QString &appId)
+{
+    Q_UNUSED(appId)
+    return true;
+}
+
+bool MockApplicationManager::resumeApplication(const QString &appId)
+{
+    Q_UNUSED(appId)
+    return true;
+}

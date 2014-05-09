@@ -108,6 +108,8 @@ Item {
                 { tag: "ApplicationManager.methods[findApplication]", method: "findApplication" },
                 { tag: "ApplicationManager.methods[startApplication]", method: "startApplication" },
                 { tag: "ApplicationManager.methods[stopApplication]", method: "stopApplication" },
+                { tag: "ApplicationManager.methods[suspendApplication]", method: "suspendApplication" },
+                { tag: "ApplicationManager.methods[resumeApplication]", method: "resumeApplication" },
             ];
         }
 
@@ -159,8 +161,6 @@ Item {
         function test_item_methods_data() {
             return [
                 { tag: "ApplicationInfo.methods[setStage]", method: "setStage" },
-                { tag: "ApplicationInfo.methods[suspend]", method: "suspend" },
-                { tag: "ApplicationInfo.methods[resume]", method: "resume" },
             ];
         }
 

@@ -166,27 +166,6 @@ public:
      */
     Q_INVOKABLE virtual bool setStage(const Stage) = 0;
 
-    /**
-     * @brief Request the application suspends
-     *
-     * If application supports lifecycling, calling this method notifies the app of pending suspension
-     * and a few seconds later suspends the app, updating the "state" property to "Suspended". Method is
-     * non-blocking.
-     * @returns True if lifecycle supported, false if not.
-     */
-    Q_INVOKABLE virtual bool suspend() = 0;
-
-    /**
-     * @brief Request the application resumes from suspends
-     *
-     * If application supports lifecycling and is in a suspended state, calling this method resumes it
-     * updating the "state" property to "Running". If application was stopped, it will be relaunched and
-     * will restore its internal state - the state property set to "Running" only when app ready. Method
-     * is non-blocking.
-     * @returns true if lifecycle supported and app in lifecycled state, false if not.
-     */
-    Q_INVOKABLE virtual bool resume() = 0;
-
 
 Q_SIGNALS:
     /// @cond

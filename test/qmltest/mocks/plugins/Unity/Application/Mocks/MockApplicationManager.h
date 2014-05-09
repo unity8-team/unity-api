@@ -51,6 +51,8 @@ public:
                     *startApplication(const QString &appId, const QStringList &arguments) override;
 
     Q_INVOKABLE bool stopApplication(const QString &appId) override;
+    Q_INVOKABLE bool suspendApplication(const QString &appId) override;
+    Q_INVOKABLE bool resumeApplication(const QString &appId) override;
 
 private:
     QList<MockApplicationInfo*> m_list;

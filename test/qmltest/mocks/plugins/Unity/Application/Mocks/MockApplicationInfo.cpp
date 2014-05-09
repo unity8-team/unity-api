@@ -101,15 +101,3 @@ void MockApplicationInfo::setFocused(bool focused)
         Q_EMIT focusedChanged(focused);
     }
 }
-
-bool MockApplicationInfo::suspend()
-{
-    setState(ApplicationInfoInterface::Suspended);
-    return true;
-}
-
-bool MockApplicationInfo::resume()
-{
-    setState(ApplicationInfoInterface::Running);
-    return true;
-}

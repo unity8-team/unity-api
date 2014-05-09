@@ -157,6 +157,30 @@ public:
     Q_INVOKABLE virtual bool stopApplication(const QString &appId) = 0;
 
 
+    /**
+     * @brief Request the application suspends
+     *
+     * If application supports lifecycling and is in a running state, calling this method notifies the
+     * app of pending suspension and a few seconds later suspends the app, updating the "state" property
+     * to "Suspended". Method is non-blocking.
+     * @param appId The application to be stopped.
+     * @returns True if app is running and supports lifecycle suspension, false otherwise.
+     */
+    Q_INVOKABLE virtual bool suspendApplication(const QString &appId) = 0;
+
+    /**
+     * @brief Request the application resumes from suspends
+     *
+     * If application supports lifecycling and is in a suspended state, calling this method resumes it
+     * updating the "state" property to "Running". If application was stopped, it will be relaunched and
+     * will restore its internal state - the state property set to "Running" only when app ready. Method
+     * is non-blocking.
+     * @param appId The application to be stopped.
+     * @returns true if app is lifecycle suspended, false otherwise.
+     */
+    Q_INVOKABLE virtual bool resumeApplication(const QString &appId) = 0;
+
+
 Q_SIGNALS:
     /// @cond
     void countChanged();

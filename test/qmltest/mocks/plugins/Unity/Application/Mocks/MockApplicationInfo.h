@@ -48,9 +48,6 @@ public:
     bool focused() const override;
     void setFocused(bool focused);
 
-    bool suspend() override;
-    bool resume() override;
-
 private:
     QString m_appId;
     QString m_name;
