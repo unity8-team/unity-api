@@ -53,9 +53,7 @@ class UNITY_API ApplicationManagerInterface: public QAbstractListModel
     Q_PROPERTY(int count READ count NOTIFY countChanged)
 
     /**
-     * @brief The currently focused application.
-     *
-     * Use focusApplication() and unfocusCurrentApplication() to modify this.
+     * @brief The app ID of the currently focused application.
      */
     Q_PROPERTY(QString focusedApplicationId READ focusedApplicationId NOTIFY focusedApplicationIdChanged)
 
