@@ -67,6 +67,7 @@ Item {
                         { enum: "RoleComment" },
                         { enum: "RoleIcon" },
                         { enum: "RoleStage" },
+                        { enum: "RoleSupportedStages"},
                         { enum: "RoleState" },
                         { enum: "RoleFocused" },
                     ];
@@ -86,6 +87,7 @@ Item {
                         { tag: "ApplicationManager.roles[comment]", role: "comment", type: "string" },
                         { tag: "ApplicationManager.roles[icon]", role: "icon", type: "object" },
                         { tag: "ApplicationManager.roles[stage]", role: "stage", type: "number" },
+                        { tag: "ApplicationManager.roles[supportedStages]", role: "supportedStages", type: "number" },
                         { tag: "ApplicationManager.roles[state]", role: "state", type: "number" },
                         { tag: "ApplicationManager.roles[focused]", role: "focused", type: "boolean" },
                     ];

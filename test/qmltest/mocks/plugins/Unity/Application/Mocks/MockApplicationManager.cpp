@@ -62,6 +62,8 @@ QVariant MockApplicationManager::data(const QModelIndex& index, int role) const
         return item->icon();
     case RoleStage:
         return item->stage();
+    case RoleSupportedStages:
+        return item->supportedStages();
     case RoleState:
         return item->state();
     case RoleFocused:
