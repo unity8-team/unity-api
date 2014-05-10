@@ -75,6 +75,7 @@ protected:
         m_roleNames.insert(RoleComment, "comment");
         m_roleNames.insert(RoleIcon, "icon");
         m_roleNames.insert(RoleStage, "stage");
+        m_roleNames.insert(RoleSupportedStages, "supportedStages");
         m_roleNames.insert(RoleState, "state");
         m_roleNames.insert(RoleFocused, "focused");
 
@@ -97,6 +98,7 @@ public:
         RoleComment,
         RoleIcon,
         RoleStage,
+        RoleSupportedStages,
         RoleState,
         RoleFocused,
     };
