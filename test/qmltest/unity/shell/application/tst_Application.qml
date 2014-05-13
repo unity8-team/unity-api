@@ -177,14 +177,14 @@ Item {
             verifyData(data);
         }
 
-        function test_item_stage_enum_data() {
+        function test_item_stage_flags_data() {
             return [
                         { enum: "MainStage" },
                         { enum: "SideStage" },
                    ];
         }
 
-        function test_item_stage_enum(data) {
+        function test_item_stage_flags(data) {
             name = "Application";
             try {
                 object = ApplicationInfo
@@ -193,6 +193,11 @@ Item {
                 print(err)
             }
             verifyData(data);
+        }
+
+        function test_item_stage_flags_operator() {
+            // check that flags operator functional
+            verify(ApplicationInfo.MainStage | ApplicationInfo.SideStage, 0x003)
         }
 
         function test_item_state_enum_data() {
