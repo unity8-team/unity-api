@@ -176,5 +176,43 @@ Item {
             }
             verifyData(data);
         }
+
+        function test_item_stage_enum_data() {
+            return [
+                        { enum: "MainStage" },
+                        { enum: "SideStage" },
+                   ];
+        }
+
+        function test_item_stage_enum(data) {
+            name = "Application";
+            try {
+                object = ApplicationInfo
+            } catch(err) {
+                object = undefined;
+                print(err)
+            }
+            verifyData(data);
+        }
+
+        function test_item_state_enum_data() {
+            return [
+                        { enum: "Starting" },
+                        { enum: "Running" },
+                        { enum: "Suspended" },
+                        { enum: "Stopped" },
+                   ];
+        }
+
+        function test_item_state_enum(data) {
+            name = "Application";
+            try {
+                object = ApplicationInfo
+            } catch(err) {
+                object = undefined;
+                print(err)
+            }
+            verifyData(data);
+        }
     }
 }

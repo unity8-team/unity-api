@@ -121,7 +121,7 @@ public:
      * applications.
      */
     enum Stage {
-        MainStage= 0x01,
+        MainStage = 0x01,
         SideStage = 0x02,
     };
     Q_DECLARE_FLAGS(Stages, Stage)
