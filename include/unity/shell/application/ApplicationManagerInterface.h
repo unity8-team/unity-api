@@ -76,6 +76,7 @@ protected:
         m_roleNames.insert(RoleSupportedStages, "supportedStages");
         m_roleNames.insert(RoleState, "state");
         m_roleNames.insert(RoleFocused, "focused");
+        m_roleNames.insert(RoleScreenshot, "screenshot");
 
         connect(this, SIGNAL(rowsInserted(QModelIndex, int, int)), SIGNAL(countChanged()));
         connect(this, SIGNAL(rowsRemoved(QModelIndex, int, int)), SIGNAL(countChanged()));
@@ -99,6 +100,7 @@ public:
         RoleSupportedStages,
         RoleState,
         RoleFocused,
+        RoleScreenshot,
     };
 
     /// @cond
@@ -146,7 +148,8 @@ public:
      * @param arguments Any arguments to be passed to the process.
      * @returns The created application item if start successful, else null.
      */
-    Q_INVOKABLE virtual unity::shell::application::ApplicationInfoInterface *startApplication(const QString &appId, const QStringList &arguments) = 0;
+    Q_INVOKABLE virtual unity::shell::application::ApplicationInfoInterface
+                            *startApplication(const QString &appId, const QStringList &arguments) = 0;
 
     /**
       * @brief Stops an application.
@@ -155,6 +158,19 @@ public:
       * @returns True if application stop successful, else false (i.e. false if application was not running).
       */
     Q_INVOKABLE virtual bool stopApplication(const QString &appId) = 0;
+
+    /**
+     * @brief Update the screenshot for an application.
+     *
+     * NOTE: Normally the ApplicationManager will update screenshots unfocusing or focusing apps,
+     * However, in cases where you need to show the screenshot while the application is still focused,
+     * you can request the ApplicationManager to update it now.
+     *
+     * @param appId The application for which the screenshot should be updated.
+     * @returns True if the screenshot update operation was scheduled successfully, false otherwise (i.e. the given
+     * appId could not be found)
+     */
+    Q_INVOKABLE virtual bool updateScreenshot(const QString &appId) = 0;
 
     /**
      * @brief Request the application suspends

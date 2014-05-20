@@ -54,6 +54,7 @@ public:
     Q_INVOKABLE bool suspendApplication(const QString &appId) override;
     Q_INVOKABLE bool resumeApplication(const QString &appId) override;
 
+    Q_INVOKABLE bool updateScreenshot(const QString &appId);
 private:
     QList<MockApplicationInfo*> m_list;
 };

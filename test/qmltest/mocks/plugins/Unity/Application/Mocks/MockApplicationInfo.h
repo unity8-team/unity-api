@@ -36,6 +36,7 @@ public:
     QString name() const override;
     QString comment() const override;
     QUrl icon() const override;
+    QUrl screenshot() const override;
 
     ApplicationInfoInterface::Stage stage() const override;
     bool setStage(const ApplicationInfoInterface::Stage stage) override;
@@ -53,6 +54,7 @@ private:
     QString m_name;
     QString m_comment;
     QUrl m_icon;
+    QUrl m_screenshot;
     ApplicationInfoInterface::Stage m_stage;
     ApplicationInfoInterface::State m_state;
     bool m_focused;
