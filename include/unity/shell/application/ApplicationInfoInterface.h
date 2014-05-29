@@ -49,8 +49,11 @@ class UNITY_API ApplicationInfoInterface: public QObject
     /**
      * @brief The appId of the application.
      *
-     * Holds the appId for the application. For example (com.ubuntu.camera-app).
-     * The appId is derived from the filename of the .desktop file.
+     * Holds the appId for the application, in the form of a url that can be
+     * passed to url-dispatcher.
+     * Examples:
+     *   application:///camera-app.desktop
+     *   appid://com.ubuntu.camera-app/camera-app/current-user-version
      */
     Q_PROPERTY(QString appId READ appId CONSTANT)
 
