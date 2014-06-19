@@ -1,6 +1,6 @@
 unity-api (8.0) UNRELEASED; urgency=medium
 
-  * Version 2 of ApplicationManager and ApplicationInfo APIs, in preparation for QtCompositor
+  * Version 3 of ApplicationManager and ApplicationInfo APIs, in preparation for QtCompositor
 
  -- Gerry Boland <gerry.boland@canonical.com>  Thu, 19 Jun 2014 12:46:15 +0100
 
