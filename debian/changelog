@@ -1,3 +1,9 @@
+unity-api (8.0) UNRELEASED; urgency=medium
+
+  * Version 2 of ApplicationManager and ApplicationInfo APIs, in preparation for QtCompositor
+
+ -- Gerry Boland <gerry.boland@canonical.com>  Thu, 19 Jun 2014 12:46:15 +0100
+
 unity-api (7.81+14.10.20140528-0ubuntu1) utopic; urgency=low
 
   [ Michael Zanetti ]
@@ -17,12 +23,6 @@ unity-api (7.81+14.10.20140520-0ubuntu1) utopic; urgency=medium
   * Add missing include so compilation works with pch disabled.
 
  -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 20 May 2014 12:05:11 +0000
-
-unity-api (7.80.9) UNRELEASED; urgency=medium
-
-  * Alter ApplicationManager and ApplicationInfo APIs in preparation for QtCompositor
-
- -- Gerry Boland <gerry.boland@canonical.com>  Tue, 13 May 2014 17:10:33 +0100
 
 unity-api (7.80.8+14.10.20140505-0ubuntu1) utopic; urgency=medium
 
