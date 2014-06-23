@@ -4,6 +4,13 @@ unity-api (8.0) UNRELEASED; urgency=medium
 
  -- Gerry Boland <gerry.boland@canonical.com>  Thu, 19 Jun 2014 12:46:15 +0100
 
+unity-api (7.82+14.10.20140616-0ubuntu1) utopic; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Add interfaces for scope departments.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 16 Jun 2014 14:45:10 +0000
+
 unity-api (7.81+14.10.20140528-0ubuntu1) utopic; urgency=low
 
   [ Michael Zanetti ]
