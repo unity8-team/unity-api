@@ -114,6 +114,8 @@ Item {
                 { tag: "ApplicationManager.methods[startApplication]", method: "startApplication" },
                 { tag: "ApplicationManager.methods[stopApplication]", method: "stopApplication" },
                 { tag: "ApplicationManager.methods[updateScreenshot]", method: "updateScreenshot" },
+                { tag: "ApplicationManager.methods[registerSurfaceSizerCallback]", method: "registerSurfaceSizerCallback" },
+                { tag: "ApplicationManager.methods[deregisterSurfaceSizerCallback]", method: "deregisterSurfaceSizerCallback" },
             ];
         }
 

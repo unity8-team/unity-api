@@ -24,6 +24,7 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QAbstractListModel>
+#include <QtQml/QJSValue>
 
 namespace unity
 {
@@ -196,6 +197,28 @@ public:
      * @returns True if the screenshot update operation was scheduled successfully, false otherwise (i.e. the given appId could not be found)
      */
     Q_INVOKABLE virtual bool updateScreenshot(const QString &appId) = 0;
+
+    /**
+     * @brief Register a Javascript function as a callback for when an application is asking to create a new surface
+     *
+     * Registers a Javascript callback function which ApplicationManager will call when an application is asking
+     * Mir to create a new surface. This allows a shell to override the surface width & height requested by
+     * the application.
+     *
+     * Only one function can be registered as callback at any time - only the last registered function will be
+     * used as the callback.
+     *
+     * Warning: the function must live in the QML context thread!
+     *
+     * @param callback A Javascript function to be called when an application is asking to create a new surface
+     * @returns True if callable function is passed, else false
+     */
+    Q_INVOKABLE virtual bool registerSurfaceSizerCallback(const QJSValue callback) = 0;
+
+    /**
+     * @brief Deregisters the surface sizer callback.
+     */
+    Q_INVOKABLE virtual void deregisterSurfaceSizerCallback() = 0;
 
 Q_SIGNALS:
     /// @cond

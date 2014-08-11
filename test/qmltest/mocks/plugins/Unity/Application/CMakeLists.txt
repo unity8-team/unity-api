@@ -19,7 +19,7 @@ set(ApplicationMocks_SOURCES
 
 add_library(ApplicationMocks SHARED ${ApplicationMocks_SOURCES})
 
-qt5_use_modules(ApplicationMocks Core)
+qt5_use_modules(ApplicationMocks Core Qml)
 
 set(TestApplicationPlugin_SOURCES
     TestApplicationPlugin.cpp

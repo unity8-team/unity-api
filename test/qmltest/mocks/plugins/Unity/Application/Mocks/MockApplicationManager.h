@@ -59,6 +59,9 @@ public:
 
     Q_INVOKABLE bool updateScreenshot(const QString &appId);
 
+    Q_INVOKABLE bool registerSurfaceSizerCallback(const QJSValue callback) override;
+    Q_INVOKABLE void deregisterSurfaceSizerCallback() override;
+
 private:
     QList<MockApplicationInfo*> m_list;
 };
