@@ -213,7 +213,7 @@ public:
      * @param callback A Javascript function to be called when an application is asking to create a new surface
      * @returns True if callable function is passed, else false
      */
-    Q_INVOKABLE virtual bool registerSurfaceSizerCallback(const QJSValue callback) = 0;
+    Q_INVOKABLE virtual bool registerSurfaceSizerCallback(const QJSValue &callback) = 0;
 
     /**
      * @brief Deregisters the surface sizer callback.
