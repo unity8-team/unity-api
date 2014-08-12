@@ -43,6 +43,9 @@ public:
     bool suspended() const;
     void setSuspended(bool suspended);
 
+    QJSValue surfaceAboutToBeCreatedCallback() const;
+    void setSurfaceAboutToBeCreatedCallback(const QJSValue &callback);
+
     Q_INVOKABLE unity::shell::application::ApplicationInfoInterface *get(const int index) const;
 
     Q_INVOKABLE unity::shell::application::ApplicationInfoInterface *findApplication(const QString &appId) const;
@@ -58,9 +61,6 @@ public:
     Q_INVOKABLE bool stopApplication(const QString &appId);
 
     Q_INVOKABLE bool updateScreenshot(const QString &appId);
-
-    Q_INVOKABLE bool registerSurfaceSizerCallback(const QJSValue &callback) override;
-    Q_INVOKABLE void deregisterSurfaceSizerCallback() override;
 
 private:
     QList<MockApplicationInfo*> m_list;

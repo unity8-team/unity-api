@@ -67,6 +67,36 @@ class UNITY_API ApplicationManagerInterface: public QAbstractListModel
      */
     Q_PROPERTY(bool suspended READ suspended WRITE setSuspended NOTIFY suspendedChanged)
 
+    /**
+     * @brief Register a Javascript function as a callback for when an application is asking to create a new surface
+     *
+     * Registers a Javascript callback function which ApplicationManager will call when an application is asking
+     * Mir to create a new surface. The function is passed a 'surface' object with properties width, height and
+     * appId. The shell can implement this function to return different width & height to override the geometry
+     * requested by the client.
+     *
+     * Example QML:
+     *
+     * function surfaceSizer(surface) {
+     *     surface.width = 400;
+     *     if (surface.appId && surface.appId == "dialer-app") {
+     *         surface.height = 300;
+     *     }
+     *     return surface;
+     * }
+     *
+     * Component.onCompleted {
+     *     ApplicationManager.surfaceAboutToBeCreatedCallback = surfaceSizer;
+     * }
+     * Component.onDestruction {
+     *     ApplicationManager.surfaceAboutToBeCreatedCallback = null;
+     * }
+     *
+     * Warning: the function must live in the QML context thread!
+     */
+    Q_PROPERTY(QJSValue surfaceAboutToBeCreatedCallback READ surfaceAboutToBeCreatedCallback
+               WRITE setSurfaceAboutToBeCreatedCallback NOTIFY surfaceAboutToBeCreatedCallbackChanged)
+
 protected:
     /// @cond
     ApplicationManagerInterface(QObject* parent = 0): QAbstractListModel(parent)
@@ -120,6 +150,9 @@ public:
 
     virtual bool suspended() const = 0;
     virtual void setSuspended(bool suspended) = 0;
+
+    virtual QJSValue surfaceAboutToBeCreatedCallback() const = 0;
+    virtual void setSurfaceAboutToBeCreatedCallback(const QJSValue &callback) = 0;
     /// @endcond
 
     /**
@@ -198,31 +231,10 @@ public:
      */
     Q_INVOKABLE virtual bool updateScreenshot(const QString &appId) = 0;
 
-    /**
-     * @brief Register a Javascript function as a callback for when an application is asking to create a new surface
-     *
-     * Registers a Javascript callback function which ApplicationManager will call when an application is asking
-     * Mir to create a new surface. This allows a shell to override the surface width & height requested by
-     * the application.
-     *
-     * Only one function can be registered as callback at any time - only the last registered function will be
-     * used as the callback.
-     *
-     * Warning: the function must live in the QML context thread!
-     *
-     * @param callback A Javascript function to be called when an application is asking to create a new surface
-     * @returns True if callable function is passed, else false
-     */
-    Q_INVOKABLE virtual bool registerSurfaceSizerCallback(const QJSValue &callback) = 0;
-
-    /**
-     * @brief Deregisters the surface sizer callback.
-     */
-    Q_INVOKABLE virtual void deregisterSurfaceSizerCallback() = 0;
-
 Q_SIGNALS:
     /// @cond
     void countChanged();
+    void surfaceAboutToBeCreatedCallbackChanged();
     /// @endcond
 
     /**

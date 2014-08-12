@@ -145,12 +145,12 @@ bool MockApplicationManager::updateScreenshot(const QString &appId)
     return true;
 }
 
-bool MockApplicationManager::registerSurfaceSizerCallback(const QJSValue &callback)
+QJSValue MockApplicationManager::surfaceAboutToBeCreatedCallback() const
 {
-    Q_UNUSED(callback)
-    return true;
+    return QJSValue::UndefinedValue;
 }
 
-void MockApplicationManager::deregisterSurfaceSizerCallback()
+void MockApplicationManager::setSurfaceAboutToBeCreatedCallback(const QJSValue &callback)
 {
+    Q_UNUSED(callback)
 }

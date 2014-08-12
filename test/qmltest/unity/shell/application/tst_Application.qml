@@ -114,8 +114,6 @@ Item {
                 { tag: "ApplicationManager.methods[startApplication]", method: "startApplication" },
                 { tag: "ApplicationManager.methods[stopApplication]", method: "stopApplication" },
                 { tag: "ApplicationManager.methods[updateScreenshot]", method: "updateScreenshot" },
-                { tag: "ApplicationManager.methods[registerSurfaceSizerCallback]", method: "registerSurfaceSizerCallback" },
-                { tag: "ApplicationManager.methods[deregisterSurfaceSizerCallback]", method: "deregisterSurfaceSizerCallback" },
             ];
         }
 
@@ -130,6 +128,7 @@ Item {
                 { tag: "ApplicationManager.count", property: "count", type: "number" },
                 { tag: "ApplicationManager.focusedApplicationId", property: "focusedApplicationId", type: "string" },
                 { tag: "ApplicationManager.suspended", property: "suspended", type: "boolean" },
+                { tag: "ApplicationManager.surfaceAboutToBeCreatedCallback", property: "surfaceAboutToBeCreatedCallback", type: "function" },
             ];
         }
 
