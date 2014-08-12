@@ -22,7 +22,9 @@
 
 using namespace unity::shell::application;
 
-MockApplicationManager::MockApplicationManager(QObject* parent): ApplicationManagerInterface(parent)
+MockApplicationManager::MockApplicationManager(QObject* parent)
+    : ApplicationManagerInterface(parent)
+    , m_surfaceAboutToBeCreatedCallback(QJSValue::UndefinedValue)
 {
     MockApplicationInfo *item = new MockApplicationInfo("phone-app", "Phone App", "Telephony application", QUrl("/usr/share/pixmaps/some/icon.png"), this);
     m_list.append(item);
@@ -147,10 +149,14 @@ bool MockApplicationManager::updateScreenshot(const QString &appId)
 
 QJSValue MockApplicationManager::surfaceAboutToBeCreatedCallback() const
 {
-    return QJSValue::UndefinedValue;
+    return m_surfaceAboutToBeCreatedCallback;
 }
 
 void MockApplicationManager::setSurfaceAboutToBeCreatedCallback(const QJSValue &callback)
 {
-    Q_UNUSED(callback)
+    if (m_surfaceAboutToBeCreatedCallback.equals(callback))
+        return;
+
+    m_surfaceAboutToBeCreatedCallback = callback;
+    Q_EMIT surfaceAboutToBeCreatedCallbackChanged();
 }

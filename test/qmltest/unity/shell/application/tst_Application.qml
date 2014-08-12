@@ -59,6 +59,11 @@ Item {
             }
         }
 
+        function initTestCase() {
+            function surfaceSizer(surface) { return surface; }
+            ApplicationManager.surfaceAboutToBeCreatedCallback = surfaceSizer;
+        }
+
         /* make sure all the required roles are exposed on ApplicationManager */
         function test_model_roles_enum_data() {
             return [

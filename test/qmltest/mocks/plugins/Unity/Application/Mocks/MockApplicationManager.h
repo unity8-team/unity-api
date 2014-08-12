@@ -64,6 +64,7 @@ public:
 
 private:
     QList<MockApplicationInfo*> m_list;
+    QJSValue m_surfaceAboutToBeCreatedCallback;
 };
 
 #endif // MOCKAPPLICATIONMANAGER_H
