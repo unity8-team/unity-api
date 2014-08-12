@@ -1,4 +1,4 @@
-unity-api (7.89) utopic; urgency=medium
+unity-api (7.89-0ubuntu1) utopic; urgency=medium
 
   * AppMan: add {de,}registerSurfaceSizerCallback methods to AppMan - allows QML shell override surface creation geometry
 
