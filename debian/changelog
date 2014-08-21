@@ -1,6 +1,5 @@
-unity-api (7.89-0ubuntu1) UNRELEASED; urgency=medium
+unity-api (7.89) UNRELEASED; urgency=medium
 
-  * AppMan: add surfaceAboutToBeCreatedCallback property to AppMan - allows QML shell override surface creation geometry
   * ApplicationInfo - add updateScreenshot() and discardScreenshot()
 
  -- Daniel d'Andrada <daniel.dandrada@canonical.com>  Fri, 08 Aug 2014 06:05:53 -0300
