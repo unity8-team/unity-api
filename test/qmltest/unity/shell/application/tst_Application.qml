@@ -74,7 +74,6 @@ Item {
                         { enum: "RoleStage" },
                         { enum: "RoleState" },
                         { enum: "RoleFocused" },
-                        { enum: "RoleScreenshot" },
                     ];
         }
 
@@ -94,7 +93,6 @@ Item {
                         { tag: "ApplicationManager.roles[stage]", role: "stage", type: "number" },
                         { tag: "ApplicationManager.roles[state]", role: "state", type: "number" },
                         { tag: "ApplicationManager.roles[focused]", role: "focused", type: "boolean" },
-                        { tag: "ApplicationManager.roles[screenshot]", role: "screenshot", type: "object" },
                     ];
         }
 
@@ -118,7 +116,6 @@ Item {
                 { tag: "ApplicationManager.methods[unfocusCurrentApplication]", method: "unfocusCurrentApplication" },
                 { tag: "ApplicationManager.methods[startApplication]", method: "startApplication" },
                 { tag: "ApplicationManager.methods[stopApplication]", method: "stopApplication" },
-                { tag: "ApplicationManager.methods[updateScreenshot]", method: "updateScreenshot" },
             ];
         }
 
@@ -152,7 +149,6 @@ Item {
                 { tag: "ApplicationInfo.properties[stage]", property: "stage", type: "number" },
                 { tag: "ApplicationInfo.properties[state]", property: "state", type: "number" },
                 { tag: "ApplicationInfo.properties[focused]", property: "focused", type: "boolean" },
-                { tag: "ApplicationInfo.properties[screenshot]", property: "screenshot", type: "object" },
             ];
         }
 
