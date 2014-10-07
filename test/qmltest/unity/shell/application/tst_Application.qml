@@ -130,6 +130,7 @@ Item {
                 { tag: "ApplicationManager.count", property: "count", type: "number" },
                 { tag: "ApplicationManager.focusedApplicationId", property: "focusedApplicationId", type: "string" },
                 { tag: "ApplicationManager.suspended", property: "suspended", type: "boolean" },
+                { tag: "ApplicationManager.forceDashActive", property: "forceDashActive", type: "boolean" },
                 { tag: "ApplicationManager.surfaceAboutToBeCreatedCallback", property: "surfaceAboutToBeCreatedCallback", type: "function" },
             ];
         }
@@ -149,6 +150,12 @@ Item {
                 { tag: "ApplicationInfo.properties[stage]", property: "stage", type: "number" },
                 { tag: "ApplicationInfo.properties[state]", property: "state", type: "number" },
                 { tag: "ApplicationInfo.properties[focused]", property: "focused", type: "boolean" },
+                { tag: "ApplicationInfo.properties[splashTitle]", constant: "splashTitle", type: "string" },
+                { tag: "ApplicationInfo.properties[splashImage]", constant: "splashImage", type: "url" },
+                { tag: "ApplicationInfo.properties[splashShowHeader]", constant: "splashShowHeader", type: "boolean"},
+                { tag: "ApplicationInfo.properties[splashColor]", constant: "splashColor", type: "color"},
+                { tag: "ApplicationInfo.properties[splashColorHeader]", constant: "splashColorHeader", type: "color"},
+                { tag: "ApplicationInfo.properties[splashColorFooter]", constant: "splashColorFooter", type: "color"},
             ];
         }
 

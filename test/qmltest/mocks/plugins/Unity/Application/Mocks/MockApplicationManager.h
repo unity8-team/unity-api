@@ -43,6 +43,9 @@ public:
     bool suspended() const;
     void setSuspended(bool suspended);
 
+    bool forceDashActive() const override;
+    void setForceDashActive(bool forceDashActive) override;
+
     QJSValue surfaceAboutToBeCreatedCallback() const;
     void setSurfaceAboutToBeCreatedCallback(const QJSValue &callback);
 

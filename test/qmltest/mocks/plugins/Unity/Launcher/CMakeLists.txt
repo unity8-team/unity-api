@@ -27,7 +27,7 @@ set(LauncherMocks_SOURCES
 
 add_library(LauncherMocks SHARED ${LauncherMocks_SOURCES})
 
-qt5_use_modules(LauncherMocks Core Qml)
+qt5_use_modules(LauncherMocks Core Gui Qml)
 
 set(TestLauncherPlugin_SOURCES
     TestLauncherPlugin.cpp
