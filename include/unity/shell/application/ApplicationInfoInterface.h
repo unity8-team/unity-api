@@ -232,6 +232,44 @@ public:
     virtual QColor splashColorFooter() const = 0;
     /// @endcond
 
+    /**
+     * @brief Request that the application is suspended
+     *
+     * @see resume
+     * Attempts to suspend the application process.
+     *
+     * @returns If application is in Starting or Running state, and not in the lifecycle exception list,
+     * it will update the state to be Suspended, and return true. The process will be notified that
+     * it is about to be suspended, allowing it time to prepare, before being suspended 3 seconds later.
+     *
+     * If already Suspended, it will immediately return true.
+     *
+     * Will return false otherwise.
+     *
+     * Method is non-blocking and process manipulation is asynchroneous.
+     */
+    Q_INVOKABLE virtual bool suspend() = 0;
+
+    /**
+     * @brief Request that the application is resumed
+     *
+     * @see suspend
+     * Attempts to resume a suspended or stopped application process.
+     *
+     * @returns If application is in Starting or Running state, it will return true immediately;
+     *
+     * If application Suspended, it will initiate resumption the process, update the state to be
+     * Running.
+     *
+     * If application in Stopped state, it will initiate respawn of the process. Should this succeed
+     * the application state will be updated to Starting and return true;
+     *
+     * Will return false if process can not be resumed.
+     *
+     * Method is non-blocking and process manipulation is asynchroneous.
+     */
+    Q_INVOKABLE virtual bool resume() = 0;
+
 Q_SIGNALS:
     /// @cond
     void nameChanged(const QString &name);

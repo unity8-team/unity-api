@@ -125,3 +125,13 @@ QColor MockApplicationInfo::splashColorFooter() const
 {
     return QColor(0,0,0,0);
 }
+
+bool MockApplicationInfo::suspend()
+{
+    return true;
+}
+
+bool MockApplicationInfo::resume()
+{
+    return true;
+}

@@ -66,13 +66,6 @@ class UNITY_API ApplicationManagerInterface: public QAbstractListModel
      */
     Q_PROPERTY(bool suspended READ suspended WRITE setSuspended NOTIFY suspendedChanged)
 
-    /**
-     * @brief Activate the dash, regardless of its focused state.
-     *
-     * If this is set to true, the dash will not be put to suspend or will be woken up from suspend.
-     */
-    Q_PROPERTY(bool forceDashActive READ forceDashActive WRITE setForceDashActive NOTIFY forceDashActiveChanged)
-
 protected:
     /// @cond
     ApplicationManagerInterface(QObject* parent = 0): QAbstractListModel(parent)
@@ -124,9 +117,6 @@ public:
 
     virtual bool suspended() const = 0;
     virtual void setSuspended(bool suspended) = 0;
-
-    virtual bool forceDashActive() const = 0;
-    virtual void setForceDashActive(bool forceDashActive) = 0;
     /// @endcond
 
     /**
@@ -148,33 +138,6 @@ public:
      * @returns The item, or null if not found.
      */
     Q_INVOKABLE virtual unity::shell::application::ApplicationInfoInterface *findApplication(const QString &appId) const = 0;
-
-    /**
-     * @brief Request to focus a given application
-     *
-     * This will request the shell to focus the given application.
-     *
-     * @param appId The appId of the app to be focused.
-     * @returns True if the request will processed, false if it was discarded (i.e. the given appid could not be found)
-     */
-    Q_INVOKABLE virtual bool requestFocusApplication(const QString &appId) = 0;
-
-    /**
-     * @brief Focus the given application.
-     *
-     * This will immediately focus the given application. Usually you should not use this
-     * but instead call requestFocusApplication() in order to allow the shell to prepare
-     * for the upcoming animation or even block the focus request (e.g. focus stealing prevention)
-     *
-     * @param appId The application to be focused.
-     * @returns True if appId found and application focused, else false.
-     */
-    Q_INVOKABLE virtual bool focusApplication(const QString &appId) = 0;
-
-    /**
-     * @brief Unfocus the currently focused application.
-     */
-    Q_INVOKABLE virtual void unfocusCurrentApplication() = 0;
 
     /**
      * @brief Start an application.
@@ -215,11 +178,6 @@ Q_SIGNALS:
      * @brief Will be emitted when the suspended state of the ApplicationManager changes.
      */
     void suspendedChanged();
-
-    /**
-     * @brief Will be emitted when the forceDashActive property changes.
-     */
-    void forceDashActiveChanged();
 
     /**
      * @brief Will be emitted when an application was added to the model.

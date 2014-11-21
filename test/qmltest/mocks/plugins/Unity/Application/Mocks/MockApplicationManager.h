@@ -43,18 +43,9 @@ public:
     bool suspended() const;
     void setSuspended(bool suspended);
 
-    bool forceDashActive() const override;
-    void setForceDashActive(bool forceDashActive) override;
-
     Q_INVOKABLE unity::shell::application::ApplicationInfoInterface *get(const int index) const;
 
     Q_INVOKABLE unity::shell::application::ApplicationInfoInterface *findApplication(const QString &appId) const;
-
-    Q_INVOKABLE bool requestFocusApplication(const QString &appId);
-
-    Q_INVOKABLE bool focusApplication(const QString &appId);
-
-    Q_INVOKABLE void unfocusCurrentApplication();
 
     Q_INVOKABLE unity::shell::application::ApplicationInfoInterface *startApplication(const QString &appId, const QStringList &arguments);
 

@@ -106,9 +106,6 @@ Item {
             return [
                 { tag: "ApplicationManager.methods[get]", method: "get" },
                 { tag: "ApplicationManager.methods[findApplication]", method: "findApplication" },
-                { tag: "ApplicationManager.methods[requestFocusApplication]", method: "requestFocusApplication" },
-                { tag: "ApplicationManager.methods[focusApplication]", method: "focusApplication" },
-                { tag: "ApplicationManager.methods[unfocusCurrentApplication]", method: "unfocusCurrentApplication" },
                 { tag: "ApplicationManager.methods[startApplication]", method: "startApplication" },
                 { tag: "ApplicationManager.methods[stopApplication]", method: "stopApplication" },
             ];
@@ -125,7 +122,6 @@ Item {
                 { tag: "ApplicationManager.count", property: "count", type: "number" },
                 { tag: "ApplicationManager.focusedApplicationId", property: "focusedApplicationId", type: "string" },
                 { tag: "ApplicationManager.suspended", property: "suspended", type: "boolean" },
-                { tag: "ApplicationManager.forceDashActive", property: "forceDashActive", type: "boolean" },
             ];
         }
 
@@ -163,6 +159,25 @@ Item {
             }
 
             verifyData(data)
+        }
+
+        function test_item_methods_data() {
+            return [
+                { tag: "ApplicationInfo.methods[suspend]", method: "suspend" },
+                { tag: "ApplicationInfo.methods[resume]", method: "resume" },
+            ];
+        }
+
+        function test_item_methods(data) {
+            name = "ApplicationInfo";
+            try {
+                object = ApplicationManager.get(0)
+            } catch(err) {
+                object = undefined;
+                print(err)
+            }
+
+            verifyData(data);
         }
     }
 }

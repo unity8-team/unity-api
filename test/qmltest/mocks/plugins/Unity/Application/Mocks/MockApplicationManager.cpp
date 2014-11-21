@@ -108,32 +108,6 @@ void MockApplicationManager::setSuspended(bool suspended)
     Q_UNUSED(suspended)
 }
 
-bool MockApplicationManager::forceDashActive() const
-{
-    return false;
-}
-
-void MockApplicationManager::setForceDashActive(bool forceDashActive)
-{
-    Q_UNUSED(forceDashActive)
-}
-
-bool MockApplicationManager::requestFocusApplication(const QString &appId)
-{
-    Q_UNUSED(appId)
-    return true;
-}
-
-bool MockApplicationManager::focusApplication(const QString &appId)
-{
-    Q_UNUSED(appId)
-    return true;
-}
-
-void MockApplicationManager::unfocusCurrentApplication()
-{
-}
-
 unity::shell::application::ApplicationInfoInterface *MockApplicationManager::startApplication(const QString &appId, const QStringList &arguments)
 {
     Q_UNUSED(arguments)
