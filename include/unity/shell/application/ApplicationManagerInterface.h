@@ -55,7 +55,7 @@ class UNITY_API ApplicationManagerInterface: public QAbstractListModel
     /**
      * @brief The currently focused application.
      *
-     * Use focusApplication() and unfocusCurrentApplication() to modify this.
+     * This is updated by any Application's MirSurface getting activeFocus
      */
     Q_PROPERTY(QString focusedApplicationId READ focusedApplicationId NOTIFY focusedApplicationIdChanged)
 
