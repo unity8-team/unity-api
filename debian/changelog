@@ -1,3 +1,16 @@
+unity-api (7.95) UNRELEASED; urgency=medium
+
+  * Add surface sizer callback property to AppMan API
+
+ -- Gerry Boland <gerry.boland@canonical.com>  Mon, 08 Dec 2014 16:51:07 +0000
+
+unity-api (7.94+15.04.20141205-0ubuntu1) vivid; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Add setFavorite/moveFavoriteTo
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 05 Dec 2014 10:51:44 +0000
+
 unity-api (7.93+15.04.20141104-0ubuntu1) vivid; urgency=medium
 
   [ Michael Zanetti ]
