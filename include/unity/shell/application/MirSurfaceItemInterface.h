@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MIRSURFACEITEM_H
-#define MIRSURFACEITEM_H
+#ifndef UNITY_SHELL_APPLICATION_MIRSURFACEITEMINTERFACE_H
+#define UNITY_SHELL_APPLICATION_MIRSURFACEITEMINTERFACE_H
 
 #include <unity/SymbolExport.h>
 
@@ -94,4 +94,4 @@ Q_SIGNALS:
 
 Q_DECLARE_METATYPE(unity::shell::application::MirSurfaceItemInterface*)
 
-#endif // MIRSURFACEITEM_H
+#endif // UNITY_SHELL_APPLICATION_MIRSURFACEITEMINTERFACE_H

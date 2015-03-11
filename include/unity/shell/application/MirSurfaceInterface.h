@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MIRSURFACE_H
-#define MIRSURFACE_H
+#ifndef UNITY_SHELL_APPLICATION_MIRSURFACEINTERFACE_H
+#define UNITY_SHELL_APPLICATION_MIRSURFACEINTERFACE_H
 
 // Qt
 #include <QObject>
@@ -113,4 +113,4 @@ Q_SIGNALS:
 } // shell
 } // unity
 
-#endif // MIRSURFACE_H
+#endif // UNITY_SHELL_APPLICATION_MIRSURFACEINTERFACE_H
