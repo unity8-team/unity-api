@@ -1,6 +1,9 @@
+pkg_check_modules(MIRSERVER mirserver REQUIRED)
+
 include_directories(
     ${CMAKE_SOURCE_DIR}/include/unity/shell/application
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${MIRSERVER_INCLUDE_DIRS}
 )
 
 add_definitions(-DQT_NO_KEYWORDS)
@@ -14,13 +17,17 @@ find_package(Qt5Qml REQUIRED)
 set(ApplicationMocks_SOURCES
     ${CMAKE_SOURCE_DIR}/include/unity/shell/application/ApplicationManagerInterface.h
     ${CMAKE_SOURCE_DIR}/include/unity/shell/application/ApplicationInfoInterface.h
+    ${CMAKE_SOURCE_DIR}/include/unity/shell/application/MirSurfaceItemInterface.h
+    ${CMAKE_SOURCE_DIR}/include/unity/shell/application/MirSurfaceInterface.h
+    ${CMAKE_SOURCE_DIR}/include/unity/shell/application/Globals.h
     Mocks/MockApplicationManager.cpp
     Mocks/MockApplicationInfo.cpp
+    Mocks/MockMirSurfaceItem.cpp
 )
 
 add_library(ApplicationMocks SHARED ${ApplicationMocks_SOURCES})
 
-qt5_use_modules(ApplicationMocks Core Gui)
+qt5_use_modules(ApplicationMocks Core Gui Quick)
 
 set(TestApplicationPlugin_SOURCES
     TestApplicationPlugin.cpp

@@ -10,7 +10,7 @@ set(UNITY_API_LIB_HDRS ${UNITY_API_LIB_HDRS} ${headers} ${internal_headers} PARE
 set(VERSION 5)
 set(PKGCONFIG_NAME "unity-shell-application")
 set(PKGCONFIG_DESCRIPTION "Unity shell Application APIs")
-set(PKGCONFIG_REQUIRES "Qt5Core")
+set(PKGCONFIG_REQUIRES "Qt5Core" "Qt5Quick")
 set(PKGCONFIG_FILE unity-shell-application.pc)
 
 configure_file(${CMAKE_SOURCE_DIR}/data/unity-shell-api.pc.in
