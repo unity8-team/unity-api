@@ -1,9 +1,6 @@
-pkg_check_modules(MIRSERVER mirserver REQUIRED)
-
 include_directories(
     ${CMAKE_SOURCE_DIR}/include/unity/shell/application
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${MIRSERVER_INCLUDE_DIRS}
 )
 
 add_definitions(-DQT_NO_KEYWORDS)
