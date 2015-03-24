@@ -1,8 +1,26 @@
-unity-api (7.95) UNRELEASED; urgency=medium
+unity-api (7.97) UNRELEASED; urgency=medium
 
   * Add surface sizer callback property to AppMan API
 
- -- Gerry Boland <gerry.boland@canonical.com>  Mon, 08 Dec 2014 16:51:07 +0000
+ -- Gerry Boland <gerry.boland@canonical.com>  Tue, 24 Mar 2015 13:47:07 +0000
+
+unity-api (7.96+15.04.20150213-0ubuntu1) vivid; urgency=medium
+
+  [ Pawel Stolowski ]
+  * Added close method to scopes interface.
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Fri, 13 Feb 2015 15:15:59 +0000
+
+unity-api (7.95+15.04.20150211-0ubuntu1) vivid; urgency=medium
+
+  [ Michael Zanetti ]
+  * add onlyPinned property to launcher model
+
+  [ Michał Sawicz ]
+  * Add :native to g++ dependency for cross-building and wrap-and-sort
+    for good measure. Python needs :any, too. (LP: #1353855)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 11 Feb 2015 16:28:29 +0000
 
 unity-api (7.94+15.04.20141205-0ubuntu1) vivid; urgency=medium
 
