@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013,2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -42,9 +42,6 @@ public:
 
     bool suspended() const;
     void setSuspended(bool suspended);
-
-    bool forceDashActive() const override;
-    void setForceDashActive(bool forceDashActive) override;
 
     Q_INVOKABLE unity::shell::application::ApplicationInfoInterface *get(const int index) const;
 

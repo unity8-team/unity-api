@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013,2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -125,7 +125,6 @@ Item {
                 { tag: "ApplicationManager.count", property: "count", type: "number" },
                 { tag: "ApplicationManager.focusedApplicationId", property: "focusedApplicationId", type: "string" },
                 { tag: "ApplicationManager.suspended", property: "suspended", type: "boolean" },
-                { tag: "ApplicationManager.forceDashActive", property: "forceDashActive", type: "boolean" },
             ];
         }
 
