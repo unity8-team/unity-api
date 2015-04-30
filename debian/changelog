@@ -1,6 +1,7 @@
 unity-api (7.97) UNRELEASED; urgency=medium
 
   * Remove ApplicationManagerInterface.forceDashActive
+  * Remove ApplicationManagerInterface.suspended
 
  -- Daniel d'Andrada <daniel.dandrada@canonical.com>  Thu, 30 Apr 2015 16:14:17 -0300
 

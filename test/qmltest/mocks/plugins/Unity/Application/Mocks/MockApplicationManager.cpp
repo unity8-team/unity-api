@@ -98,16 +98,6 @@ QString MockApplicationManager::focusedApplicationId() const
     return (first) ? first->appId() : QString();
 }
 
-bool MockApplicationManager::suspended() const
-{
-    return false;
-}
-
-void MockApplicationManager::setSuspended(bool suspended)
-{
-    Q_UNUSED(suspended)
-}
-
 bool MockApplicationManager::requestFocusApplication(const QString &appId)
 {
     Q_UNUSED(appId)
