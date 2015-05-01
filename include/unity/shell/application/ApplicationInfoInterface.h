@@ -215,7 +215,10 @@ public:
     };
 
     /**
-        @brief If state is Running, will request it to go to Suspended.
+        @brief Suspends a starting or running application.
+
+        If state is Running, will request it to go to Suspended.
+        If state is Starting, it will be requested to go to Suspended once it's Running.
      */
     Q_INVOKABLE virtual void suspend() = 0;
 
