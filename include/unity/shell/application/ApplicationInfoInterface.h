@@ -214,6 +214,16 @@ public:
         Stopped
     };
 
+    /**
+        @brief If state is Running, will request it to go to Suspended.
+     */
+    Q_INVOKABLE virtual void suspend() = 0;
+
+    /**
+        @brief If state is Suspended, will request it to go back to Running.
+     */
+    Q_INVOKABLE virtual void resume() = 0;
+
     /// @cond
     virtual ~ApplicationInfoInterface() {}
 

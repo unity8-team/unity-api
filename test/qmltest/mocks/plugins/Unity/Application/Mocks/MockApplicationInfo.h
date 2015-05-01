@@ -52,6 +52,8 @@ public:
     QColor splashColor() const override;
     QColor splashColorHeader() const override;
     QColor splashColorFooter() const override;
+    void suspend() override;
+    void resume() override;
 
 private:
     QString m_appId;
