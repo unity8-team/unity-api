@@ -126,10 +126,11 @@ QColor MockApplicationInfo::splashColorFooter() const
     return QColor(0,0,0,0);
 }
 
-void MockApplicationInfo::suspend()
+bool MockApplicationInfo::active() const
 {
+    return true;
 }
 
-void MockApplicationInfo::resume()
+void MockApplicationInfo::setActive(bool)
 {
 }

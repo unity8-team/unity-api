@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013,2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -12,9 +12,6 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors:
- *      Michael Zanetti <michael.zanetti@canonical.com>
  */
 
 #ifndef UNITY_SHELL_APPLICATION_APPLICATIONINFOINTERFACE_H
@@ -90,6 +87,20 @@ class UNITY_API ApplicationInfoInterface: public QObject
      * Holds the current application state.
      */
     Q_PROPERTY(State state READ state NOTIFY stateChanged)
+
+    /**
+     * @brief Whether it should be running or suspended
+     *
+     * An active application will be kept running whereas a inactive one will be
+     * suspended.
+     *
+     * This property has no effect if the application is stopped or still starting
+     * up.
+     *
+     * Lifecycle policies and exceptions can cause this property to be ignored,
+     * so you could have an inactive application that is kept running.
+     */
+    Q_PROPERTY(bool active READ active WRITE setActive NOTIFY activeChanged)
 
     /**
      * @brief The application's focus state.
@@ -214,19 +225,6 @@ public:
         Stopped
     };
 
-    /**
-        @brief Suspends a starting or running application.
-
-        If state is Running, will request it to go to Suspended.
-        If state is Starting, it will be requested to go to Suspended once it's Running.
-     */
-    Q_INVOKABLE virtual void suspend() = 0;
-
-    /**
-        @brief If state is Suspended, will request it to go back to Running.
-     */
-    Q_INVOKABLE virtual void resume() = 0;
-
     /// @cond
     virtual ~ApplicationInfoInterface() {}
 
@@ -236,6 +234,8 @@ public:
     virtual QUrl icon() const = 0;
     virtual Stage stage() const = 0;
     virtual State state() const = 0;
+    virtual bool active() const = 0;
+    virtual void setActive(bool value) = 0;
     virtual bool focused() const = 0;
     virtual QString splashTitle() const = 0;
     virtual QUrl splashImage() const = 0;
@@ -252,6 +252,7 @@ Q_SIGNALS:
     void iconChanged(const QUrl &icon);
     void stageChanged(Stage stage);
     void stateChanged(State state);
+    void activeChanged(bool value);
     void focusedChanged(bool focused);
     /// @endcond
 };
