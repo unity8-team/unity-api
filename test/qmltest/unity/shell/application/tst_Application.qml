@@ -124,7 +124,6 @@ Item {
             return [
                 { tag: "ApplicationManager.count", property: "count", type: "number" },
                 { tag: "ApplicationManager.focusedApplicationId", property: "focusedApplicationId", type: "string" },
-                { tag: "ApplicationManager.suspended", property: "suspended", type: "boolean" },
             ];
         }
 
@@ -136,6 +135,7 @@ Item {
 
         function test_item_properties_data() {
             return [
+                { tag: "ApplicationInfo.properties[active]", property: "active", type: "boolean" },
                 { tag: "ApplicationInfo.properties[appId]", constant: "appId", type: "string" },
                 { tag: "ApplicationInfo.properties[name]", property: "name", type: "string" },
                 { tag: "ApplicationInfo.properties[comment]", property: "comment", type: "string" },
