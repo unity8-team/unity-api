@@ -49,8 +49,8 @@ public:
     QColor splashColor() const override;
     QColor splashColorHeader() const override;
     QColor splashColorFooter() const override;
-    bool active() const override;
-    void setActive(bool value) override;
+    RequestedState requestedState() const override;
+    void setRequestedState(RequestedState) override;
 
 private:
     QString m_appId;

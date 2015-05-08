@@ -43,6 +43,7 @@ class UNITY_API ApplicationInfoInterface: public QObject
 
     Q_ENUMS(Stage)
     Q_ENUMS(State)
+    Q_ENUMS(RequestedState)
 
     /**
      * @brief The appId of the application.
@@ -89,18 +90,9 @@ class UNITY_API ApplicationInfoInterface: public QObject
     Q_PROPERTY(State state READ state NOTIFY stateChanged)
 
     /**
-     * @brief Whether it should be running or suspended
-     *
-     * An active application will be kept running whereas a inactive one will be
-     * suspended.
-     *
-     * This property has no effect if the application is stopped or still starting
-     * up.
-     *
-     * Lifecycle policies and exceptions can cause this property to be ignored,
-     * so you could have an inactive application that is kept running.
+     * @brief The aplication's requested state
      */
-    Q_PROPERTY(bool active READ active WRITE setActive NOTIFY activeChanged)
+    Q_PROPERTY(RequestedState requestedState READ requestedState WRITE setRequestedState NOTIFY requestedStateChanged)
 
     /**
      * @brief The application's focus state.
@@ -225,6 +217,18 @@ public:
         Stopped
     };
 
+    /**
+     * @brief The desired state of an application
+     *
+     * RequestedRunning: If state is Suspended or Stopped, the application will be resumed
+     *                   or restarted, respectively.
+     * RequestedSuspended: If state is Running, the application will be suspended.
+     */
+    enum RequestedState {
+        RequestedRunning = Running,
+        RequestedSuspended = Suspended
+    };
+
     /// @cond
     virtual ~ApplicationInfoInterface() {}
 
@@ -234,8 +238,8 @@ public:
     virtual QUrl icon() const = 0;
     virtual Stage stage() const = 0;
     virtual State state() const = 0;
-    virtual bool active() const = 0;
-    virtual void setActive(bool value) = 0;
+    virtual RequestedState requestedState() const = 0;
+    virtual void setRequestedState(RequestedState) = 0;
     virtual bool focused() const = 0;
     virtual QString splashTitle() const = 0;
     virtual QUrl splashImage() const = 0;
@@ -252,7 +256,7 @@ Q_SIGNALS:
     void iconChanged(const QUrl &icon);
     void stageChanged(Stage stage);
     void stateChanged(State state);
-    void activeChanged(bool value);
+    void requestedStateChanged(RequestedState value);
     void focusedChanged(bool focused);
     /// @endcond
 };

@@ -126,11 +126,11 @@ QColor MockApplicationInfo::splashColorFooter() const
     return QColor(0,0,0,0);
 }
 
-bool MockApplicationInfo::active() const
+ApplicationInfoInterface::RequestedState MockApplicationInfo::requestedState() const
 {
-    return true;
+    return RequestedRunning;
 }
 
-void MockApplicationInfo::setActive(bool)
+void MockApplicationInfo::setRequestedState(RequestedState)
 {
 }

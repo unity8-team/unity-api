@@ -135,13 +135,13 @@ Item {
 
         function test_item_properties_data() {
             return [
-                { tag: "ApplicationInfo.properties[active]", property: "active", type: "boolean" },
                 { tag: "ApplicationInfo.properties[appId]", constant: "appId", type: "string" },
                 { tag: "ApplicationInfo.properties[name]", property: "name", type: "string" },
                 { tag: "ApplicationInfo.properties[comment]", property: "comment", type: "string" },
                 { tag: "ApplicationInfo.properties[icon]", property: "icon", type: "object" },
                 { tag: "ApplicationInfo.properties[stage]", property: "stage", type: "number" },
                 { tag: "ApplicationInfo.properties[state]", property: "state", type: "number" },
+                { tag: "ApplicationInfo.properties[requestedState]", property: "requestedState", type: "number" },
                 { tag: "ApplicationInfo.properties[focused]", property: "focused", type: "boolean" },
                 { tag: "ApplicationInfo.properties[splashTitle]", constant: "splashTitle", type: "string" },
                 { tag: "ApplicationInfo.properties[splashImage]", constant: "splashImage", type: "url" },
