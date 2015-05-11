@@ -90,7 +90,7 @@ class UNITY_API ApplicationInfoInterface: public QObject
     Q_PROPERTY(State state READ state NOTIFY stateChanged)
 
     /**
-     * @brief The aplication's requested state
+     * @brief The application's requested running state
      */
     Q_PROPERTY(RequestedState requestedState READ requestedState WRITE setRequestedState NOTIFY requestedStateChanged)
 
