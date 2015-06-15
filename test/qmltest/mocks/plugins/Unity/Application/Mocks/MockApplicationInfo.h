@@ -52,6 +52,9 @@ public:
     RequestedState requestedState() const override;
     void setRequestedState(RequestedState) override;
 
+    Qt::ScreenOrientations supportedOrientations() const override;
+    bool rotatesWindowContents() const override;
+
 private:
     QString m_appId;
     QString m_name;

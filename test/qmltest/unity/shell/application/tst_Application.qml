@@ -149,6 +149,8 @@ Item {
                 { tag: "ApplicationInfo.properties[splashColor]", constant: "splashColor", type: "color"},
                 { tag: "ApplicationInfo.properties[splashColorHeader]", constant: "splashColorHeader", type: "color"},
                 { tag: "ApplicationInfo.properties[splashColorFooter]", constant: "splashColorFooter", type: "color"},
+                { tag: "ApplicationInfo.properties[supportedOrientations]", constant: "supportedOrientations", type: "number"},
+                { tag: "ApplicationInfo.properties[rotatesWindowContents]", constant: "rotatesWindowContents", type: "boolean"},
             ];
         }
 

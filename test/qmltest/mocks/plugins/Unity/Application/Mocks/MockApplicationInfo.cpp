@@ -134,3 +134,13 @@ ApplicationInfoInterface::RequestedState MockApplicationInfo::requestedState() c
 void MockApplicationInfo::setRequestedState(RequestedState)
 {
 }
+
+Qt::ScreenOrientations MockApplicationInfo::supportedOrientations() const
+{
+    return Qt::PortraitOrientation | Qt::LandscapeOrientation;
+}
+
+bool MockApplicationInfo::rotatesWindowContents() const
+{
+    return false;
+}
