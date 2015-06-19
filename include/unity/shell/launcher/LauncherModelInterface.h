@@ -138,6 +138,19 @@ public:
      */
     Q_INVOKABLE virtual void requestRemove(const QString &appId) = 0;
 
+    /**
+     * @brief Pass a progress-value to an item of the model.
+     *
+     * A progress-value >= 0 will result in a progress-bar-like element to be displayed
+     * for an item to inform the user of a time-consuming operation going on (e.g. a
+     * lengthy calculation or a i/o-heavy task).
+     *
+     * Note: A progress-value <= -1 is interpreted as no value set.
+     *
+     * @param appId The appId of the item to set the progress-value for.
+     * @param progress The progress-value itself.
+     */
+    Q_INVOKABLE virtual void setProgress(const QString &appId, int progress) = 0;
 
     /**
       * @brief Trigger an action from the QuickList

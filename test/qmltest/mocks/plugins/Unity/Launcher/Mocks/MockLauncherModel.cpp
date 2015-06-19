@@ -125,6 +125,12 @@ void MockLauncherModel::quickListActionInvoked(const QString &appId, int actionI
     Q_UNUSED(actionIndex)
 }
 
+void MockLauncherModel::setProgress(const QString &appId, int progress)
+{
+    Q_UNUSED(appId)
+    Q_UNUSED(progress)
+}
+
 void MockLauncherModel::setUser(const QString &user)
 {
     Q_UNUSED(user)

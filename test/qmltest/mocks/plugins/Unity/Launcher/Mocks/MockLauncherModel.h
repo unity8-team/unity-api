@@ -44,6 +44,7 @@ public:
     Q_INVOKABLE void pin(const QString &appId, int index = -1);
     Q_INVOKABLE void requestRemove(const QString &appId);
     Q_INVOKABLE void quickListActionInvoked(const QString &appId, int actionIndex);
+    Q_INVOKABLE void setProgress(const QString &appId, int progress);
     Q_INVOKABLE void setUser(const QString &user);
 
     unity::shell::application::ApplicationManagerInterface *applicationManager() const;
