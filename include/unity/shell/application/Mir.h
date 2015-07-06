@@ -49,8 +49,9 @@ public:
         MinimizedState,
         MaximizedState,
         VertMaximizedState,
-        /* SemiMaximized, */
         FullscreenState,
+        HorizMaximizedState,
+        HiddenState,
     };
 
     enum OrientationAngle {
