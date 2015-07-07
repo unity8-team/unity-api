@@ -66,20 +66,28 @@ class MirSurfaceItemInterface : public QQuickItem
     // The surface to be displayed
     Q_PROPERTY(unity::shell::application::MirSurfaceInterface* surface READ surface WRITE setSurface NOTIFY surfaceChanged)
 
-    // Whether the item will resize its surface match his size.
-    // It's true by default.
-    // Only one item should have this property enabled for a given surface.
-    Q_PROPERTY(bool resizeSurfaceToItem READ resizeSurfaceToItem
-                                        WRITE setResizeSurfaceToItem
-                                        NOTIFY resizeSurfaceToItemChanged)
-
     // Whether the item will forward activeFocus, touch events, mouse events and key events
     // to its surface.
-    // It's true by default.
+    // It's false by default.
     // Only one item should have this property enabled for a given surface.
-    Q_PROPERTY(bool surfaceInputEnabled READ surfaceInputEnabled
-                                        WRITE setSurfaceInputEnabled
-                                        NOTIFY surfaceInputEnabledChanged)
+    Q_PROPERTY(bool consumesInput READ consumesInput
+                                  WRITE setConsumesInput
+                                  NOTIFY consumesInputChanged)
+
+    // Whether the item should consume a new surface buffer on every update
+    // It's false by default.
+    // Only one item should have this property enabled for a given surface.
+    Q_PROPERTY(bool consumesBuffers READ consumesBuffers
+                                    WRITE setConsumesBuffers
+                                    NOTIFY consumesBuffersChanged)
+
+    Q_PROPERTY(int surfaceWidth READ surfaceWidth
+                                WRITE setSurfaceWidth
+                                NOTIFY surfaceWidthChanged)
+
+    Q_PROPERTY(int surfaceHeight READ surfaceHeight
+                                WRITE setSurfaceHeight
+                                NOTIFY surfaceHeightChanged)
 
 public:
     MirSurfaceItemInterface(QQuickItem *parent = 0) : QQuickItem(parent) {}
@@ -96,11 +104,17 @@ public:
     virtual MirSurfaceInterface* surface() const = 0;
     virtual void setSurface(MirSurfaceInterface*) = 0;
 
-    virtual bool resizeSurfaceToItem() const = 0;
-    virtual void setResizeSurfaceToItem(bool value) = 0;
+    virtual bool consumesInput() const = 0;
+    virtual void setConsumesInput(bool value) = 0;
 
-    virtual bool surfaceInputEnabled() const = 0;
-    virtual void setSurfaceInputEnabled(bool value) = 0;
+    virtual bool consumesBuffers() const = 0;
+    virtual void setConsumesBuffers(bool value) = 0;
+
+    virtual int surfaceWidth() const = 0;
+    virtual void setSurfaceWidth(int value) = 0;
+
+    virtual int surfaceHeight() const = 0;
+    virtual void setSurfaceHeight(int value) = 0;
 
 Q_SIGNALS:
     void typeChanged(Mir::Type);
@@ -108,8 +122,10 @@ Q_SIGNALS:
     void liveChanged(bool live);
     void orientationAngleChanged(Mir::OrientationAngle angle);
     void surfaceChanged(MirSurfaceInterface*);
-    void resizeSurfaceToItemChanged(bool value);
-    void surfaceInputEnabledChanged(bool value);
+    void consumesInputChanged(bool value);
+    void consumesBuffersChanged(bool value);
+    void surfaceWidthChanged(int value);
+    void surfaceHeightChanged(int value);
 };
 
 } // namespace application
