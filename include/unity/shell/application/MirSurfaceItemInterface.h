@@ -74,13 +74,6 @@ class MirSurfaceItemInterface : public QQuickItem
                                   WRITE setConsumesInput
                                   NOTIFY consumesInputChanged)
 
-    // Whether the item should consume a new surface buffer on every update
-    // It's false by default.
-    // Only one item should have this property enabled for a given surface.
-    Q_PROPERTY(bool consumesBuffers READ consumesBuffers
-                                    WRITE setConsumesBuffers
-                                    NOTIFY consumesBuffersChanged)
-
     Q_PROPERTY(int surfaceWidth READ surfaceWidth
                                 WRITE setSurfaceWidth
                                 NOTIFY surfaceWidthChanged)
@@ -107,9 +100,6 @@ public:
     virtual bool consumesInput() const = 0;
     virtual void setConsumesInput(bool value) = 0;
 
-    virtual bool consumesBuffers() const = 0;
-    virtual void setConsumesBuffers(bool value) = 0;
-
     virtual int surfaceWidth() const = 0;
     virtual void setSurfaceWidth(int value) = 0;
 
@@ -123,7 +113,6 @@ Q_SIGNALS:
     void orientationAngleChanged(Mir::OrientationAngle angle);
     void surfaceChanged(MirSurfaceInterface*);
     void consumesInputChanged(bool value);
-    void consumesBuffersChanged(bool value);
     void surfaceWidthChanged(int value);
     void surfaceHeightChanged(int value);
 };
