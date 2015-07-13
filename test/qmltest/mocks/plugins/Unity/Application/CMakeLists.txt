@@ -14,7 +14,6 @@ find_package(Qt5Qml REQUIRED)
 set(ApplicationMocks_SOURCES
     ${CMAKE_SOURCE_DIR}/include/unity/shell/application/ApplicationManagerInterface.h
     ${CMAKE_SOURCE_DIR}/include/unity/shell/application/ApplicationInfoInterface.h
-    ${CMAKE_SOURCE_DIR}/include/unity/shell/application/Globals.h
     Mocks/MockApplicationManager.cpp
     Mocks/MockApplicationInfo.cpp
 )
