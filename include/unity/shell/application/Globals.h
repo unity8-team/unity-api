@@ -17,8 +17,6 @@
 #ifndef UNITY_SHELL_APPLICATION_GLOBALS_H
 #define UNITY_SHELL_APPLICATION_GLOBALS_H
 
-#include <unity/SymbolExport.h>
-
 #include <QObject>
 
 namespace unity
@@ -28,25 +26,13 @@ namespace shell
 namespace application
 {
 
-/**
- * @brief Global enumerations
- *
- * This class defines commonly used enumerations in QtMir which are shared between
- * the QPA plugin and the shell implementation.
- */
-
-class UNITY_API Globals
+class Globals
 {
     Q_GADGET
     Q_ENUMS(SurfaceState)
     Q_ENUMS(SurfaceType)
 
 public:
-    /**
-     * @brief The Surface Types supported by Mir
-     *
-     * See the Mir Window Management documentation for more details
-     */
     enum SurfaceType {
         Normal,
         Utility,
@@ -59,11 +45,6 @@ public:
         Tip
     };
 
-    /**
-     * @brief The Surface States supported by Mir
-     *
-     * See the Mir Window Management documentation for more details
-     */
     enum SurfaceState {
         Unknown,
         Restored,
@@ -73,11 +54,6 @@ public:
         Fullscreen
     };
 
-    /**
-     * @brief The Pixel formats supported by Mir Surfaces
-     *
-     * See the Mir documentation for more details
-     */
     enum PixelFormat {
         Invalid,
         ABGR8888,
