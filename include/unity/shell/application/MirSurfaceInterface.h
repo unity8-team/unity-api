@@ -28,26 +28,33 @@ namespace shell
 namespace application
 {
 
-/*
-    Holds a Mir surface. Pretty much an opaque class.
+/**
+   @brief Holds a Mir surface. Pretty much an opaque class.
 
-    All surface manipulation is done by giving it to a MirSurfaceItem and then
-    using MirSurfaceItem's properties.
+   All surface manipulation is done by giving it to a MirSurfaceItem and then
+   using MirSurfaceItem's properties.
  */
 class MirSurfaceInterface : public QObject
 {
     Q_OBJECT
 
+    /**
+     * @brief The surface type
+     */
     Q_PROPERTY(Mir::Type type READ type NOTIFY typeChanged)
 
 public:
+    /// @cond
     MirSurfaceInterface(QObject *parent = nullptr) : QObject(parent) {}
     virtual ~MirSurfaceInterface() {}
 
     virtual Mir::Type type() const = 0;
+    /// @endcond
 
 Q_SIGNALS:
-    void typeChanged(Mir::Type);
+    /// @cond
+    void typeChanged();
+    /// @endcond
 };
 
 } // namespace application

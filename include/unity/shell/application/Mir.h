@@ -19,17 +19,20 @@
 
 #include <QObject>
 
-/*
-    Acting as a namespace to hold enums and such for use in QML
+/**
+    @brief Acting as a namespace to hold enums and such for use in QML
  */
-class Mir : public QObject
+class Mir
 {
-    Q_OBJECT
+    Q_GADGET
     Q_ENUMS(Type)
     Q_ENUMS(State)
     Q_ENUMS(OrientationAngle)
 
 public:
+    /**
+        @brief Surface type
+     */
     enum Type {
         UnknownType,
         NormalType,
@@ -43,6 +46,9 @@ public:
         TipType,
     };
 
+    /**
+        @brief Surface state
+     */
     enum State {
         UnknownState,
         RestoredState,
@@ -54,6 +60,9 @@ public:
         HiddenState,
     };
 
+    /**
+        @brief Surface orientation angle
+     */
     enum OrientationAngle {
         Angle0 = 0,
         Angle90 = 90,

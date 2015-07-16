@@ -30,8 +30,8 @@ namespace application
 
 class MirSurfaceInterface;
 
-/*
-   Renders a MirSurface in a QML scene and forwards the input events it receives to it.
+/**
+   @brief Renders a MirSurface in a QML scene and forwards the input events it receives to it.
 
    You can have multiple MirSurfaceItems displaying the same MirSurface. But care must
    be taken that only one of them feeds the MirSurface with input events and also only
@@ -40,49 +40,71 @@ class MirSurfaceInterface;
 class MirSurfaceItemInterface : public QQuickItem
 {
     Q_OBJECT
-    Q_ENUMS(Type)
-    Q_ENUMS(State)
-    Q_ENUMS(OrientationAngle)
 
-    // Type of the given surface or Mir.UnknownType if no surface is set
+    /**
+     * @brief The surface to be displayed
+     */
+    Q_PROPERTY(unity::shell::application::MirSurfaceInterface* surface READ surface WRITE setSurface NOTIFY surfaceChanged)
+
+    /**
+     * @brief Type of the given surface or Mir.UnknownType if no surface is set
+     */
     Q_PROPERTY(Mir::Type type READ type NOTIFY typeChanged)
 
-    // State of the given surface or Mir.UnknownState if no surface is set
+    /**
+     * @brief State of the given surface or Mir.UnknownState if no surface is set
+     */
     Q_PROPERTY(Mir::State surfaceState READ surfaceState WRITE setSurfaceState NOTIFY surfaceStateChanged)
 
-    // Name of the given surface or an empty string if no surface is set
+    /**
+     * @brief Name of the given surface or an empty string if no surface is set
+     */
     Q_PROPERTY(QString name READ name CONSTANT)
 
-    // True if the item has a surface and that surface has a mir client bound to it.
-    // A "zombie" (live == false) surface never becomes alive again.
+    /**
+     * @brief True if the item has a surface and that surface has a mir client bound to it.
+     * A "zombie" (live == false) surface never becomes alive again.
+     */
     Q_PROPERTY(bool live READ live NOTIFY liveChanged)
 
-    // Orientation angle of the given surface
-    //
-    // How many degrees, clockwise, the UI in the surface has to rotate to match shell's UI orientation
+    /**
+     * @brief  Orientation angle of the given surface
+     *
+     * How many degrees, clockwise, the UI in the surface has to rotate to match shell's UI orientation
+     */
     Q_PROPERTY(Mir::OrientationAngle orientationAngle READ orientationAngle WRITE setOrientationAngle
                NOTIFY orientationAngleChanged DESIGNABLE false)
 
-    // The surface to be displayed
-    Q_PROPERTY(unity::shell::application::MirSurfaceInterface* surface READ surface WRITE setSurface NOTIFY surfaceChanged)
 
-    // Whether the item will forward activeFocus, touch events, mouse events and key events
-    // to its surface.
-    // It's false by default.
-    // Only one item should have this property enabled for a given surface.
+    /**
+     * @brief Whether the item will forward activeFocus, touch events, mouse events and key events to its surface.
+     * It's false by default.
+     * Only one item should have this property enabled for a given surface.
+     */
     Q_PROPERTY(bool consumesInput READ consumesInput
                                   WRITE setConsumesInput
                                   NOTIFY consumesInputChanged)
 
+    /**
+     * @brief Width of the contained MirSurface, if any
+     * If set, it means the desired width for the contained MirSurface. Otherwise it has
+     * the current width of the contained MirSurface.
+     */
     Q_PROPERTY(int surfaceWidth READ surfaceWidth
                                 WRITE setSurfaceWidth
                                 NOTIFY surfaceWidthChanged)
 
+    /**
+     * @brief Height of the contained MirSurface, if any
+     * If set, it means the desired height for the contained MirSurface. Otherwise it has
+     * the current height of the contained MirSurface.
+     */
     Q_PROPERTY(int surfaceHeight READ surfaceHeight
                                 WRITE setSurfaceHeight
                                 NOTIFY surfaceHeightChanged)
 
 public:
+    /// @cond
     MirSurfaceItemInterface(QQuickItem *parent = 0) : QQuickItem(parent) {}
     virtual ~MirSurfaceItemInterface() {}
 
@@ -107,8 +129,10 @@ public:
 
     virtual int surfaceHeight() const = 0;
     virtual void setSurfaceHeight(int value) = 0;
+    /// @endcond
 
 Q_SIGNALS:
+    /// @cond
     void typeChanged(Mir::Type);
     void surfaceStateChanged(Mir::State);
     void liveChanged(bool live);
@@ -117,6 +141,7 @@ Q_SIGNALS:
     void consumesInputChanged(bool value);
     void surfaceWidthChanged(int value);
     void surfaceHeightChanged(int value);
+    /// @endcond
 };
 
 } // namespace application
