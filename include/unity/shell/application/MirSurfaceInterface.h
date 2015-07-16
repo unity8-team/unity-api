@@ -43,17 +43,49 @@ class MirSurfaceInterface : public QObject
      */
     Q_PROPERTY(Mir::Type type READ type NOTIFY typeChanged)
 
+    Q_PROPERTY(QString name READ name CONSTANT)
+
+    Q_PROPERTY(QSize size READ size WRITE setSize NOTIFY sizeChanged)
+
+    Q_PROPERTY(Mir::State state READ state WRITE setState NOTIFY stateChanged)
+
+    /**
+     * @brief True if it has a mir client bound to it.
+     * A "zombie" (live == false) surface never becomes alive again.
+     */
+    Q_PROPERTY(bool live READ live NOTIFY liveChanged)
+
+    Q_PROPERTY(Mir::OrientationAngle orientationAngle READ orientationAngle WRITE setOrientationAngle
+               NOTIFY orientationAngleChanged DESIGNABLE false)
+
 public:
     /// @cond
     MirSurfaceInterface(QObject *parent = nullptr) : QObject(parent) {}
     virtual ~MirSurfaceInterface() {}
 
     virtual Mir::Type type() const = 0;
+
+    virtual QString name() const = 0;
+
+    virtual QSize size() const = 0;
+    virtual void setSize(const QSize &size) = 0;
+
+    virtual Mir::State state() const = 0;
+    virtual void setState(Mir::State qmlState) = 0;
+
+    virtual bool live() const = 0;
+
+    virtual Mir::OrientationAngle orientationAngle() const = 0;
+    virtual void setOrientationAngle(Mir::OrientationAngle angle) = 0;
     /// @endcond
 
 Q_SIGNALS:
     /// @cond
-    void typeChanged();
+    void typeChanged(Mir::Type value);
+    void liveChanged(bool value);
+    void stateChanged(Mir::State value);
+    void orientationAngleChanged(Mir::OrientationAngle value);
+    void sizeChanged(const QSize &value);
     /// @endcond
 };
 
