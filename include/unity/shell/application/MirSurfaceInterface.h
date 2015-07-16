@@ -18,6 +18,7 @@
 #define UNITY_SHELL_APPLICATION_MIRSURFACE_H
 
 #include <QObject>
+#include <QSize>
 
 #include "Mir.h"
 
