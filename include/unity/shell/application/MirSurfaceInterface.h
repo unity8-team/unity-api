@@ -72,6 +72,7 @@ public:
     virtual QString name() const = 0;
 
     virtual QSize size() const = 0;
+    virtual void resize(int width, int height) = 0;
 
     virtual Mir::State state() const = 0;
     virtual void setState(Mir::State qmlState) = 0;
