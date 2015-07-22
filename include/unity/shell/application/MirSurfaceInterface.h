@@ -46,7 +46,10 @@ class MirSurfaceInterface : public QObject
 
     Q_PROPERTY(QString name READ name CONSTANT)
 
-    Q_PROPERTY(QSize size READ size WRITE setSize NOTIFY sizeChanged)
+    /**
+     * @brief Size of the current surface buffer, in pixels.
+     */
+    Q_PROPERTY(QSize size READ size NOTIFY sizeChanged)
 
     Q_PROPERTY(Mir::State state READ state WRITE setState NOTIFY stateChanged)
 
@@ -69,7 +72,6 @@ public:
     virtual QString name() const = 0;
 
     virtual QSize size() const = 0;
-    virtual void setSize(const QSize &size) = 0;
 
     virtual Mir::State state() const = 0;
     virtual void setState(Mir::State qmlState) = 0;
