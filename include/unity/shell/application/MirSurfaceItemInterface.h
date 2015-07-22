@@ -86,18 +86,18 @@ class MirSurfaceItemInterface : public QQuickItem
                                   NOTIFY consumesInputChanged)
 
     /**
-     * @brief Width of the contained MirSurface, if any
-     * If set, it means the desired width for the contained MirSurface. Otherwise it has
-     * the current width of the contained MirSurface.
+     * @brief The desired width for the contained MirSurface.
+     * It's ignored if set to zero or a negative number
+     * The default value is zero
      */
     Q_PROPERTY(int surfaceWidth READ surfaceWidth
                                 WRITE setSurfaceWidth
                                 NOTIFY surfaceWidthChanged)
 
     /**
-     * @brief Height of the contained MirSurface, if any
-     * If set, it means the desired height for the contained MirSurface. Otherwise it has
-     * the current height of the contained MirSurface.
+     * @brief The desired height for the contained MirSurface.
+     * It's ignored if set to zero or a negative number
+     * The default value is zero
      */
     Q_PROPERTY(int surfaceHeight READ surfaceHeight
                                 WRITE setSurfaceHeight
