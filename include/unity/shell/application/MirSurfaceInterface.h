@@ -44,6 +44,9 @@ class MirSurfaceInterface : public QObject
      */
     Q_PROPERTY(Mir::Type type READ type NOTIFY typeChanged)
 
+    /**
+     * @brief Name of the surface, given by the client application
+     */
     Q_PROPERTY(QString name READ name CONSTANT)
 
     /**
@@ -51,6 +54,9 @@ class MirSurfaceInterface : public QObject
      */
     Q_PROPERTY(QSize size READ size NOTIFY sizeChanged)
 
+    /**
+     * @brief State of the surface
+     */
     Q_PROPERTY(Mir::State state READ state WRITE setState NOTIFY stateChanged)
 
     /**
@@ -59,6 +65,11 @@ class MirSurfaceInterface : public QObject
      */
     Q_PROPERTY(bool live READ live NOTIFY liveChanged)
 
+    /**
+     * @brief Orientation angle of the surface
+     *
+     * How many degrees, clockwise, the UI in the surface has to rotate to match shell's UI orientation
+     */
     Q_PROPERTY(Mir::OrientationAngle orientationAngle READ orientationAngle WRITE setOrientationAngle
                NOTIFY orientationAngleChanged DESIGNABLE false)
 
