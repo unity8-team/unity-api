@@ -1,3 +1,9 @@
+unity-api (7.98+15.04.20150805-0ubuntu1) UNRELEASED; urgency=medium
+
+  * Fake entry to keep train happy
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Thu, 6 Aug 2015 09:53:01 +0000
+
 unity-api (7.98+15.10.20150724-0ubuntu1) wily; urgency=medium
 
   [ Mirco Müller (MacSlow) ]
