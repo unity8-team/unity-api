@@ -1,3 +1,13 @@
+unity-api (7.99+15.10.20150804-0ubuntu1) wily; urgency=medium
+
+  [ Daniel d'Andrada ]
+  * Remove ApplicationManagerInterface.forceDashActive
+  * Remove ApplicationManagerInterface.suspended
+  * Add ApplicationInfoInterface.requestedState
+  * Add a NO_TESTS options to cmake
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Tue, 04 Aug 2015 15:26:16 +0000
+
 unity-api (7.98+15.04.20150805-0ubuntu1) UNRELEASED; urgency=medium
 
   * Fake entry to keep train happy
