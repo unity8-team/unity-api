@@ -122,7 +122,7 @@ endif()
 # API version
 set(UNITY_API_MAJOR 0)
 set(UNITY_API_MINOR 1)
-set(UNITY_API_MICRO 4)
+set(UNITY_API_MICRO 5)
 set(UNITY_API_VERSION "${UNITY_API_MAJOR}.${UNITY_API_MINOR}.${UNITY_API_MICRO}")
 
 # API library
@@ -145,13 +145,17 @@ set(TESTLIBS ${UNITY_API_STATIC_LIB} ${OTHER_API_LIBS})
 set(LIB_INSTALL_PREFIX lib/${CMAKE_LIBRARY_ARCHITECTURE})
 
 # Tests
-include(CTest)
-enable_testing()
+if (NOT NO_TESTS)
+    include(CTest)
+    enable_testing()
+    add_subdirectory(test)
+else()
+    message(STATUS "Tests disabled")
+endif()
 
 # add subdirectories to build
 add_subdirectory(include)
 add_subdirectory(src)
-add_subdirectory(test)
 add_subdirectory(data)
 
 if (cmake_build_type_lower MATCHES coverage)
