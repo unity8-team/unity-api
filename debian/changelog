@@ -1,3 +1,9 @@
+unity-api (7.101-0ubuntu1) UNRELEASED; urgency=medium
+
+  * Added Filters interface.
+
+ -- Pawel Stolowski <pawel.stolowski@canonical.com>  Wed, 28 Aug 2015 13:50:55 +0100
+
 unity-api (7.100+15.04.20150827-0ubuntu1) vivid; urgency=medium
 
   [ Daniel d'Andrada ]
@@ -7,12 +13,6 @@ unity-api (7.100+15.04.20150827-0ubuntu1) vivid; urgency=medium
   * No-change rebuild.
 
  -- CI Train Bot <ci-train-bot@canonical.com>  Thu, 27 Aug 2015 08:50:45 +0000
-
-unity-api (7.100-0ubuntu1) UNRELEASED; urgency=medium
-
-  * Added Filters interface.
-
- -- Pawel Stolowski <pawel.stolowski@canonical.com>  Wed, 28 Aug 2015 13:50:55 +0100
 
 unity-api (7.99+15.10.20150826-0ubuntu1) wily; urgency=medium
 
