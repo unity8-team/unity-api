@@ -139,11 +139,9 @@ public:
 
     virtual QString focusedApplicationId() const = 0;
 
-<<<<<<< TREE
     virtual QJSValue surfaceAboutToBeCreatedCallback() const = 0;
     virtual void setSurfaceAboutToBeCreatedCallback(const QJSValue &callback) = 0;
-=======
->>>>>>> MERGE-SOURCE
+
     /// @endcond
 
     /**
