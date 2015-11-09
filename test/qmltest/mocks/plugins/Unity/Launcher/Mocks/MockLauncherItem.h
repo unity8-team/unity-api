@@ -59,6 +59,9 @@ public:
     bool alerting() const;
     void setAlerting(bool alerting);
 
+    bool isTouchApp() const;
+    void setIsTouchApp(bool isTouchApp);
+
     unity::shell::launcher::QuickListModelInterface *quickList() const;
 
 private:
@@ -74,6 +77,7 @@ private:
     bool m_countVisible;
     bool m_focused;
     bool m_alerting;
+    bool m_isTouchApp;
     QuickListModelInterface *m_quickListModel;
 };
 

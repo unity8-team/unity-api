@@ -35,6 +35,7 @@ MockLauncherItem::MockLauncherItem(const QString &appId, const QString& desktopF
     m_count(8),
     m_countVisible(false),
     m_alerting(false),
+    m_isTouchApp(false),
     m_quickListModel(new MockQuickListModel(this))
 {
 
@@ -169,6 +170,20 @@ void MockLauncherItem::setAlerting(bool alerting)
     {
         m_alerting = alerting;
         Q_EMIT alertingChanged(alerting);
+    }
+}
+
+bool MockLauncherItem::isTouchApp() const
+{
+    return m_isTouchApp;
+}
+
+void MockLauncherItem::setIsTouchApp(bool isTouchApp)
+{
+    if (m_isTouchApp != isTouchApp)
+    {
+        m_isTouchApp = isTouchApp;
+        Q_EMIT isTouchAppChanged(isTouchApp);
     }
 }
 

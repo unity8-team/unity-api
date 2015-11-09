@@ -88,6 +88,7 @@ Item {
                         { tag: "Model.roles[countVisible]", role: "countVisible", type: "boolean" },
                         { tag: "Model.roles[focused]", role: "focused", type: "boolean" },
                         { tag: "Model.roles[alerting]", role: "alerting", type: "boolean" },
+                        { tag: "Model.roles[isTouchApp]", role: "isTouchApp", type: "boolean" },
                     ];
         }
 
@@ -146,6 +147,7 @@ Item {
                 { tag: "Item.properties[countVisible]", property: "countVisible", type: "boolean" },
                 { tag: "Item.properties[focused]", property: "focused", type: "boolean" },
                 { tag: "Item.properties[alerting]", property: "alerting", type: "boolean" },
+                { tag: "Item.properties[isTouchApp]", property: "isTouchApp", type: "boolean" },
                 { tag: "Item.properties[quickList]", constant: "quickList", type: "object" },
             ];
         }
