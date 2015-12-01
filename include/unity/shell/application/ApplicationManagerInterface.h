@@ -169,6 +169,15 @@ public:
     Q_INVOKABLE virtual unity::shell::application::ApplicationInfoInterface *startApplication(const QString &appId, const QStringList &arguments) = 0;
 
     /**
+     * @brief Allow (or not) an application to finish starting.
+     *
+     * @param appId The appId for the application to allow.
+     * @param approved Whether the application is allowed or not.
+     * @returns True if application approval was successful, else false.
+     */
+    Q_INVOKABLE virtual bool approveApplicationStart(const QString &appId, bool approved) = 0;
+
+    /**
       * @brief Stops an application.
       *
       * @param appId The application to be stopped.
@@ -188,6 +197,16 @@ Q_SIGNALS:
      * an animation.
      */
     void focusRequested(const QString &appId);
+
+    /**
+     * @brief Will be emitted when an application wants to start.
+     *
+     * This can be used to approve or deny the application with
+     * approveApplicationStart(). For example, maybe an application requires
+     * further permission.  Or an application can't start right now because
+     * the device is in the wrong mode (phone vs desktop).
+     */
+    void applicationStartApprovalRequested(const QString &appId);
 
     /**
      * @brief Will be emitted whenever the focused application changes.

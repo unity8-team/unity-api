@@ -123,6 +123,13 @@ unity::shell::application::ApplicationInfoInterface *MockApplicationManager::sta
     return item;
 }
 
+bool MockApplicationManager::approveApplicationStart(const QString &appId, bool approved)
+{
+    Q_UNUSED(appId)
+    Q_UNUSED(approved)
+    return true;
+}
+
 bool MockApplicationManager::stopApplication(const QString &appId)
 {
     Q_UNUSED(appId)

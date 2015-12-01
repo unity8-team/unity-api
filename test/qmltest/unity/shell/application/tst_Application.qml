@@ -112,6 +112,7 @@ Item {
                 { tag: "ApplicationManager.methods[focusApplication]", method: "focusApplication" },
                 { tag: "ApplicationManager.methods[unfocusCurrentApplication]", method: "unfocusCurrentApplication" },
                 { tag: "ApplicationManager.methods[startApplication]", method: "startApplication" },
+                { tag: "ApplicationManager.methods[approveApplicationStart]", method: "approveApplicationStart" },
                 { tag: "ApplicationManager.methods[stopApplication]", method: "stopApplication" },
             ];
         }
