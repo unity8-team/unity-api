@@ -1,8 +1,12 @@
-unity-api (7.102.1) UNRELEASED; urgency=medium
+unity-api (7.102.1+15.04.20151204-0ubuntu1) vivid; urgency=medium
 
+  [ Michael Terry ]
   * Added ApplicationInfoInterface::exemptFromLifecycle
 
- -- Michael Terry <mterry@ubuntu.com>  Thu, 03 Dec 2015 10:28:00 -0500
+  [ CI Train Bot ]
+  * No-change rebuild.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 04 Dec 2015 18:32:34 +0000
 
 unity-api (7.102+15.04.20151102-0ubuntu1) vivid; urgency=medium
 
