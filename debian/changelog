@@ -1,4 +1,4 @@
-unity-api (7.102+16.04.20151102-0ubuntu1) xenial; urgency=medium
+unity-api (7.102+15.04.20151102-0ubuntu1) vivid; urgency=medium
 
   [ Nick Dedekind ]
   * Added visibility to surface interface. 
