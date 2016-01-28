@@ -1,8 +1,12 @@
-unity-api (7.106) UNRELEASED; urgency=medium
+unity-api (7.106+16.04.20160128.1-0ubuntu1) xenial; urgency=medium
 
+  [ Daniel d'Andrada ]
   * Added ApplicationInfoInterface.initialSurfaceSize
 
- -- Daniel d'Andrada <daniel.dandrada@canonical.com>  Tue, 19 Jan 2016 12:23:17 -0600
+  [ CI Train Bot ]
+  * No-change rebuild.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Thu, 28 Jan 2016 18:30:35 +0000
 
 unity-api (7.105+16.04.20160104-0ubuntu1) xenial; urgency=medium
 
