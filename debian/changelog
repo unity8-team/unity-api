@@ -1,6 +1,9 @@
-unity-api (7.107-0ubuntu1) UNRELEASED; urgency=medium
+unity-api (7.107+16.04.20160216.1-0ubuntu1) xenial; urgency=medium
 
- -- Michal Sawicz <michal.sawicz@canonical.com>  Tue, 16 Feb 2016 10:06:55 +0100
+  [ Lukáš Tinkl, Michał Sawicz ]
+  * Add API for setting keyboard layout+variant on a surface
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Tue, 16 Feb 2016 11:21:52 +0000
 
 unity-api (7.106+16.04.20160211.1-0ubuntu1) xenial; urgency=medium
 
