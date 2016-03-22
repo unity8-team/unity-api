@@ -72,6 +72,7 @@ protected:
         m_roleNames.insert(RoleFocused, "focused");
         m_roleNames.insert(RoleIsTouchApp, "isTouchApp");
         m_roleNames.insert(RoleExemptFromLifecycle, "exemptFromLifecycle");
+        m_roleNames.insert(RoleApplication, "application");
 
         connect(this, SIGNAL(rowsInserted(QModelIndex, int, int)), SIGNAL(countChanged()));
         connect(this, SIGNAL(rowsRemoved(QModelIndex, int, int)), SIGNAL(countChanged()));
@@ -96,6 +97,7 @@ public:
         RoleFocused,
         RoleIsTouchApp,
         RoleExemptFromLifecycle,
+        RoleApplication,
     };
 
     /// @cond
@@ -195,20 +197,6 @@ Q_SIGNALS:
      * @brief Will be emitted whenever the focused application changes.
      */
     void focusedApplicationIdChanged();
-
-    /**
-     * @brief Will be emitted when an application was added to the model.
-     *
-     * @param appId The appId of the application that was added.
-     */
-    void applicationAdded(const QString &appId);
-
-    /**
-     * @brief Will be emitted when an application was removed from the model.
-     *
-     * @param appId The appId of the application that was removed.
-     */
-    void applicationRemoved(const QString &appId);
 
 protected:
     /// @cond
