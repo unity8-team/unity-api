@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,6 +28,8 @@ namespace shell
 {
 namespace application
 {
+
+class MirSurfaceListInterface;
 
 /**
    @brief Holds a Mir surface. Pretty much an opaque class.
@@ -78,6 +80,65 @@ class MirSurfaceInterface : public QObject
     Q_PROPERTY(Mir::OrientationAngle orientationAngle READ orientationAngle WRITE setOrientationAngle
                NOTIFY orientationAngleChanged DESIGNABLE false)
 
+    /**
+     * @brief The requested minimum width for the surface
+     * Zero if not set
+     */
+    Q_PROPERTY(int minimumWidth READ minimumWidth NOTIFY minimumWidthChanged)
+
+    /**
+     * @brief The requested minimum height for the surface
+     * Zero if not set
+     */
+    Q_PROPERTY(int minimumHeight READ minimumHeight NOTIFY minimumHeightChanged)
+
+    /**
+     * @brief The requested maximum width for the surface
+     * Zero if not set
+     */
+    Q_PROPERTY(int maximumWidth READ maximumWidth NOTIFY maximumWidthChanged)
+
+    /**
+     * @brief The requested maximum height for the surface
+     * Zero if not set
+     */
+    Q_PROPERTY(int maximumHeight READ maximumHeight NOTIFY maximumHeightChanged)
+
+    /**
+     * @brief The requested width increment for the surface
+     * Zero if not set
+     */
+    Q_PROPERTY(int widthIncrement READ widthIncrement NOTIFY widthIncrementChanged)
+
+    /**
+     * @brief The requested height increment for the surface
+     * Zero if not set
+     */
+    Q_PROPERTY(int heightIncrement READ heightIncrement NOTIFY heightIncrementChanged)
+
+    /**
+     * @brief The Shell chrome mode
+     */
+    Q_PROPERTY(Mir::ShellChrome shellChrome READ shellChrome NOTIFY shellChromeChanged)
+
+    /**
+     * @brief The requested keymap for this surface
+     * Its format is "layout+variant".
+     */
+    Q_PROPERTY(QString keymap READ keymap WRITE setKeymap NOTIFY keymapChanged)
+
+    /**
+     * @brief Whether the surface is focused
+     *
+     * It will be true if this surface is MirFocusControllerInterface::focusedSurface
+     */
+    Q_PROPERTY(bool focused READ focused NOTIFY focusedChanged)
+
+    /**
+     * @brief The list of prompt surfaces under this one
+     */
+    Q_PROPERTY(unity::shell::application::MirSurfaceListInterface* promptSurfaceList READ promptSurfaceList CONSTANT)
+
 public:
     /// @cond
     MirSurfaceInterface(QObject *parent = nullptr) : QObject(parent) {}
@@ -100,7 +161,41 @@ public:
 
     virtual Mir::OrientationAngle orientationAngle() const = 0;
     virtual void setOrientationAngle(Mir::OrientationAngle angle) = 0;
+
+    virtual int minimumWidth() const = 0;
+    virtual int minimumHeight() const = 0;
+    virtual int maximumWidth() const = 0;
+    virtual int maximumHeight() const = 0;
+    virtual int widthIncrement() const = 0;
+    virtual int heightIncrement() const = 0;
+
+    virtual void setKeymap(const QString &) = 0;
+    virtual QString keymap() const = 0;
+
+    virtual Mir::ShellChrome shellChrome() const = 0;
+
+    virtual bool focused() const = 0;
+
+    virtual MirSurfaceListInterface* promptSurfaceList() = 0;
     /// @endcond
+
+    /**
+     * @brief Requests focus for this surface
+     *
+     * Causes the emission of focusRequested()
+     */
+    Q_INVOKABLE virtual void requestFocus() = 0;
+
+    /**
+     * @brief Sends a close request
+     *
+     */
+    Q_INVOKABLE virtual void close() = 0;
+
+    /**
+     * @brief Raises this surface to be the first/top one among its siblings
+     */
+    Q_INVOKABLE virtual void raise() = 0;
 
 Q_SIGNALS:
     /// @cond
@@ -111,7 +206,21 @@ Q_SIGNALS:
     void orientationAngleChanged(Mir::OrientationAngle value);
     void sizeChanged(const QSize &value);
     void nameChanged(const QString &name);
+    void minimumWidthChanged(int value);
+    void minimumHeightChanged(int value);
+    void maximumWidthChanged(int value);
+    void maximumHeightChanged(int value);
+    void widthIncrementChanged(int value);
+    void heightIncrementChanged(int value);
+    void shellChromeChanged(Mir::ShellChrome value);
+    void keymapChanged(const QString &value);
+    void focusedChanged(bool value);
     /// @endcond
+
+    /**
+     * @brief Emitted in response to a requestFocus() call
+     */
+    void focusRequested();
 };
 
 } // namespace application

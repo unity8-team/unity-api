@@ -16,9 +16,10 @@
 
 #include "MockScope.h"
 #include "MockCategories.h"
-#include "MockPreviewStack.h"
+#include "MockPreviewModel.h"
 #include "MockDepartment.h"
 #include "MockSettingsModel.h"
+#include "MockFiltersModel.h"
 
 MockScope::MockScope(QObject* parent) : MockScope(QString(), QString(), parent)
 {
@@ -34,6 +35,7 @@ MockScope::MockScope(QString const& id, QString const& name, QObject* parent)
     , m_previewRendererName("preview-generic")
     , m_categories(new MockCategories(20, this))
     , m_settings(new MockSettingsModel(this))
+    , m_filters(new MockFiltersModel(this))
 {
 }
 
@@ -69,12 +71,12 @@ QString MockScope::currentNavigationId() const {
     return m_currentDepartmentId;
 }
 
-QString MockScope::currentAltNavigationId() const {
-    return m_currentAltDepartmentId;
-}
-
 bool MockScope::searchInProgress() const {
     return m_searching;
+}
+
+bool MockScope::activationInProgress() const {
+    return false;
 }
 
 unity::shell::scopes::CategoriesInterface* MockScope::categories() const {
@@ -83,6 +85,14 @@ unity::shell::scopes::CategoriesInterface* MockScope::categories() const {
 
 unity::shell::scopes::SettingsModelInterface* MockScope::settings() const {
     return m_settings;
+}
+
+unity::shell::scopes::FiltersInterface* MockScope::filters() const {
+    return m_filters;
+}
+
+unity::shell::scopes::FilterBaseInterface* MockScope::primaryNavigationFilter() const {
+    return nullptr;
 }
 
 QString MockScope::noResultsHint() const {
@@ -103,10 +113,6 @@ bool MockScope::isActive() const {
 
 bool MockScope::hasNavigation() const {
     return m_hasNavigation;
-}
-
-bool MockScope::hasAltNavigation() const {
-    return m_hasAltNavigation;
 }
 
 QVariantMap MockScope::customizations() const {
@@ -172,14 +178,14 @@ void MockScope::activateAction(QVariant const& result, QString const& categoryId
     Q_UNUSED(actionId);
 }
 
-unity::shell::scopes::PreviewStackInterface* MockScope::preview(QVariant const& result, QString const& categoryId)
+unity::shell::scopes::PreviewModelInterface* MockScope::preview(QVariant const& result, QString const& categoryId)
 {
     Q_UNUSED(result);
     Q_UNUSED(categoryId);
 
     // This probably leaks, do we don't care
     // it's a  test after all
-    return new MockPreviewStack;
+    return new MockPreviewModel;
 }
 
 unity::shell::scopes::NavigationInterface* MockScope::getNavigation(QString const& navigationId)
@@ -189,17 +195,9 @@ unity::shell::scopes::NavigationInterface* MockScope::getNavigation(QString cons
     return new MockDepartment();
 }
 
-unity::shell::scopes::NavigationInterface* MockScope::getAltNavigation(QString const& navigationId)
-{
-    Q_UNUSED(navigationId);
-
-    return new MockDepartment();
-}
-
-void MockScope::setNavigationState(QString const& navId, bool altNavigation)
+void MockScope::setNavigationState(QString const& navId)
 {
     Q_UNUSED(navId);
-    Q_UNUSED(altNavigation);
 }
 
 void MockScope::cancelActivation()
@@ -218,4 +216,22 @@ void MockScope::performQuery(QString const& cannedQuery)
 
 void MockScope::refresh()
 {
+}
+
+QString MockScope::primaryNavigationTag() const
+{
+    return "";
+}
+
+void MockScope::resetPrimaryNavigationTag()
+{
+}
+
+void MockScope::resetFilters()
+{
+}
+
+int MockScope::activeFiltersCount() const
+{
+    return 0;
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,34 +14,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef MOCKOPTIONSELECTOROPTIONS_H
+#define MOCKOPTIONSELECTOROPTIONS_H
 
-#ifndef MOCKPREVIEWSTACK_H
-#define MOCKPREVIEWSTACK_H
+#include <unity/shell/scopes/OptionSelectorOptionsInterface.h>
 
-#include <unity/shell/scopes/PreviewStackInterface.h>
-
-#include <QSharedPointer>
-#include <QVariantMap>
-
-class MockPreviewModel;
-
-class MockPreviewStack : public unity::shell::scopes::PreviewStackInterface
+class MockSelectorOptions : public unity::shell::scopes::OptionSelectorOptionsInterface
 {
     Q_OBJECT
 
 public:
-    explicit MockPreviewStack (QObject* parent = 0);
-
+    MockSelectorOptions(int num = 2, QObject *parent = 0);
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
-
-    Q_INVOKABLE unity::shell::scopes::PreviewModelInterface* getPreviewModel(int index) const override;
-
-    void setWidgetColumnCount(int columnCount) override;
-    int widgetColumnCount() const override;
+    void setChecked(int index, bool checked) override;
 
 private:
-    QList<MockPreviewModel*> m_previews;
+    int m_numOfOptions;
 };
 
 #endif

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013,2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -71,6 +71,8 @@ protected:
         m_roleNames.insert(RoleState, "state");
         m_roleNames.insert(RoleFocused, "focused");
         m_roleNames.insert(RoleIsTouchApp, "isTouchApp");
+        m_roleNames.insert(RoleExemptFromLifecycle, "exemptFromLifecycle");
+        m_roleNames.insert(RoleApplication, "application");
 
         connect(this, SIGNAL(rowsInserted(QModelIndex, int, int)), SIGNAL(countChanged()));
         connect(this, SIGNAL(rowsRemoved(QModelIndex, int, int)), SIGNAL(countChanged()));
@@ -94,6 +96,8 @@ public:
         RoleState,
         RoleFocused,
         RoleIsTouchApp,
+        RoleExemptFromLifecycle,
+        RoleApplication,
     };
 
     /// @cond
@@ -141,23 +145,6 @@ public:
      * @returns True if the request will processed, false if it was discarded (i.e. the given appid could not be found)
      */
     Q_INVOKABLE virtual bool requestFocusApplication(const QString &appId) = 0;
-
-    /**
-     * @brief Focus the given application.
-     *
-     * This will immediately focus the given application. Usually you should not use this
-     * but instead call requestFocusApplication() in order to allow the shell to prepare
-     * for the upcoming animation or even block the focus request (e.g. focus stealing prevention)
-     *
-     * @param appId The application to be focused.
-     * @returns True if appId found and application focused, else false.
-     */
-    Q_INVOKABLE virtual bool focusApplication(const QString &appId) = 0;
-
-    /**
-     * @brief Unfocus the currently focused application.
-     */
-    Q_INVOKABLE virtual void unfocusCurrentApplication() = 0;
 
     /**
      * @brief Start an application.
@@ -212,20 +199,6 @@ Q_SIGNALS:
      * @brief Will be emitted whenever the focused application changes.
      */
     void focusedApplicationIdChanged();
-
-    /**
-     * @brief Will be emitted when an application was added to the model.
-     *
-     * @param appId The appId of the application that was added.
-     */
-    void applicationAdded(const QString &appId);
-
-    /**
-     * @brief Will be emitted when an application was removed from the model.
-     *
-     * @param appId The appId of the application that was removed.
-     */
-    void applicationRemoved(const QString &appId);
 
 protected:
     /// @cond

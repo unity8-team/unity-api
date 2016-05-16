@@ -56,6 +56,13 @@ public:
     bool rotatesWindowContents() const override;
 
     bool isTouchApp() const override;
+    bool exemptFromLifecycle() const override;
+    void setExemptFromLifecycle(bool exemptFromLifecycle) override;
+
+    QSize initialSurfaceSize() const override { return QSize(); }
+    void setInitialSurfaceSize(const QSize &) override {}
+
+    MirSurfaceListInterface* surfaceList() override { return nullptr; }
 
 private:
     QString m_appId;
@@ -65,6 +72,7 @@ private:
     ApplicationInfoInterface::Stage m_stage;
     ApplicationInfoInterface::State m_state;
     bool m_focused;
+    bool m_exemptFromLifecycle;
 };
 
 #endif // MOCKAPPLICATIONINFO_H

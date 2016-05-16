@@ -61,7 +61,6 @@ public:
         RoleCategoryId,
         RoleDndUri,
         RoleResult,
-        RoleQuickPreviewData, ///< Data for UI quick previewing. In case of audio should contain uri and duration
         // card components
         RoleTitle,
         RoleArt,
@@ -71,7 +70,9 @@ public:
         RoleSummary,
         RoleAttributes,
         RoleBackground,
-        RoleOverlayColor
+        RoleOverlayColor,
+        RoleQuickPreviewData, ///< Data for UI quick previewing. In case of audio should contain uri and duration
+        RoleSocialActions  ///< Data for social actions (in-card actions such as "+1").
     };
 
     // @cond
@@ -96,6 +97,7 @@ public:
         roles[RoleAttributes] = "attributes";
         roles[RoleBackground] = "background";
         roles[RoleOverlayColor] = "overlayColor";
+        roles[RoleSocialActions] = "socialActions";
         return roles;
     }
 

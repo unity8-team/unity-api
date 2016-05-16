@@ -15,17 +15,23 @@ set(ScopesMocks_SOURCES
     Mocks/MockDepartment.cpp
     Mocks/MockResultsModel.cpp
     Mocks/MockPreviewModel.cpp
-    Mocks/MockPreviewStack.cpp
     Mocks/MockPreviewWidgetModel.cpp
     Mocks/MockScope.cpp
     Mocks/MockScopes.cpp
     Mocks/MockSettingsModel.cpp
+    Mocks/MockFiltersModel.cpp
+    Mocks/MockOptionSelectorFilter.cpp
+    Mocks/MockSelectorOptions.cpp
     ${CMAKE_SOURCE_DIR}/include/unity/shell/scopes/CategoriesInterface.h
+    ${CMAKE_SOURCE_DIR}/include/unity/shell/scopes/FiltersInterface.h
+    ${CMAKE_SOURCE_DIR}/include/unity/shell/scopes/FilterBaseInterface.h
+    ${CMAKE_SOURCE_DIR}/include/unity/shell/scopes/OptionSelectorFilterInterface.h
+    ${CMAKE_SOURCE_DIR}/include/unity/shell/scopes/OptionSelectorOptionsInterface.h
+    ${CMAKE_SOURCE_DIR}/include/unity/shell/scopes/RangeInputFilterInterface.h
     ${CMAKE_SOURCE_DIR}/include/unity/shell/scopes/NavigationInterface.h
     ${CMAKE_SOURCE_DIR}/include/unity/shell/scopes/ResultsModelInterface.h
     ${CMAKE_SOURCE_DIR}/include/unity/shell/scopes/PreviewModelInterface.h
     ${CMAKE_SOURCE_DIR}/include/unity/shell/scopes/PreviewWidgetModelInterface.h
-    ${CMAKE_SOURCE_DIR}/include/unity/shell/scopes/PreviewStackInterface.h
     ${CMAKE_SOURCE_DIR}/include/unity/shell/scopes/ScopeInterface.h
     ${CMAKE_SOURCE_DIR}/include/unity/shell/scopes/ScopesInterface.h
     ${CMAKE_SOURCE_DIR}/include/unity/shell/scopes/SettingsModelInterface.h

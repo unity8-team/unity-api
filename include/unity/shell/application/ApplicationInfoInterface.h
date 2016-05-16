@@ -1,5 +1,5 @@
 /*
- * Copyright 2013,2015 Canonical Ltd.
+ * Copyright 2013,2015,2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,6 +22,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QUrl>
 #include <QColor>
+#include <QSize>
 
 namespace unity
 {
@@ -29,6 +30,8 @@ namespace shell
 {
 namespace application
 {
+
+class MirSurfaceListInterface;
 
 /**
  * @brief A class that holds information about applications
@@ -80,7 +83,7 @@ class UNITY_API ApplicationInfoInterface: public QObject
      *
      * Holds the stage where this application is currently located.
      */
-    Q_PROPERTY(Stage stage READ stage NOTIFY stageChanged)
+    Q_PROPERTY(Stage stage READ stage WRITE setStage NOTIFY stageChanged)
 
     /**
      * @brief The application's state.
@@ -204,6 +207,23 @@ class UNITY_API ApplicationInfoInterface: public QObject
      */
     Q_PROPERTY(bool isTouchApp READ isTouchApp CONSTANT)
 
+    /**
+     * @brief Whether this app is exempt from lifecycle management
+     *
+     * If true, this app will never entirely suspend its process.
+     */
+    Q_PROPERTY(bool exemptFromLifecycle READ exemptFromLifecycle WRITE setExemptFromLifecycle NOTIFY exemptFromLifecycleChanged)
+
+    /**
+     * @brief The size to be given for new surfaces created by this application
+     */
+    Q_PROPERTY(QSize initialSurfaceSize READ initialSurfaceSize WRITE setInitialSurfaceSize NOTIFY initialSurfaceSizeChanged)
+
+    /**
+     * @brief List of the top-level surfaces created by this application
+     */
+    Q_PROPERTY(unity::shell::application::MirSurfaceListInterface* surfaceList READ surfaceList CONSTANT)
+
 protected:
     /// @cond
     ApplicationInfoInterface(const QString &appId, QObject* parent = 0): QObject(parent) { Q_UNUSED(appId) }
@@ -262,6 +282,7 @@ public:
     virtual QString comment() const = 0;
     virtual QUrl icon() const = 0;
     virtual Stage stage() const = 0;
+    virtual void setStage(Stage) = 0;
     virtual State state() const = 0;
     virtual RequestedState requestedState() const = 0;
     virtual void setRequestedState(RequestedState) = 0;
@@ -275,6 +296,11 @@ public:
     virtual Qt::ScreenOrientations supportedOrientations() const = 0;
     virtual bool rotatesWindowContents() const = 0;
     virtual bool isTouchApp() const = 0;
+    virtual bool exemptFromLifecycle() const = 0;
+    virtual void setExemptFromLifecycle(bool) = 0;
+    virtual QSize initialSurfaceSize() const = 0;
+    virtual void setInitialSurfaceSize(const QSize &size) = 0;
+    virtual MirSurfaceListInterface* surfaceList() = 0;
     /// @endcond
 
 Q_SIGNALS:
@@ -286,11 +312,20 @@ Q_SIGNALS:
     void stateChanged(State state);
     void requestedStateChanged(RequestedState value);
     void focusedChanged(bool focused);
+    void exemptFromLifecycleChanged(bool exemptFromLifecycle);
+    void initialSurfaceSizeChanged(const QSize &size);
     /// @endcond
+
+    /**
+     * @brief The application is requesting focus
+     */
+    void focusRequested();
 };
 
 } // namespace application
 } // namespace shell
 } // namespace unity
+
+Q_DECLARE_METATYPE(unity::shell::application::ApplicationInfoInterface*)
 
 #endif // UNITY_SHELL_APPLICATIONMANAGER_APPLICATIONINFOINTERFACE_H
