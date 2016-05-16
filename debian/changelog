@@ -1,3 +1,10 @@
+unity-api (7.112) UNRELEASED; urgency=medium
+
+  * Add isTouchApp to LauncherItemInterface
+  * Add approveApplicationStart to ApplicationManagerInterface
+
+ -- Michael Terry <mterry@ubuntu.com>  Mon, 09 Nov 2015 16:57:25 -0500
+
 unity-api (7.111+16.04.20160426.2-0ubuntu1) xenial; urgency=medium
 
   [ Pawel Stolowski ]
@@ -90,13 +97,6 @@ unity-api (7.104+16.04.20151207-0ubuntu1) xenial; urgency=medium
   * No-change rebuild.
 
  -- Gerry Boland <ci-train-bot@canonical.com>  Mon, 07 Dec 2015 16:21:29 +0000
-
-unity-api (7.104) UNRELEASED; urgency=medium
-
-  * Add isTouchApp to LauncherItemInterface
-  * Add approveApplicationStart to ApplicationManagerInterface
-
- -- Michael Terry <mterry@ubuntu.com>  Mon, 09 Nov 2015 16:57:25 -0500
 
 unity-api (7.103+16.04.20151125-0ubuntu1) xenial; urgency=medium
 
