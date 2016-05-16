@@ -156,7 +156,7 @@ public:
     Q_INVOKABLE virtual unity::shell::application::ApplicationInfoInterface *startApplication(const QString &appId, const QStringList &arguments) = 0;
 
     /**
-     * @brief Allow (or not) an application to finish starting.
+     * @brief Allow (or not) an application to start.
      *
      * @param appId The appId for the application to allow.
      * @param approved Whether the application is allowed or not.
