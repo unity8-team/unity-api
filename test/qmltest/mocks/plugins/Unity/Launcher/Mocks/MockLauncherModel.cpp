@@ -90,6 +90,8 @@ QVariant MockLauncherModel::data(const QModelIndex& index, int role) const
         return item->focused();
     case RoleAlerting:
         return item->alerting();
+    case RoleSurfaceCount:
+        return item->surfaceCount();
     }
 
     return QVariant();
@@ -102,11 +104,6 @@ LauncherItemInterface *MockLauncherModel::get(int index) const
         return 0;
     }
     return m_list.at(index);
-}
-
-void MockLauncherModel::setAlerting(const QString &appId, bool alerting) {
-    Q_UNUSED(appId)
-    Q_UNUSED(alerting)
 }
 
 void MockLauncherModel::move(int oldIndex, int newIndex)

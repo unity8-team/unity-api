@@ -1,3 +1,51 @@
+unity-api (7.115+16.10.20160614-0ubuntu1) yakkety; urgency=medium
+
+  [ Michael Zanetti ]
+  * Drop Launchermodel::setAlerting, it's not needed
+
+ -- Albert Astals Cid <albert.astals@canonical.com>  Tue, 14 Jun 2016 08:34:16 +0000
+
+unity-api (7.114) UNRELEASED; urgency=medium
+
+  * Add ApplicationInfoInterface::surfaceCount property
+
+ -- Michael Zanetti <michael.zanetti@canonical.com>  Mon, 09 May 2016 18:43:38 +0200
+
+unity-api (7.113+16.10.20160525-0ubuntu1) yakkety; urgency=medium
+
+  [ Daniel d'Andrada ]
+  * Remove hotspot property from MirMousePointerInterface
+
+  [ Albert Astals Cid ]
+  * Mark roleNames as override
+
+  [ Michi Henning ]
+  * Re-enabled license/copyright test for xenial. (LP: #1194867)
+
+ -- Michael Terry <michael.terry@canonical.com>  Wed, 25 May 2016 06:02:38 +0000
+
+unity-api (7.112+16.04.20160518-0ubuntu1) xenial; urgency=medium
+
+  [ Daniel d'Andrada ]
+  * Move promptSurfaceList from MirSurfaceInterface to ApplicationInfoInterface
+  * Added MirSurfaceListInterface::first property
+
+  [ CI Train Bot ]
+  * No-change rebuild.
+
+ -- Nick Dedekind <ci-train-bot@canonical.com>  Wed, 18 May 2016 09:31:07 +0000
+
+unity-api (7.111+16.04.20160426.2-0ubuntu1) xenial; urgency=medium
+
+  [ Pawel Stolowski ]
+  * Added RoleSocialActions to ResultsModelInterface of scopes.
+  * Added ExpandableFilterWidgetInterface.
+
+  [ CI Train Bot ]
+  * No-change rebuild.
+
+ -- Pawel Stolowski <ci-train-bot@canonical.com>  Tue, 26 Apr 2016 15:31:50 +0000
+
 unity-api (7.110+16.04.20160413-0ubuntu1) xenial; urgency=medium
 
   [ Daniel d'Andrada ]

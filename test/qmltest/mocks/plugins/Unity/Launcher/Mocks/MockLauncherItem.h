@@ -57,7 +57,8 @@ public:
     void setFocused(bool focused);
 
     bool alerting() const;
-    void setAlerting(bool alerting);
+
+    int surfaceCount() const override;
 
     unity::shell::launcher::QuickListModelInterface *quickList() const;
 
@@ -74,6 +75,7 @@ private:
     bool m_countVisible;
     bool m_focused;
     bool m_alerting;
+    int m_surfaceCount;
     QuickListModelInterface *m_quickListModel;
 };
 

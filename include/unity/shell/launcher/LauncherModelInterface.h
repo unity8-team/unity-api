@@ -73,6 +73,7 @@ protected:
         m_roleNames.insert(RoleCountVisible, "countVisible");
         m_roleNames.insert(RoleFocused, "focused");
         m_roleNames.insert(RoleAlerting, "alerting");
+        m_roleNames.insert(RoleSurfaceCount, "surfaceCount");
     }
     /// @endcond
 
@@ -93,18 +94,11 @@ public:
         RoleCount,
         RoleCountVisible,
         RoleFocused,
-        RoleAlerting
+        RoleAlerting,
+        RoleSurfaceCount
     };
 
     virtual ~LauncherModelInterface() {}
-
-    /**
-     * @brief Set or unset alert-state on launcher item.
-     *
-     * @param appId The appId of the item to affect.
-     * @param alerting The flag to set/unset launcher item's alert state.
-     */
-    Q_INVOKABLE virtual void setAlerting(const QString& appId, bool alerting) = 0;
 
     /**
      * @brief Move an item in the model.
