@@ -151,6 +151,8 @@ public:
     virtual Mir::ShellChrome shellChrome() const = 0;
     /// @endcond
 
+    bool isTextureProvider() const final { return true; }
+
 Q_SIGNALS:
     /// @cond
     void typeChanged(Mir::Type);
