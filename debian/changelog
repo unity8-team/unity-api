@@ -1,3 +1,9 @@
+unity-api (7.115+16.10.20160705-0ubuntu1) yakkety; urgency=medium
+
+  * MirSurfaceItem needs to be a texture provider
+
+ -- Albert Astals Cid <albert.astals@canonical.com>  Tue, 05 Jul 2016 13:05:12 +0000
+
 unity-api (7.115+16.10.20160614-0ubuntu1) yakkety; urgency=medium
 
   [ Michael Zanetti ]
