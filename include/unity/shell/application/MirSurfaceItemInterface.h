@@ -105,6 +105,13 @@ class MirSurfaceItemInterface : public QQuickItem
                                 WRITE setSurfaceHeight
                                 NOTIFY surfaceHeightChanged)
 
+    /**
+     * @brief The desired position for the contained MirSurface.
+     */
+    Q_PROPERTY(QPoint surfaceTopLeft READ surfaceTopLeft
+                                WRITE setSurfaceTopLeft
+                                NOTIFY surfaceTopLeftChanged)
+
     Q_PROPERTY(FillMode fillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged)
 
     /**
@@ -145,6 +152,9 @@ public:
     virtual int surfaceHeight() const = 0;
     virtual void setSurfaceHeight(int value) = 0;
 
+    virtual QPoint surfaceTopLeft() const = 0;
+    virtual void setSurfaceTopLeft(const QPoint &value) = 0;
+
     virtual FillMode fillMode() const = 0;
     virtual void setFillMode(FillMode value) = 0;
 
@@ -161,6 +171,7 @@ Q_SIGNALS:
     void consumesInputChanged(bool value);
     void surfaceWidthChanged(int value);
     void surfaceHeightChanged(int value);
+    void surfaceTopLeftChanged(const QPoint &value);
     void nameChanged(const QString &name);
     void fillModeChanged(FillMode value);
     void shellChromeChanged(Mir::ShellChrome value);
