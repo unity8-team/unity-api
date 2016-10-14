@@ -1,3 +1,9 @@
+unity-api (7.2+16.10.20160909-0ubuntu1) UNRELEASED; urgency=medium
+
+  * Add APIs for QtMir 0.2 (using MirAL)
+
+ -- Gerry Boland <gerry.boland@canonical.com>  Fri, 14 Oct 2016 15:25:38 +0100
+
 unity-api (7.119+16.10.20160909-0ubuntu1) yakkety; urgency=medium
 
   [ Daniel d'Andrada ]
