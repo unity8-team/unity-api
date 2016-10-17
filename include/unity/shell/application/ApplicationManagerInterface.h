@@ -72,6 +72,7 @@ protected:
         m_roleNames.insert(RoleIsTouchApp, "isTouchApp");
         m_roleNames.insert(RoleExemptFromLifecycle, "exemptFromLifecycle");
         m_roleNames.insert(RoleApplication, "application");
+        m_roleNames.insert(RolePid, "pid");
 
         connect(this, SIGNAL(rowsInserted(QModelIndex, int, int)), SIGNAL(countChanged()));
         connect(this, SIGNAL(rowsRemoved(QModelIndex, int, int)), SIGNAL(countChanged()));
@@ -96,6 +97,7 @@ public:
         RoleIsTouchApp,
         RoleExemptFromLifecycle,
         RoleApplication,
+        RolePid,
     };
 
     /// @cond

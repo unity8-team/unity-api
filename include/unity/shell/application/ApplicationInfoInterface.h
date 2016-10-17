@@ -309,6 +309,7 @@ public:
     virtual MirSurfaceListInterface* surfaceList() const = 0;
     virtual MirSurfaceListInterface* promptSurfaceList() const = 0;
     virtual int surfaceCount() const = 0;
+    virtual pid_t pid() const = 0;
     /// @endcond
 
 Q_SIGNALS:
