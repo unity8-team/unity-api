@@ -1,8 +1,8 @@
-unity-api (7.120) UNRELEASED; urgency=medium
+unity-api (7.120+16.10.20161017.4-0ubuntu1) yakkety; urgency=medium
 
   * Publish AppInfo::pid()
 
- -- Lukáš Tinkl <lukas.tinkl@canonical.com>  Thu, 13 Oct 2016 14:20:00 +0200
+ -- Lukáš Tinkl <lukas.tinkl@canonical.com>  Mon, 17 Oct 2016 13:26:13 +0000
 
 unity-api (7.119+16.10.20160909-0ubuntu1) yakkety; urgency=medium
 
