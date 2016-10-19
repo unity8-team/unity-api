@@ -232,6 +232,11 @@ class UNITY_API ApplicationInfoInterface: public QObject
      */
      Q_PROPERTY(int surfaceCount READ surfaceCount NOTIFY surfaceCountChanged)
 
+    /**
+      * The Unix Process ID (pid) of the application
+      */
+    Q_PROPERTY(int pid READ pid NOTIFY pidChanged)
+
 protected:
     /// @cond
     ApplicationInfoInterface(const QString &appId, QObject* parent = 0): QObject(parent) { Q_UNUSED(appId) }
@@ -323,6 +328,7 @@ Q_SIGNALS:
     void exemptFromLifecycleChanged(bool exemptFromLifecycle);
     void initialSurfaceSizeChanged(const QSize &size);
     void surfaceCountChanged(int surfaceCount);
+    void pidChanged();
     /// @endcond
 
     /**
