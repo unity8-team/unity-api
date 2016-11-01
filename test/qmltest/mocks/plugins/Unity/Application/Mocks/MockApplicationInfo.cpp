@@ -154,8 +154,3 @@ int MockApplicationInfo::surfaceCount() const
 {
     return 1;
 }
-
-pid_t MockApplicationInfo::pid() const
-{
-    return qrand();
-}

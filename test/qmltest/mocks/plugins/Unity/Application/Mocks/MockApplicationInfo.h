@@ -62,7 +62,6 @@ public:
     MirSurfaceListInterface* surfaceList() const override { return nullptr; }
     MirSurfaceListInterface* promptSurfaceList() const override { return nullptr; }
     int surfaceCount() const override;
-    pid_t pid() const override;
 
 private:
     QString m_appId;

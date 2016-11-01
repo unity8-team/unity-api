@@ -68,8 +68,6 @@ QVariant MockApplicationManager::data(const QModelIndex& index, int role) const
         return item->isTouchApp();
     case RoleExemptFromLifecycle:
         return item->exemptFromLifecycle();
-    case RolePid:
-        return item->pid();
     }
 
     return QVariant();
@@ -129,4 +127,9 @@ bool MockApplicationManager::stopApplication(const QString &appId)
 {
     Q_UNUSED(appId)
     return true;
+}
+
+QList<int> MockApplicationManager::pidsForApplicationId(const QString &) const
+{
+    return {};
 }

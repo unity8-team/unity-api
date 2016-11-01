@@ -72,7 +72,6 @@ protected:
         m_roleNames.insert(RoleIsTouchApp, "isTouchApp");
         m_roleNames.insert(RoleExemptFromLifecycle, "exemptFromLifecycle");
         m_roleNames.insert(RoleApplication, "application");
-        m_roleNames.insert(RolePid, "pid");
 
         connect(this, SIGNAL(rowsInserted(QModelIndex, int, int)), SIGNAL(countChanged()));
         connect(this, SIGNAL(rowsRemoved(QModelIndex, int, int)), SIGNAL(countChanged()));
@@ -97,7 +96,6 @@ public:
         RoleIsTouchApp,
         RoleExemptFromLifecycle,
         RoleApplication,
-        RolePid,
     };
 
     /// @cond
@@ -162,6 +160,11 @@ public:
       * @returns True if application stop successful, else false (i.e. false if application was not running).
       */
     Q_INVOKABLE virtual bool stopApplication(const QString &appId) = 0;
+
+    /**
+      * @return list of Unix process IDs (pid) for the app specified by its @p appId
+      */
+    Q_INVOKABLE virtual QList<int> pidsForApplicationId(const QString &appId) const = 0;
 
 Q_SIGNALS:
     /// @cond

@@ -232,11 +232,6 @@ class UNITY_API ApplicationInfoInterface: public QObject
      */
      Q_PROPERTY(int surfaceCount READ surfaceCount NOTIFY surfaceCountChanged)
 
-    /**
-      * The Unix Process ID (pid) of the application
-      */
-    Q_PROPERTY(int pid READ pid NOTIFY pidChanged)
-
 protected:
     /// @cond
     ApplicationInfoInterface(const QString &appId, QObject* parent = 0): QObject(parent) { Q_UNUSED(appId) }
@@ -314,7 +309,6 @@ public:
     virtual MirSurfaceListInterface* surfaceList() const = 0;
     virtual MirSurfaceListInterface* promptSurfaceList() const = 0;
     virtual int surfaceCount() const = 0;
-    virtual pid_t pid() const = 0;
     /// @endcond
 
 Q_SIGNALS:
@@ -328,7 +322,6 @@ Q_SIGNALS:
     void exemptFromLifecycleChanged(bool exemptFromLifecycle);
     void initialSurfaceSizeChanged(const QSize &size);
     void surfaceCountChanged(int surfaceCount);
-    void pidChanged();
     /// @endcond
 
     /**
