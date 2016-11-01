@@ -1,8 +1,8 @@
-unity-api (7.120) UNRELEASED; urgency=medium
+unity-api (7.120+17.04.20161101-0ubuntu1) zesty; urgency=medium
 
   * Publish ApplicationManager::pidsForApplicationId(appId)
 
- -- Lukáš Tinkl <lukas.tinkl@canonical.com>  Thu, 13 Oct 2016 14:20:00 +0200
+ -- Lukáš Tinkl <lukas.tinkl@canonical.com>  Tue, 01 Nov 2016 19:33:31 +0000
 
 unity-api (7.119+16.10.20160909-0ubuntu1) yakkety; urgency=medium
 
