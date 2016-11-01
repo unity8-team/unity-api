@@ -1,6 +1,6 @@
 unity-api (7.120) UNRELEASED; urgency=medium
 
-  * Publish AppInfo::pid()
+  * Publish ApplicationManager::pidsForApplicationId(appId)
 
  -- Lukáš Tinkl <lukas.tinkl@canonical.com>  Thu, 13 Oct 2016 14:20:00 +0200
 
