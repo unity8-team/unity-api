@@ -54,6 +54,8 @@ public:
 
     Q_INVOKABLE bool stopApplication(const QString &appId);
 
+    Q_INVOKABLE QList<int> pidsForApplicationId(const QString &appId) const override;
+
 private:
     QList<MockApplicationInfo*> m_list;
 };

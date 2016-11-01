@@ -128,3 +128,8 @@ bool MockApplicationManager::stopApplication(const QString &appId)
     Q_UNUSED(appId)
     return true;
 }
+
+QList<int> MockApplicationManager::pidsForApplicationId(const QString &) const
+{
+    return {};
+}
