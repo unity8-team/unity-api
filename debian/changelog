@@ -1,8 +1,9 @@
-unity-api (8.0) UNRELEASED; urgency=medium
+unity-api (8.0+17.04.20161109-0ubuntu1) zesty; urgency=medium
 
+  [ Daniel d'Andrada ]
   * unity::shel::application - changes for the miral way of doing things
 
- -- Daniel d'Andrada <daniel.dandrada@canonical.com>  Tue, 01 Nov 2016 17:25:38 -0200
+ -- Michael Zanetti <michael.zanetti@canonical.com>  Wed, 09 Nov 2016 13:28:25 +0000
 
 unity-api (7.119+16.10.20160909-0ubuntu1) yakkety; urgency=medium
 
