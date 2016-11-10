@@ -30,6 +30,7 @@ namespace application
 {
 
 class MirSurfaceInterface;
+class WindowListInterface;
 
 /**
    @brief A slightly higher concept than MirSurface
@@ -79,6 +80,11 @@ class WindowInterface : public QObject
     Q_PROPERTY(int id READ id CONSTANT)
 
     /**
+     * @brief List of child windows
+     */
+    Q_PROPERTY(unity::shell::application::WindowListInterface* childWindowList READ childWindowList CONSTANT)
+
+    /**
      * @brief Surface backing up this window
      * It might be null if a surface hasn't been created yet (application is starting up) or if
      * the corresponding application has been killed (but can still get restarted to continue from
@@ -97,6 +103,7 @@ public:
     virtual bool confinesMousePointer() const = 0;
     virtual int id() const = 0;
     virtual MirSurfaceInterface* surface() const = 0;
+    virtual WindowListInterface* childWindowList() const = 0;
     /// @endcond
 
 public Q_SLOTS:
