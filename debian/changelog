@@ -1,3 +1,15 @@
+unity-api (8.0+17.04.20170103.2-0ubuntu1) zesty; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Enable -Wsuggest-override
+  * Use the new Q_ENUM (Qt 5.5)
+
+  [ Nick Dedekind ]
+  * Fully qualify pointer type namespaces in signals so that the
+    parameters can be used in qml.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Tue, 03 Jan 2017 15:17:03 +0000
+
 unity-api (8.0+17.04.20161215-0ubuntu1) zesty; urgency=medium
 
   * unity::shel::application - changes for the miral way of doing things
