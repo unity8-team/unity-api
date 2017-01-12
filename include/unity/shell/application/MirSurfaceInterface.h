@@ -18,6 +18,7 @@
 #define UNITY_SHELL_APPLICATION_MIRSURFACE_H
 
 #include <QObject>
+#include <QRect>
 #include <QSize>
 
 #include "Mir.h"
@@ -52,6 +53,21 @@ class MirSurfaceInterface : public QObject
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
 
     /**
+     * @brief Persistent Id of the surface
+     */
+    Q_PROPERTY(QString persistentId READ persistentId CONSTANT)
+
+    /**
+     * @brief Position of the current surface buffer, in pixels.
+     */
+    Q_PROPERTY(QPoint position READ position NOTIFY positionChanged)
+
+    /**
+     * @brief Requested position of the current surface buffer, in pixels.
+     */
+    Q_PROPERTY(QPoint requestedPosition READ requestedPosition WRITE setRequestedPosition NOTIFY requestedPositionChanged)
+
+    /**
      * @brief Size of the current surface buffer, in pixels.
      */
     Q_PROPERTY(QSize size READ size NOTIFY sizeChanged)
@@ -59,7 +75,7 @@ class MirSurfaceInterface : public QObject
     /**
      * @brief State of the surface
      */
-    Q_PROPERTY(Mir::State state READ state WRITE setState NOTIFY stateChanged)
+    Q_PROPERTY(Mir::State state READ state NOTIFY stateChanged)
 
     /**
      * @brief True if it has a mir client bound to it.
@@ -134,6 +150,20 @@ class MirSurfaceInterface : public QObject
      */
     Q_PROPERTY(bool focused READ focused NOTIFY focusedChanged)
 
+    /**
+     * @brief Input bounds
+     *
+     * Bounding rectangle of the surface region that accepts input.
+     */
+    Q_PROPERTY(QRect inputBounds READ inputBounds NOTIFY inputBoundsChanged)
+
+    /**
+     * @brief Whether the surface wants to confine the mouse pointer within its boundaries
+     *
+     * If true, the surface doesn't want the mouse pointer to leave its boundaries while it's focused.
+     */
+    Q_PROPERTY(bool confinesMousePointer READ confinesMousePointer NOTIFY confinesMousePointerChanged)
+
 public:
     /// @cond
     MirSurfaceInterface(QObject *parent = nullptr) : QObject(parent) {}
@@ -143,12 +173,15 @@ public:
 
     virtual QString name() const = 0;
 
+    virtual QString persistentId() const = 0;
+
+    virtual QPoint position() const = 0;
+
     virtual QSize size() const = 0;
     virtual void resize(int width, int height) = 0;
     virtual void resize(const QSize &size) = 0;
 
     virtual Mir::State state() const = 0;
-    virtual void setState(Mir::State qmlState) = 0;
 
     virtual bool live() const = 0;
 
@@ -170,14 +203,14 @@ public:
     virtual Mir::ShellChrome shellChrome() const = 0;
 
     virtual bool focused() const = 0;
-    /// @endcond
 
-    /**
-     * @brief Requests focus for this surface
-     *
-     * Causes the emission of focusRequested()
-     */
-    Q_INVOKABLE virtual void requestFocus() = 0;
+    virtual QRect inputBounds() const = 0;
+
+    virtual bool confinesMousePointer() const = 0;
+
+    virtual QPoint requestedPosition() const = 0;
+    virtual void setRequestedPosition(const QPoint &) = 0;
+    /// @endcond
 
     /**
      * @brief Sends a close request
@@ -186,9 +219,17 @@ public:
     Q_INVOKABLE virtual void close() = 0;
 
     /**
-     * @brief Raises this surface to be the first/top one among its siblings
+     * @brief Activates this surface
+     *
+     * It will get focused and raised
      */
-    Q_INVOKABLE virtual void raise() = 0;
+    Q_INVOKABLE virtual void activate() = 0;
+
+public Q_SLOTS:
+    /**
+     * @brief Requests a change to the specified state
+     */
+    virtual void requestState(Mir::State state) = 0;
 
 Q_SIGNALS:
     /// @cond
@@ -197,6 +238,8 @@ Q_SIGNALS:
     void visibleChanged(bool visible);
     void stateChanged(Mir::State value);
     void orientationAngleChanged(Mir::OrientationAngle value);
+    void positionChanged(QPoint position);
+    void requestedPositionChanged(QPoint position);
     void sizeChanged(const QSize &value);
     void nameChanged(const QString &name);
     void minimumWidthChanged(int value);
@@ -208,12 +251,21 @@ Q_SIGNALS:
     void shellChromeChanged(Mir::ShellChrome value);
     void keymapChanged(const QString &value);
     void focusedChanged(bool value);
+    void inputBoundsChanged(QRect value);
+    void confinesMousePointerChanged(bool value);
     /// @endcond
 
     /**
      * @brief Emitted in response to a requestFocus() call
+     *
+     * If shell agrees with it, it should call activate() on this surface
      */
     void focusRequested();
+
+    /**
+     * @brief Emitted when close() is called
+     */
+    void closeRequested();
 };
 
 } // namespace application

@@ -33,6 +33,7 @@ namespace application
 {
 
 class ApplicationInfoInterface;
+class MirSurfaceInterface;
 
 /**
  * @brief The Application manager
@@ -67,7 +68,6 @@ protected:
         m_roleNames.insert(RoleName, "name");
         m_roleNames.insert(RoleComment, "comment");
         m_roleNames.insert(RoleIcon, "icon");
-        m_roleNames.insert(RoleStage, "stage");
         m_roleNames.insert(RoleState, "state");
         m_roleNames.insert(RoleFocused, "focused");
         m_roleNames.insert(RoleIsTouchApp, "isTouchApp");
@@ -92,7 +92,6 @@ public:
         RoleName,
         RoleComment,
         RoleIcon,
-        RoleStage,
         RoleState,
         RoleFocused,
         RoleIsTouchApp,
@@ -135,6 +134,11 @@ public:
      * @returns The item, or null if not found.
      */
     Q_INVOKABLE virtual unity::shell::application::ApplicationInfoInterface *findApplication(const QString &appId) const = 0;
+
+    /*
+     * @brief Returns the AplicationInfo with the given surface
+     */
+    virtual ApplicationInfoInterface *findApplicationWithSurface(MirSurfaceInterface* surface) const = 0;
 
     /**
      * @brief Request to focus a given application

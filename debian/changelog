@@ -1,3 +1,76 @@
+unity-api (8.0+17.04.20161215-0ubuntu1) zesty; urgency=medium
+
+  * unity::shel::application - changes for the miral way of doing things
+
+ -- Daniel d'Andrada <daniel.dandrada@canonical.com>  Thu, 15 Dec 2016 16:16:07 +0000
+
+unity-api (7.121+17.04.20161205-0ubuntu1) zesty; urgency=medium
+
+  * Add AppDrawerModelInterface
+
+ -- Michael Zanetti <michael.zanetti@canonical.com>  Mon, 05 Dec 2016 15:20:31 +0000
+
+unity-api (7.120+17.04.20161123-0ubuntu1) zesty; urgency=medium
+
+  [ Andrea Azzarone ]
+  * Add hasSeparator role to quicklistModel.
+
+  [ Marcus Tomlinson ]
+  * Don't rely on glib error message strings in IniParser_test (LP:
+    #1642673)
+
+ -- Andrea Cimitan <andrea.cimitan@canonical.com>  Wed, 23 Nov 2016 12:11:04 +0000
+
+unity-api (7.119+16.10.20160909-0ubuntu1) yakkety; urgency=medium
+
+  [ Daniel d'Andrada ]
+  * Added MirSurfaceInterface::confinesMousePointer
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 09 Sep 2016 14:39:28 +0000
+
+unity-api (7.118+16.10.20160830-0ubuntu1) yakkety; urgency=medium
+
+  [ Nick Dedekind ]
+  * Added persistent Id property for MirSurface
+
+ -- Ken VanDine <ken.vandine@canonical.com>  Tue, 30 Aug 2016 13:40:30 +0000
+
+unity-api (7.117+16.10.20160819-0ubuntu1) yakkety; urgency=medium
+
+  * Removed empty unreleased entry from changelog. (LP: #1613563)
+
+ -- Michi Henning <michi@triodia.com>  Fri, 19 Aug 2016 22:16:23 +0000
+
+unity-api (7.117+16.10.20160810-0ubuntu1) yakkety; urgency=medium
+
+  [ Daniel d'Andrada ]
+  * ApplicationInfoInterface: remove "stage" property
+  * ApplicationManagerInterface: remove "stage" role
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 10 Aug 2016 08:20:08 +0000
+
+unity-api (7.116+16.10.20160805-0ubuntu1) yakkety; urgency=medium
+
+  * Remove unnecessary Boost dependency from package.
+
+ -- James Henstridge <james.henstridge@canonical.com>  Fri, 05 Aug 2016 04:08:06 +0000
+
+unity-api (7.116+16.10.20160730-0ubuntu1) yakkety; urgency=medium
+
+  [ Michał Sawicz ]
+  * Don't run tests on powerpc (LP: #1606927)
+
+  [ Stephen Kelly ]
+  * Silence some gcc warnings.
+
+ -- Lukáš Tinkl <lukas.tinkl@canonical.com>  Sat, 30 Jul 2016 21:18:50 +0000
+
+unity-api (7.116+16.10.20160620-0ubuntu1) yakkety; urgency=medium
+
+  * MirSurfaceInterface: add inputBounds property
+
+ -- Daniel d'Andrada <daniel.dandrada@canonical.com>  Mon, 20 Jun 2016 14:39:15 +0000
+
 unity-api (7.115+16.10.20160614-0ubuntu1) yakkety; urgency=medium
 
   [ Michael Zanetti ]
@@ -91,10 +164,6 @@ unity-api (7.107+16.04.20160223-0ubuntu1) xenial; urgency=medium
   * Interface for activationInProgress flag. (LP: #1537132)
 
  -- Pawel Stolowski <ci-train-bot@canonical.com>  Tue, 23 Feb 2016 12:12:26 +0000
-
-unity-api (7.107-0ubuntu1) UNRELEASED; urgency=medium
-
- -- Michal Sawicz <michal.sawicz@canonical.com>  Tue, 16 Feb 2016 10:06:55 +0100
 
 unity-api (7.106+16.04.20160211.1-0ubuntu1) xenial; urgency=medium
 
