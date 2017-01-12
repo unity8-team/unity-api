@@ -19,7 +19,6 @@
 
 #include <QObject>
 #include <QSize>
-#include <QPoint>
 
 #include "Mir.h"
 
@@ -51,11 +50,6 @@ class MirSurfaceInterface : public QObject
      * @brief Name of the surface, given by the client application
      */
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
-
-    /**
-     * @brief Position of the current surface buffer, in pixels.
-     */
-    Q_PROPERTY(QPoint topLeft READ topLeft NOTIFY topLeftChanged)
 
     /**
      * @brief Size of the current surface buffer, in pixels.
@@ -149,10 +143,6 @@ public:
 
     virtual QString name() const = 0;
 
-    virtual QPoint topLeft() const = 0;
-    virtual void moveTo(int x, int y) = 0;
-    virtual void moveTo(const QPoint &topLeft) = 0;
-
     virtual QSize size() const = 0;
     virtual void resize(int width, int height) = 0;
     virtual void resize(const QSize &size) = 0;
@@ -207,7 +197,6 @@ Q_SIGNALS:
     void visibleChanged(bool visible);
     void stateChanged(Mir::State value);
     void orientationAngleChanged(Mir::OrientationAngle value);
-    void topLeftChanged(const QPoint &value);
     void sizeChanged(const QSize &value);
     void nameChanged(const QString &name);
     void minimumWidthChanged(int value);
