@@ -133,9 +133,12 @@ def run():
     parser.add_argument('-v', '--verbose', action='store_true', help = 'Trace invocations of the compiler')
     parser.add_argument('dir', nargs = 1, help = 'The directory to look for header files ending in ".h"')
     parser.add_argument('compiler', nargs = 1, help = 'The compiler executable, such as "gcc"')
+    parser.add_argument('exclusions', nargs = 1, help = 'Header files to ignore, e.g. "foo.h bar.h"')
     parser.add_argument('copts', nargs = '?', default="",
                         help = 'The compiler options (excluding -c), such as "-g -Wall -I." as a single string.')
     args = parser.parse_args()
+
+    exclusions = args.exclusions
 
     #
     # Find all the .h files in specified directory and do the compilation for each one.
@@ -147,7 +150,7 @@ def run():
         msg = "cannot open \"" + hdr_dir + "\": " + e.strerror
         error(msg)
         sys.exit(1)
-    hdrs = [hdr for hdr in files if hdr.endswith('.h')]
+    hdrs = [hdr for hdr in files if (hdr.endswith('.h') and hdr not in exclusions)]
 
     try:
         test_files(hdrs, args.compiler[0], args.copts, args.verbose)
