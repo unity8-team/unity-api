@@ -234,7 +234,7 @@ Uses the same signature as the g_object_new() method.
 
 Example:
 \code{.cpp}
-auto obj = make_gobject<FooBar>(FOO_TYPE_BAR, "name", "banana", NULL);
+auto obj = make_gobject<FooBar>(FOO_TYPE_BAR, "name", "banana", nullptr);
 \endcode
 */
 template<typename T, typename... Args>
