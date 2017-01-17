@@ -133,9 +133,9 @@ def run():
     parser.add_argument('-v', '--verbose', action='store_true', help = 'Trace invocations of the compiler')
     parser.add_argument('dir', nargs = 1, help = 'The directory to look for header files ending in ".h"')
     parser.add_argument('compiler', nargs = 1, help = 'The compiler executable, such as "gcc"')
-    parser.add_argument('exclusions', nargs = 1, help = 'Header files to ignore, e.g. "foo.h bar.h"')
     parser.add_argument('copts', nargs = '?', default="",
                         help = 'The compiler options (excluding -c), such as "-g -Wall -I." as a single string.')
+    parser.add_argument('--exclusions', nargs = '*', help = 'Header files to ignore, e.g. "foo.h bar.h"')
     args = parser.parse_args()
 
     exclusions = args.exclusions
