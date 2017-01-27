@@ -35,7 +35,9 @@ forbidden = {'boost',
 # with one of the specified prefixes.
 #
 allowed = {
-    'unity/shell': { 'Qt' } # Anything under unity/shell can include anything starting with Qt
+    'unity/shell': { 'Qt' }, # Anything under unity/shell can include anything starting with Qt
+    'unity/util/GObjectMemory': { 'glib' }, # The unity/util/GObjectMemory header can include anything starting with glib
+    'unity/util/GlibMemory': { 'glib' }, # The unity/util/GlibMemory header can include anything starting with glib
 }
 
 def check_file(filename, permitted_includes):
