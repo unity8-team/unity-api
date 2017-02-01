@@ -1,8 +1,9 @@
-unity-api (8.1+17.04.20170120.1-0ubuntu2) UNRELEASED; urgency=medium
+unity-api (8.1+17.04.20170201-0ubuntu1) zesty; urgency=medium
 
+  [ Andrea Azzarone ]
   * Add visible role to quicklistModel.
 
- -- Andrea Azzarone <andrea.azzarone@canonical.com>  Mon, 30 Jan 2017 21:49:45 +0100
+ -- Marco Trevisan (Treviño) <mail@3v1n0.net>  Wed, 01 Feb 2017 15:29:01 +0000
 
 unity-api (8.1+17.04.20170120.1-0ubuntu1) zesty; urgency=medium
 
