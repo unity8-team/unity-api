@@ -176,6 +176,7 @@ Item {
                 { tag: "Model.roles[icon]", role: "icon", type: "string" },
                 { tag: "Model.roles[clickable]", role: "clickable", type: "boolean" },
                 { tag: "Model.roles[hasSeparator]", role: "hasSeparator", type: "boolean" }
+                { tag: "Model.roles[visible]", role: "visible", type: "boolean" }
             ];
         }
 
