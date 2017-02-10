@@ -1,3 +1,10 @@
+unity-api (8.3) UNRELEASED; urgency=medium
+
+  [ Nick Dedekind ]
+  * MirPlatformCursor - updates for multi-screen.
+
+ -- Nick Dedekind <nick.dedekind@canonical.com>  Fri, 10 Feb 2017 11:46:02 +0000
+
 unity-api (8.2+17.04.20170206-0ubuntu1) zesty; urgency=medium
 
   [ Daniel d'Andrada ]
