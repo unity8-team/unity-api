@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2016 Canonical, Ltd.
+ * Copyright (C) 2015-2017 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 #include <QObject>
 
 /**
-    @brief Acting mostly as a namespace to hold enums and such for use in QML
+    @brief Hold enums and global properties for use in QML
  */
 class Mir : public QObject
 {
@@ -39,6 +39,16 @@ class Mir : public QObject
       * E.g.: "cz+qwerty" -> "cz" layout, "qwerty" variant
       */
     Q_PROPERTY(QString currentKeymap READ currentKeymap WRITE setCurrentKeymap NOTIFY currentKeymapChanged)
+
+    /**
+      * @brief Whether mir pointer events should generate QTouchEvents instead of QMouseEvents
+      *
+      * If true, mir pointer events will be used to synthesize QTouchEvents instead of being translated
+      * into QMouseEvents.
+      *
+      * This is useful when testing touch UIs with a mouse device.
+      */
+    Q_PROPERTY(bool touchEmulationEnabled READ touchEmulationEnabled WRITE setTouchEmulationEnabled NOTIFY touchEmulationEnabledChanged)
 
 public:
     /**
@@ -118,12 +128,16 @@ public:
 
     virtual QString currentKeymap() const = 0;
     virtual void setCurrentKeymap(const QString &currentKeymap) = 0;
+
+    virtual bool touchEmulationEnabled() const = 0;
+    virtual void setTouchEmulationEnabled(bool enabled) = 0;
     /// @endcond
 
 Q_SIGNALS:
     /// @cond
     void cursorNameChanged(const QString &cursorName);
     void currentKeymapChanged(const QString &currentKeymap);
+    void touchEmulationEnabledChanged(bool enabled);
     /// @endcond
 };
 
