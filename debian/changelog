@@ -1,3 +1,11 @@
+unity-api (8.3+17.04.20170217-0ubuntu1) zesty; urgency=medium
+
+  [ Pete ]
+  * unity::util - Add typedef macros to GlibMemory to make method
+    and member variable definitions easier.
+
+ -- Pete Woods <pete.woods@canonical.com>  Fri, 17 Feb 2017 14:12:04 +0000
+
 unity-api (8.3) UNRELEASED; urgency=medium
 
   [ Nick Dedekind ]
