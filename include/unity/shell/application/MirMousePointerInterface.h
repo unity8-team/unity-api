@@ -78,13 +78,16 @@ public Q_SLOTS:
      * area.
      * This is called by Mir's platform cursor.
      *
-     * Note that we get only relative mouse movement, since the mouse pointer position is defined
-     * by this very item. Ie., it's up to this class to decide whether or not it (the mouse pointer)
-     * should move (and how much) due to movement in a mouse device.
+     * The mouse pointer position is defined by this very item. Ie., it's up to this class to
+     * decide whether or not it (the mouse pointer) should move (and how much) due to movement
+     * in a mouse device.
      *
      * @param movement Movement vector
+     * @param position Position of the mouse device. Note that this is different from the
+     *                 position of the mouse pointer defined by this class, which is what shell
+     *                 will see and use.
      */
-    virtual void handleMouseEvent(ulong timestamp, QPointF movement, Qt::MouseButtons buttons,
+    virtual void handleMouseEvent(ulong timestamp, QPointF movement, QPointF position, Qt::MouseButtons buttons,
             Qt::KeyboardModifiers modifiers) = 0;
 
     /**
