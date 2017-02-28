@@ -20,6 +20,13 @@
 #include <QObject>
 #include <QVector>
 
+#include <memory>
+
+namespace miral {
+class Window;
+class Workspace;
+}
+
 namespace unity {
 namespace shell {
 namespace application {
@@ -33,12 +40,25 @@ class SurfaceManagerInterface : public QObject
 public:
     virtual ~SurfaceManagerInterface() {}
 
+    virtual unity::shell::application::MirSurfaceInterface *surfaceFor(const miral::Window& window) = 0;
+
     virtual void raise(MirSurfaceInterface *surface) = 0;
     virtual void activate(MirSurfaceInterface *surface) = 0;
 
 Q_SIGNALS:
     void surfaceCreated(unity::shell::application::MirSurfaceInterface *surface);
+    void surfaceRemoved(unity::shell::application::MirSurfaceInterface *surface);
+    void surfaceReady(unity::shell::application::MirSurfaceInterface *surface);
+    void surfaceMoved(unity::shell::application::MirSurfaceInterface *surface, const QPoint &topLeft);
+    void surfaceResized(unity::shell::application::MirSurfaceInterface *surface, const QSize &size);
+    void surfaceStateChanged(unity::shell::application::MirSurfaceInterface *surface, Mir::State state);
+    void surfaceFocusChanged(unity::shell::application::MirSurfaceInterface *surface, bool focused);
     void surfacesRaised(const QVector<unity::shell::application::MirSurfaceInterface*> &surfaces);
+    void surfaceRequestedRaise(unity::shell::application::MirSurfaceInterface *surface);
+    void surfacesAddedToWorkspace(const std::shared_ptr<miral::Workspace> &workspace,
+                                  const QVector<unity::shell::application::MirSurfaceInterface*> &surfaces);
+    void surfacesRemovedFromWorkspace(const std::shared_ptr<miral::Workspace> &workspace,
+                                      const QVector<unity::shell::application::MirSurfaceInterface*> &surfaces);
     void modificationsStarted();
     void modificationsEnded();
 };
