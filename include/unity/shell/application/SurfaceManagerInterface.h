@@ -59,8 +59,8 @@ Q_SIGNALS:
     void surfaceRequestedRaise(unity::shell::application::MirSurfaceInterface *surface);
     void surfacesAddedToWorkspace(const std::shared_ptr<miral::Workspace> &workspace,
                                   const QVector<unity::shell::application::MirSurfaceInterface*> &surfaces);
-    void surfacesRemovedFromWorkspace(const std::shared_ptr<miral::Workspace> &workspace,
-                                      const QVector<unity::shell::application::MirSurfaceInterface*> &surfaces);
+    void surfacesAboutToBeRemovedFromWorkspace(const std::shared_ptr<miral::Workspace> &workspace,
+                                               const QVector<unity::shell::application::MirSurfaceInterface*> &surfaces);
     void modificationsStarted();
     void modificationsEnded();
 };
