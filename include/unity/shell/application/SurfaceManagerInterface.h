@@ -42,7 +42,7 @@ class SurfaceManagerInterface : public QObject
 public:
     virtual ~SurfaceManagerInterface() {}
 
-    virtual unity::shell::application::MirSurfaceInterface *surfaceFor(const miral::Window& window) = 0;
+    virtual unity::shell::application::MirSurfaceInterface *surfaceFor(const miral::Window& window) const = 0;
 
     virtual void raise(MirSurfaceInterface *surface) = 0;
     virtual void activate(MirSurfaceInterface *surface) = 0;
