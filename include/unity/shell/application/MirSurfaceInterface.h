@@ -182,7 +182,7 @@ class MirSurfaceInterface : public QObject
      *
      * Area above the surface that should stay clear
      */
-    Q_PROPERTY(int topMargin  READ topMargin WRITE setTopMargin NOTIFY topMarginChanged)
+    Q_PROPERTY(int topMargin READ topMargin WRITE setTopMargin NOTIFY topMarginChanged)
 
 public:
     /// @cond
