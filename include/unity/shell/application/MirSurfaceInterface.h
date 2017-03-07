@@ -177,6 +177,13 @@ class MirSurfaceInterface : public QObject
      */
     Q_PROPERTY(unity::shell::application::MirSurfaceListInterface* childSurfaceList READ childSurfaceList CONSTANT)
 
+    /**
+     * @brief Top Margin
+     *
+     * Area above the surface that should stay clear
+     */
+    Q_PROPERTY(int topMargin  READ topMargin WRITE setTopMargin NOTIFY topMarginChanged)
+
 public:
     /// @cond
     MirSurfaceInterface(QObject *parent = nullptr) : QObject(parent) {}
@@ -227,6 +234,10 @@ public:
     virtual MirSurfaceInterface* parentSurface() const = 0;
 
     virtual unity::shell::application::MirSurfaceListInterface* childSurfaceList() const = 0;
+
+    virtual int topMargin() const = 0;
+    virtual void setTopMargin(int) = 0;
+
     /// @endcond
 
     /**
@@ -270,6 +281,7 @@ Q_SIGNALS:
     void focusedChanged(bool value);
     void inputBoundsChanged(QRect value);
     void confinesMousePointerChanged(bool value);
+    void topMarginChanged(int value);
     /// @endcond
 
     /**
