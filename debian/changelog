@@ -1,8 +1,9 @@
-unity-api (8.5) UNRELEASED; urgency=medium
+unity-api (8.5+17.04.20170307-0ubuntu1) zesty; urgency=medium
 
+  [ Daniel d'Andrada ]
   * MirSurfaceInterface::topMargin
 
- -- Daniel d'Andrada <daniel.dandrada@canonical.com>  Fri, 03 Mar 2017 05:22:49 -0300
+ -- Michael Zanetti <michael.zanetti@canonical.com>  Tue, 07 Mar 2017 11:17:22 +0000
 
 unity-api (8.4+17.04.20170223-0ubuntu1) zesty; urgency=medium
 
