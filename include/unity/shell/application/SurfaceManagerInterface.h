@@ -42,10 +42,15 @@ class SurfaceManagerInterface : public QObject
 public:
     virtual ~SurfaceManagerInterface() {}
 
-    virtual unity::shell::application::MirSurfaceInterface *surfaceFor(const miral::Window& window) const = 0;
-
     virtual void raise(MirSurfaceInterface *surface) = 0;
     virtual void activate(MirSurfaceInterface *surface) = 0;
+
+    virtual void forEachSurfaceInWorkspace(const std::shared_ptr<miral::Workspace> &workspace,
+                                           const std::function<void(unity::shell::application::MirSurfaceInterface*)> &callback) = 0;
+    virtual void moveSurfaceToWorkspace(unity::shell::application::MirSurfaceInterface* surface,
+                                        const std::shared_ptr<miral::Workspace> &workspace) = 0;
+    virtual void moveWorkspaceContentToWorkspace(const std::shared_ptr<miral::Workspace> &to,
+                                                 const std::shared_ptr<miral::Workspace> &from) = 0;
 
 Q_SIGNALS:
     void surfaceCreated(unity::shell::application::MirSurfaceInterface *surface);
