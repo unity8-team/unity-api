@@ -18,7 +18,6 @@
 
 #include <unity/util/Logger.h>
 
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 #include <sstream>
