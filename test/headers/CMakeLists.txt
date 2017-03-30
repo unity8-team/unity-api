@@ -13,6 +13,7 @@ set(subdirs
 set(exclusions
     "GlibMemory.h"
     "GObjectMemory.h"
+    "Logger.h"
 )
 
 foreach(dir ${subdirs})
