@@ -18,9 +18,9 @@
 
 #include <unity/util/Logger.h>
 
+#include <glib.h>
 #include <gtest/gtest.h>
-
-#include <sstream>
+#include <unistd.h>
 
 using namespace unity::util;
 
@@ -29,143 +29,77 @@ namespace {
 class LoggerTest : public ::testing::Test
 {
 public:
-    std::streambuf *old_stdout_buf;
-    std::stringstream stdout_buffer;
-    std::streambuf *old_stderr_buf;
-    std::stringstream stderr_buffer;
-
-    virtual void SetUp() override
+    LoggerTest()
     {
-        // Trap stdout to verify tests.
-        old_stdout_buf = std::cout.rdbuf();
-        std::cout.rdbuf(stdout_buffer.rdbuf());
-
-        // Trap stderr to verify tests.
-        old_stderr_buf = std::cerr.rdbuf();
-        std::cerr.rdbuf(stderr_buffer.rdbuf());
+        _handler_id = g_log_set_handler(G_LOG_DOMAIN, G_LOG_LEVEL_DEBUG,
+                                        _log_handler, this);
+        std::cerr << "Set up handler: " << _handler_id << std::endl;
     }
 
-    virtual void TearDown() override
+    virtual ~LoggerTest()
     {
-        std::cout.rdbuf(old_stdout_buf);
-        std::cerr.rdbuf(old_stderr_buf);
+        if (_handler_id != 0) {
+            g_log_remove_handler(G_LOG_DOMAIN, _handler_id);
+        }
     }
+
+    std::string str()
+    {
+        return _stream.str();
+    }
+
+private:
+    static void _log_handler(const gchar*, GLogLevelFlags,
+                             const gchar* message, gpointer gthis)
+    {
+        static_cast<LoggerTest*>(gthis)->log_message(message);
+    }
+
+    void log_message(const char* message)
+    {
+        std::cerr << "Message: " << message << std::endl;
+        _stream << message;
+        usleep(200);
+    }
+
+    std::ostringstream _stream;
+    guint _handler_id;
 };
-
-TEST_F(LoggerTest, testEndingSpace)
-{
-    warn() << "This ends with a space ";
-}
 
 TEST_F(LoggerTest, testDebug)
 {
-    debug() << "Some data about things happening.";
+    auto expected = "Some data about things happening.";
+    debug() << expected;
+    ASSERT_STREQ(expected, str().c_str());
+}
+
+TEST_F(LoggerTest, testInfo)
+{
+    auto expected = "Some info.";
+    info() << expected;
+    ASSERT_STREQ(expected, str().c_str());
 }
 
 TEST_F(LoggerTest, testWarning)
 {
-    warn() << "This shouldn't normally happen.";
+    auto expected = "This shouldn't normally happen.";
+    warn() << expected;
+    ASSERT_STREQ(expected, str().c_str());
 }
 
 TEST_F(LoggerTest, testCritical)
 {
-    critical() << "Critical fail.";
+    auto expected = "Critical fail.";
+    critical() << expected;
+    ASSERT_STREQ(expected, str().c_str());
 }
 
 TEST_F(LoggerTest, testError)
 {
-    ASSERT_EXIT({error() << "Error crash.";},
-                ::testing::KilledBySignal(SIGTRAP), "Error crash.");
-}
-
-TEST_F(LoggerTest, testStreamLevelDebug)
-{
-    debug() << "Level:" << Logger::Level::DEBUG;
-}
-
-TEST_F(LoggerTest, testStreamLevelWarning)
-{
-    debug() << "Level:" << Logger::Level::WARNING;
-}
-
-TEST_F(LoggerTest, testStreamLevelCritical)
-{
-    debug() << "Level:" << Logger::Level::CRITICAL;
-}
-
-TEST_F(LoggerTest, testStreamLevelERROR)
-{
-    debug() << "Level:" << Logger::Level::ERROR;
-}
-
-TEST_F(LoggerTest, testStreamLevelUnknown)
-{
-    debug() << "Level:" << Logger::Level::UNKNOWN;
-}
-
-TEST_F(LoggerTest, testStreamBool)
-{
-    debug() << "Bool:" << true;
-}
-
-TEST_F(LoggerTest, testStreamPointer)
-{
-    debug() << "Pointer:" << this;
-}
-
-TEST_F(LoggerTest, testStreamNullPointer)
-{
-    debug() << "Pointer:" << nullptr;
-}
-
-TEST_F(LoggerTest, testStreamInt)
-{
-    debug() << "Count:" << 42;
-}
-
-TEST_F(LoggerTest, testStreamShort)
-{
-    debug() << "Count:" << (short)42;
-}
-
-TEST_F(LoggerTest, testStreamLong)
-{
-    debug() << "Count:" << (long)42;
-}
-
-TEST_F(LoggerTest, testStreamLongLong)
-{
-    debug() << "Count" << (long long)42;
-}
-
-TEST_F(LoggerTest, testStreamUnsignedInt)
-{
-    debug() << "Unsigned:" << (unsigned int)42;
-}
-
-TEST_F(LoggerTest, testStreamUnsignedShort)
-{
-    debug() << "Unsigned:" << (unsigned short)42;
-}
-
-TEST_F(LoggerTest, testStreamUnsignedLong)
-{
-    debug() << "Unsigned Long:" << (unsigned long)42;
-}
-
-TEST_F(LoggerTest, testStreamUnsignedLongLong)
-{
-    debug() << "Unsigned long long:" << (unsigned long long)42;
-}
-
-TEST_F(LoggerTest, testStreamFloat)
-{
-    debug() << "Float:" << 2.2f;
-}
-
-TEST_F(LoggerTest, testStreamDouble)
-{
-    debug() << "Double:" << (double)2.2f;
+    auto expected = "Error crash.";
+    ASSERT_EXIT({error() << expected;},
+                ::testing::KilledBySignal(SIGTRAP), expected);
+    ASSERT_STREQ(expected, str().c_str());
 }
 
 } // namespace

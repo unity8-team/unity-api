@@ -4,6 +4,7 @@ set(UTIL_SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/Daemon.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/FileIO.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/IniParser.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Logger.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SnapPath.cpp
 )
 
