@@ -1,3 +1,10 @@
+unity-api (8.6) UNRELEASED; urgency=medium
+
+  [ Lukáš Tinkl ]
+  * Add LauncherItemInterface::description
+
+ -- Lukáš Tinkl <lukas.tinkl@canonical.com> Tue, 4 Apr 2017 16:00:00 +0200
+
 unity-api (8.6+17.04.20170317-0ubuntu1) zesty; urgency=medium
 
   [ Michael Zanetti ]

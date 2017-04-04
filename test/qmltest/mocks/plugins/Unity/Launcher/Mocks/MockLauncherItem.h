@@ -40,6 +40,9 @@ public:
     QStringList keywords() const override;
     void setKeywords(const QStringList &keywords);
 
+    QString description() const override;
+    void setDescription(const QString &description);
+
     bool pinned() const override;
     void setPinned(bool pinned);
 
@@ -73,6 +76,7 @@ private:
     QString m_name;
     QString m_icon;
     QStringList m_keywords;
+    QString m_description;
     bool m_pinned;
     bool m_running;
     bool m_recent;

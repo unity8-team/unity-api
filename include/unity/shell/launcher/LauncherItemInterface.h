@@ -52,6 +52,11 @@ class UNITY_API LauncherItemInterface: public QObject
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
 
     /**
+     * @brief Textual description of the application
+     */
+    Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
+
+    /**
      * @brief The full path to the icon to be shown for the item.
      */
     Q_PROPERTY(QString icon READ icon NOTIFY iconChanged)
@@ -140,6 +145,7 @@ public:
     virtual QString name() const = 0;
     virtual QString icon() const = 0;
     virtual QStringList keywords() const = 0;
+    virtual QString description() const = 0;
     virtual bool pinned() const = 0;
     virtual bool running() const = 0;
     virtual bool recent() const = 0;
@@ -155,6 +161,7 @@ Q_SIGNALS:
     void nameChanged(const QString &name);
     void iconChanged(const QString &icon);
     void keywordsChanged(const QStringList &keywords);
+    void descriptionChanged(const QString &description);
     void pinnedChanged(bool pinned);
     void runningChanged(bool running);
     void recentChanged(bool running);

@@ -43,6 +43,7 @@ public:
         RoleName,
         RoleIcon,
         RoleKeywords,
+        RoleDescription,
         RoleUsage
     };
     Q_ENUM(Roles)
@@ -60,6 +61,7 @@ public:
         roles.insert(RoleName, "name");
         roles.insert(RoleIcon, "icon");
         roles.insert(RoleKeywords, "keywords");
+        roles.insert(RoleDescription, "description");
         roles.insert(RoleUsage, "usage");
         return roles;
     }
