@@ -1,5 +1,5 @@
 /*
- * Copyright 2013,2016 Canonical Ltd.
+ * Copyright 2013,2016-2017 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -27,7 +27,6 @@ MockApplicationInfo::MockApplicationInfo(const QString &appId, const QString& co
     m_name(name),
     m_comment(comment),
     m_icon(icon),
-    m_state(Running),
     m_focused(false),
     m_exemptFromLifecycle(false)
 {
@@ -52,20 +51,6 @@ QString MockApplicationInfo::name() const
 QUrl MockApplicationInfo::icon() const
 {
     return m_icon;
-}
-
-ApplicationInfoInterface::State MockApplicationInfo::state() const
-{
-    return m_state;
-}
-
-void MockApplicationInfo::setState(ApplicationInfoInterface::State state)
-{
-    if (m_state != state)
-    {
-        m_state = state;
-        Q_EMIT stateChanged(m_state);
-    }
 }
 
 bool MockApplicationInfo::focused() const
@@ -110,15 +95,6 @@ QColor MockApplicationInfo::splashColorHeader() const
 QColor MockApplicationInfo::splashColorFooter() const
 {
     return QColor(0,0,0,0);
-}
-
-ApplicationInfoInterface::RequestedState MockApplicationInfo::requestedState() const
-{
-    return RequestedRunning;
-}
-
-void MockApplicationInfo::setRequestedState(RequestedState)
-{
 }
 
 Qt::ScreenOrientations MockApplicationInfo::supportedOrientations() const

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013,2015 Canonical Ltd.
+ * Copyright 2013,2015,2017 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -60,8 +60,6 @@ QVariant MockApplicationManager::data(const QModelIndex& index, int role) const
         return item->comment();
     case RoleIcon:
         return item->icon();
-    case RoleState:
-        return item->state();
     case RoleFocused:
         return item->focused();
     case RoleIsTouchApp:

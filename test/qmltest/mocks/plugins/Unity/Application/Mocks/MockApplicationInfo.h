@@ -1,5 +1,5 @@
 /*
- * Copyright 2013,2015,2016 Canonical Ltd.
+ * Copyright 2013,2015-2017 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -35,12 +35,7 @@ public:
     QString name() const override;
     QString comment() const override;
     QUrl icon() const override;
-
-    ApplicationInfoInterface::State state() const override;
-    void setState(ApplicationInfoInterface::State state);
-
     bool focused() const override;
-    void setFocused(bool focused);
 
     QString splashTitle() const override;
     QUrl splashImage() const override;
@@ -48,8 +43,6 @@ public:
     QColor splashColor() const override;
     QColor splashColorHeader() const override;
     QColor splashColorFooter() const override;
-    RequestedState requestedState() const override;
-    void setRequestedState(RequestedState) override;
 
     Qt::ScreenOrientations supportedOrientations() const override;
     bool rotatesWindowContents() const override;
@@ -61,16 +54,15 @@ public:
     QSize initialSurfaceSize() const override { return QSize(); }
     void setInitialSurfaceSize(const QSize &) override {}
 
-    MirSurfaceListInterface* surfaceList() const override { return nullptr; }
-    MirSurfaceListInterface* promptSurfaceList() const override { return nullptr; }
     int surfaceCount() const override;
+
+    ApplicationInstanceListInterface* instanceList() const override { return nullptr; }
 
 private:
     QString m_appId;
     QString m_name;
     QString m_comment;
     QUrl m_icon;
-    ApplicationInfoInterface::State m_state;
     bool m_focused;
     bool m_exemptFromLifecycle;
 };

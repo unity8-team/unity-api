@@ -1,3 +1,9 @@
+unity-api (8.7) UNRELEASED; urgency=medium
+
+  * Support for multiple instances of the same application
+
+ -- Daniel d'Andrada <daniel.dandrada@canonical.com>  Mon, 27 Mar 2017 14:06:18 -0300
+
 unity-api (8.6+17.04.20170317-0ubuntu1) zesty; urgency=medium
 
   [ Michael Zanetti ]

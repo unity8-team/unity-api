@@ -1,5 +1,5 @@
 /*
- * Copyright 2013,2015,2016 Canonical Ltd.
+ * Copyright 2013,2015-2017 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -31,6 +31,7 @@ namespace shell
 namespace application
 {
 
+class ApplicationInstanceListInterface;
 class MirSurfaceListInterface;
 
 /**
@@ -73,18 +74,6 @@ class UNITY_API ApplicationInfoInterface: public QObject
      * Holds a path to the icon for the application. Can be a file or a gicon url.
      */
     Q_PROPERTY(QUrl icon READ icon NOTIFY iconChanged)
-
-    /**
-     * @brief The application's state.
-     *
-     * Holds the current application state.
-     */
-    Q_PROPERTY(State state READ state NOTIFY stateChanged)
-
-    /**
-     * @brief The application's requested running state
-     */
-    Q_PROPERTY(RequestedState requestedState READ requestedState WRITE setRequestedState NOTIFY requestedStateChanged)
 
     /**
      * @brief The application's focus state.
@@ -209,22 +198,12 @@ class UNITY_API ApplicationInfoInterface: public QObject
     Q_PROPERTY(QSize initialSurfaceSize READ initialSurfaceSize WRITE setInitialSurfaceSize NOTIFY initialSurfaceSizeChanged)
 
     /**
-     * @brief List of the top-level surfaces created by this application
+     * @brief A list of instances of this application
      */
-    Q_PROPERTY(unity::shell::application::MirSurfaceListInterface* surfaceList READ surfaceList CONSTANT)
+    Q_PROPERTY(unity::shell::application::ApplicationInstanceListInterface* instanceList READ instanceList CONSTANT)
 
     /**
-     * @brief The list of top-level prompt surfaces for this application
-     */
-    Q_PROPERTY(unity::shell::application::MirSurfaceListInterface* promptSurfaceList READ promptSurfaceList CONSTANT)
-
-    /**
-     * @brief Count of application's surfaces
-     *
-     * This is a convenience property and will always be the same as surfaceList->count().
-     * It allows to connect to an application and listen for surface creations/removals for
-     * that particular application without having to keep track of the
-     * application <-> surfaceList relationship.
+     * @brief Combined number top-level of surfaces from all instances of this application
      */
      Q_PROPERTY(int surfaceCount READ surfaceCount NOTIFY surfaceCountChanged)
 
@@ -249,39 +228,6 @@ public:
     Q_ENUM(Stage)
 
     /**
-     * @brief An application's state.
-     *
-     * Starting: The application was launched and is currently starting up.
-     * Running: The application is running and ready to be used.
-     * Suspended: The application is in the background and has been suspended by
-     * the system in order to save resources.
-     * Stopped: The application is in the background and has been stopped by
-     * the system in order to save resources. From a programmers point of view,
-     * the application is closed, but it's state has been stored to disk and
-     * can be restored upon next launch.
-     */
-    enum State {
-        Starting,
-        Running,
-        Suspended,
-        Stopped
-    };
-    Q_ENUM(State)
-
-    /**
-     * @brief The desired state of an application
-     *
-     * RequestedRunning: If state is Suspended or Stopped, the application will be resumed
-     *                   or restarted, respectively.
-     * RequestedSuspended: If state is Running, the application will be suspended.
-     */
-    enum RequestedState {
-        RequestedRunning = Running,
-        RequestedSuspended = Suspended
-    };
-    Q_ENUM(RequestedState)
-
-    /**
      * @brief Closes the application
      */
     virtual void close() = 0;
@@ -293,9 +239,6 @@ public:
     virtual QString name() const = 0;
     virtual QString comment() const = 0;
     virtual QUrl icon() const = 0;
-    virtual State state() const = 0;
-    virtual RequestedState requestedState() const = 0;
-    virtual void setRequestedState(RequestedState) = 0;
     virtual bool focused() const = 0;
     virtual QString splashTitle() const = 0;
     virtual QUrl splashImage() const = 0;
@@ -311,8 +254,8 @@ public:
     virtual QSize initialSurfaceSize() const = 0;
     virtual void setInitialSurfaceSize(const QSize &size) = 0;
     virtual MirSurfaceListInterface* surfaceList() const = 0;
-    virtual MirSurfaceListInterface* promptSurfaceList() const = 0;
     virtual int surfaceCount() const = 0;
+    virtual ApplicationInstanceListInterface* instanceList() const = 0;
     /// @endcond
 
 Q_SIGNALS:
@@ -320,8 +263,6 @@ Q_SIGNALS:
     void nameChanged(const QString &name);
     void commentChanged(const QString &comment);
     void iconChanged(const QUrl &icon);
-    void stateChanged(State state);
-    void requestedStateChanged(RequestedState value);
     void focusedChanged(bool focused);
     void exemptFromLifecycleChanged(bool exemptFromLifecycle);
     void initialSurfaceSizeChanged(const QSize &size);

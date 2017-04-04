@@ -30,6 +30,7 @@ namespace shell
 namespace application
 {
 
+class ApplicationInstanceInterface;
 class MirSurfaceListInterface;
 
 /**
@@ -189,6 +190,13 @@ class MirSurfaceInterface : public QObject
      */
     Q_PROPERTY(unity::shell::application::MirSurfaceListInterface* childSurfaceList READ childSurfaceList CONSTANT)
 
+    /**
+     * @brief The application instance that created this surface
+     *
+     * Will be null for prompt surfaces
+     */
+    Q_PROPERTY(unity::shell::application::ApplicationInstanceInterface* applicationInstance READ applicationInstance CONSTANT)
+
 public:
     /// @cond
     MirSurfaceInterface(QObject *parent = nullptr) : QObject(parent) {}
@@ -244,6 +252,8 @@ public:
     virtual MirSurfaceInterface* parentSurface() const = 0;
 
     virtual unity::shell::application::MirSurfaceListInterface* childSurfaceList() const = 0;
+
+    virtual unity::shell::application::ApplicationInstanceInterface* applicationInstance() const = 0;
     /// @endcond
 
     /**
