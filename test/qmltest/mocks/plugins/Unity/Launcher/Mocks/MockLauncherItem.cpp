@@ -28,6 +28,7 @@ MockLauncherItem::MockLauncherItem(const QString &appId, const QString& desktopF
     m_desktopFile(desktopFile),
     m_name(name),
     m_icon(icon),
+    m_popularity(0),
     m_pinned(false),
     m_running(false),
     m_recent(false),
@@ -85,6 +86,20 @@ void MockLauncherItem::setDescription(const QString &description)
     if (m_description != description) {
         m_description = description;
         Q_EMIT descriptionChanged(m_description);
+    }
+}
+
+uint MockLauncherItem::popularity() const
+{
+    return m_popularity;
+}
+
+void MockLauncherItem::setPopularity(uint popularity)
+{
+    if (m_popularity != popularity)
+    {
+        m_popularity = popularity;
+        Q_EMIT popularityChanged(m_popularity);
     }
 }
 

@@ -43,6 +43,9 @@ public:
     QString description() const override;
     void setDescription(const QString &description);
 
+    uint popularity() const override;
+    void setPopularity(uint popularity);
+
     bool pinned() const override;
     void setPinned(bool pinned);
 
@@ -76,7 +79,11 @@ private:
     QString m_name;
     QString m_icon;
     QStringList m_keywords;
+<<<<<<< TREE
     QString m_description;
+=======
+    uint m_popularity;
+>>>>>>> MERGE-SOURCE
     bool m_pinned;
     bool m_running;
     bool m_recent;
