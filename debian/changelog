@@ -1,4 +1,4 @@
-unity-api (8.7+17.04.20170404-0ubuntu1) zesty; urgency=medium
+unity-api (8.7+17.04.20170406-0ubuntu1) zesty; urgency=medium
 
   [ Pete ]
   * Add Glib and GObject Assigner helpers.
@@ -9,7 +9,7 @@ unity-api (8.7+17.04.20170404-0ubuntu1) zesty; urgency=medium
   [ Rodney Dawes ]
   * Add utility function to prepend $SNAP to directory paths.
 
- -- Pete Woods <pete.woods@canonical.com>  Tue, 04 Apr 2017 09:37:43 +0000
+ -- Lukáš Tinkl <lukas.tinkl@canonical.com>  Thu, 06 Apr 2017 22:14:27 +0000
 
 unity-api (8.7) UNRELEASED; urgency=medium
 
